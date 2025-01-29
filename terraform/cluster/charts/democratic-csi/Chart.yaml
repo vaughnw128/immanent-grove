@@ -1,0 +1,10 @@
+apiVersion: v2
+name: democratic-csi
+description: Democratic-CSI helm chart for terraformed Talos
+type: application
+version: 0.1.0
+appVersion: "0.14.7"
+dependencies:
+- name: democratic-csi
+  version: "0.14.7"
+  repository: "https://democratic-csi.github.io/charts/"
