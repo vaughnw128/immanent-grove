@@ -27,7 +27,7 @@ terraform {
 # These providers aren't needed until after the cluster has been bootstrapped
 
 provider "helm" {
-  kubernetes = {
+  kubernetes {
     host                   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.host
     cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
 
