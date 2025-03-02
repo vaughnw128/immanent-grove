@@ -22,6 +22,7 @@ This cluster is built around Talos and Cilium, and heavily leverages the new Gat
 - [portainer](https://www.portainer.io/) - Hook k8s into existing portainer
 - [synkronized](https://github.com/vaughnw128/synkronized) - ArgoCD based deployment pipeline
 - [reflector](https://github.com/emberstack/kubernetes-reflector) - Copy secrets across namespaces
+- [argocd-vault-plugin](https://argocd-vault-plugin.readthedocs.io/en/stable/) - Format secrets into Values.yaml files for easy helm charts.
 
 ---
 
@@ -68,7 +69,7 @@ Terraform can be applied using the handy `./immanent-grove` script. This allows 
 2. `./immanent-grove apply` to apply (will auto-approve)
 3. `./immanent-grove vault-init` to initialize vault
 4. `./immanent-grove dns` to grab gateway IPs for internal DNS records
-
+5. `./immanent-grove vault-argo-plugin-init` to set up the vault plugin with proper SA roles.
 ## Testing
 
 Tests can be run by applying manifests in `/examples` and verifying their output.

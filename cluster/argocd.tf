@@ -1,24 +1,16 @@
 # Deploy ArgoCD behind a gateway class
 
+# ArgoCD installed with helm-secrets plugin
+# https://github.com/jkroepke/helm-secrets/wiki/ArgoCD-Integration
+# https://github.com/FiloSottile/age
+
 resource "helm_release" "argocd" {
-  depends_on       = [helm_release.cert_manager, time_sleep.wait_cert_manager]
-  name             = "argocd"
-  chart            = "argo-cd"
-  namespace        = "argocd"
-  repository       = "https://argoproj.github.io/argo-helm"
-  create_namespace = true
+  depends_on = [helm_release.cert_manager, time_sleep.wait_cert_manager]
+  name       = "argocd"
+  chart      = "${path.module}/charts/argocd"
+  namespace  = "argocd"
 
-  # Set values - this single value gave me THREE DAYS OF ANGUISH. PLEASE DO NOT REMOVE THIS!!!!
-  set = [
-    {
-      # Run server without TLS
-      name  = "configs.params.server\\.insecure" # This weird escaping is REQUIRED, as gateway TLS will not work otherwise
-      value = true
-    }
-  ]
-
-
-  # Wait is false due to issues with helm provider
+  # Wait is false due to issues with helm 3.0.0-pre1
   wait          = false
   wait_for_jobs = false
 }

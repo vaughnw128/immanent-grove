@@ -11,6 +11,7 @@ function plan {
   # Update helm charts
   helm dependency update cluster/charts/cilium --skip-refresh
   helm dependency update cluster/charts/democratic-csi --skip-refresh
+  helm dependency update cluster/charts/argocd --skip-refresh
 
   terraform plan
 }
@@ -23,6 +24,7 @@ function apply {
   # Update helm charts
   helm dependency update cluster/charts/cilium --skip-refresh
   helm dependency update cluster/charts/democratic-csi --skip-refresh
+  helm dependency update cluster/charts/argocd --skip-refresh
 
   terraform apply -auto-approve
 }
@@ -73,6 +75,33 @@ function vault-init {
   fi
 }
 
+function vault-argo-plugin-init {
+  step 'vault-argo-plugin-init'
+
+  vault secrets enable kv-v2
+  vault policy write argocd - <<EOF
+path "kv/data/*" {
+  capabilities = ["read"]
+}
+EOF
+  vault auth enable kubernetes
+  K8S_HOST="https://$( kubectl -n vault exec vault-0 -- env | grep KUBERNETES_PORT_443_TCP_ADDR| cut -f2 -d'='):443"
+  SA_TOKEN=$(kubectl exec -n vault vault-0 -- cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+  SA_CERT=$(kubectl exec -n vault vault-0 -- cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt)
+
+  vault write auth/kubernetes/config \
+  token_reviewer_jwt=$SA_TOKEN \
+  kubernetes_host=$K8S_HOST \
+  kubernetes_ca_cert=$SA_CERT
+
+  vault write auth/kubernetes/role/argocd \
+  bound_service_account_names=argocd-repo-server \
+  bound_service_account_namespaces=argocd \
+  policies=argocd \
+  ttl=48h
+
+}
+
 case $1 in
   plan)
     plan
@@ -88,6 +117,9 @@ case $1 in
     ;;
   argo-login)
     argo-login
+    ;;
+  helm-secrets-init)
+    vault-argo-plugin-init
     ;;
   *)
     printf $"Usage: $0 {|plan|apply|vault-init|dns|argo-login|}\n"

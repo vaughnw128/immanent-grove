@@ -1,0 +1,22 @@
+input:
+  label: "simple_http"
+  http_server:
+    path: /post
+    ws_path: /post/ws
+    allowed_verbs:
+      - POST
+    timeout: 5s
+
+  processors:
+    - switch:
+      - check: '@http_server_request_path == "/foo"'
+        processors:
+          - mapping: |
+              root.title = "You Got Fooed!"
+              root.result = content().string().uppercase()
+
+      - check: '@http_server_request_path == "/bar"'
+        processors:
+          - mapping: 'root.title = "Bar Is Slow"'
+          - sleep: # Simulate a slow endpoint
+              duration: 1s

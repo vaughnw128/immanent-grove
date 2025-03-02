@@ -164,7 +164,7 @@ resource "helm_release" "vault_secrets_operator" {
     },
     {
       name = "defaultVaultConnection.address"
-      value = "https://vault.${var.local_domain}"
+      value = "http://vault.vault.svc.cluster.local:8200"
     },
     {
       name = "defaultVaultConnection.skipTLSVerify"
@@ -172,3 +172,4 @@ resource "helm_release" "vault_secrets_operator" {
     }
   ]
 }
+
