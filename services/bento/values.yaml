@@ -3,7 +3,7 @@ bento:
   image:
     repository: "ghcr.io/warpstreamlabs/bento"
     pullPolicy: IfNotPresent
-    tag: "1.5.1"
+    tag: "1.4.0"
   streams:
     enabled: true
     streamsConfigMap: "bento-streams"

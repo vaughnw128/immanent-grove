@@ -11,6 +11,6 @@ output:
     bot_token: <path:kv/data/bento/discord-token#value>
 
 cache_resources:
-  - label: redis_cache
-    redis:
-      url: <path:kv/data/bento/redis-uri#value>
+- label: redis_cache
+  redis:
+    url: <path:kv/data/bento/redis-uri#value>
