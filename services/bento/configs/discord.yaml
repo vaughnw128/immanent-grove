@@ -1,0 +1,16 @@
+input:
+  discord:
+    channel_id: 644752766736138241
+    bot_token: <path:kv/data/bento/discord-token#value>
+    cache: redis-cache
+    cache_key: last_message_received
+
+output:
+  discord:
+    channel_id: 644753024287506452
+    bot_token: <path:kv/data/bento/discord-token#value>
+
+cache_resources:
+  - label: redis-cache
+    redis:
+      url: <path:kv/data/bento/redis-uri#value>

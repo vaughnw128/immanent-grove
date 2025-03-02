@@ -20,8 +20,3 @@ input:
           - mapping: 'root.title = "Bar Is Slow"'
           - sleep: # Simulate a slow endpoint
               duration: 1s
-
-cache_resources:
-  label: "redis-cache"
-  redis:
-    url: <path:kv/data/bento/redis-uri#value>
