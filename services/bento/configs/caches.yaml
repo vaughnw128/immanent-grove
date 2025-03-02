@@ -1,4 +1,0 @@
-cache_resources:
-  label: "redis-cache"
-  redis:
-    url: <path:kv/data/bento/redis-uri>
