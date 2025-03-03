@@ -9,6 +9,8 @@ streams:
   api:
     enable: true
 
+args: ["-c", "/bento.yaml", "-r", "/resources/*.yaml", "streams", "/streams/*.yaml"]
+
 deployment:
   replicaCount: 1
   podAnnotations: {}
@@ -237,7 +239,7 @@ serviceMonitor:
 command: []
 
 # args -- Override Bento's default arguments passed with command.
-args: []
+
 
 # EXPERIMENTAL: watch config files for changes and automatically apply them
 watch: false
