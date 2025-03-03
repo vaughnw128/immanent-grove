@@ -1,8 +1,8 @@
 input:
   http_server:
-    path: /http_test
-    ws_path: /http_test/ws
-    allowed_verbs: [ GET, POST ]
+    path: /
+    ws_path: /ws
+    allowed_verbs: [ POST ]
     sync_response:
       headers:
         Content-Type: application/json

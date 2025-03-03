@@ -1,8 +1,8 @@
 opensearch:
   extraEnvs:
   - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
-    value: <path:kv/data/opensearch/admin-password#value>
+    value: "<path:kv/data/opensearch/admin-password#value>"
 opensearch-dashboards:
   extraEnvs:
   - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
-    value: <path:kv/data/opensearch/admin-password#value>
+    value: "<path:kv/data/opensearch/admin-password#value>"
