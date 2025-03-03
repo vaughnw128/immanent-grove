@@ -1,4 +1,4 @@
 cache_resources:
 - label: redis_cache
   redis:
-    url: ${REDIS_TOKEN}
+    url: ${REDIS_URI}
