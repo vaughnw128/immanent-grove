@@ -45,7 +45,7 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: cluster-ip
+    - name: bento-bento-stream
       port: 80
 ---
 {{ if not .Values.gateway.public }}
