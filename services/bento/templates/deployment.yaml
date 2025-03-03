@@ -67,9 +67,7 @@ spec:
             {{- end }}
             {{- if and .Values.streams.enabled .Values.streams.streamsConfigMap }}
             - "streams"
-            {{- if eq .Values.streams.api.enable false }}
             - "--no-api"
-            {{- end }}
             - /streams/*.yaml
             {{- end }}
           {{- end }}

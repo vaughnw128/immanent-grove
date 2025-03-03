@@ -3,10 +3,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: http-gateway
-  {{- if not .Values.gateway.public }}
-  annotations:
-    cert-manager.io/cluster-issuer: local-issuer
-  {{- end }}
 spec:
   gatewayClassName: cilium
   infrastructure:
@@ -17,17 +13,6 @@ spec:
     hostname: {{ .Values.gateway.hostname }}
     port: 80
     name: http
-  {{ if not .Values.gateway.public }}
-  - protocol: HTTPS
-    hostname: {{ .Values.gateway.hostname }}
-    port: 443
-    name: https
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: secret-tls-https-local
-  {{ end }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -47,25 +32,5 @@ spec:
     backendRefs:
     - name: bento-bento-stream
       port: 80
----
-{{ if not .Values.gateway.public }}
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: local-https-redirect
-spec:
-  parentRefs:
-  - name: gateway
-    sectionName: http
-    namespace: bento
-  hostnames:
-  - {{ .Values.gateway.hostname }}
-  rules:
-  - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
-        statusCode: 301
-{{ end }}
 
 {{ end }}
