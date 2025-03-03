@@ -20,7 +20,7 @@ vaultSecrets:
 - name: "REDIS_URI"
   path: "bento/redis-uri"
 
-args: ["-c", "/bento.yaml", "-r", "/resources/*.yaml", "streams", "/streams/*.yaml"]
+args: ["-c", "/bento.yaml", "-r", "/resources/*.yaml", "streams", "/streams/*.yaml", "--no-api"]
 
 # --- Do not change below this line ---
 
