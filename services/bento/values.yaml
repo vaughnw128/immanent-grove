@@ -39,8 +39,6 @@ deployment:
   replicaCount: 1
   podAnnotations: {}
   podLabels: {}
-  # annotations -- Set annotations on the Bento Deployment
-  annotations: {}
   # Default 60. ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   terminationGracePeriodSeconds: 60
   # Rollout the deployment on ConfigMap changes

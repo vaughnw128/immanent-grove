@@ -6,7 +6,6 @@ metadata:
     {{- include "bento.labels" . | nindent 4 }}
   annotations:
     configmap.reloader.stakater.com/reload: "bento-streams,bento-resources"
-    {{- toYaml .Values.deployment.annotations | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.deployment.replicaCount }}
