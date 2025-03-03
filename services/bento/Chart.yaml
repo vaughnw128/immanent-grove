@@ -1,5 +1,5 @@
 apiVersion: v2
-name: bento
+name: bento-stream
 description: Warpstream bento, a small stream processor
 type: application
 version: 0.1.0

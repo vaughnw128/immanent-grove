@@ -1,0 +1,19 @@
+{{ if .Values.vaultSecrets }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-sa
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-static-auth
+spec:
+  method: kubernetes
+  mount: synkronized
+  kubernetes:
+    role: synkronized
+    serviceAccount: vault-sa
+    audiences:
+      - vault
+{{ end }}

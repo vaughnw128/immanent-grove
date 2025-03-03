@@ -1,0 +1,19 @@
+{{ if .Values.gateway }}
+{{ if .Values.gateway.public }}
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  labels:
+    cfargotunnel.com/kind: TunnelBinding
+    cfargotunnel.com/name: cluster-tunnel
+  name: bento-public-tunnel
+subjects:
+- name: cilium-gateway-http-gateway
+  spec:
+    fqdn: {{ .Values.gateway.hostname }}
+    protocol: http
+tunnelRef:
+  kind: ClusterTunnel
+  name: cluster-tunnel
+{{ end }}
+{{ end }}

@@ -88,12 +88,16 @@ spec:
             {{- toYaml .Values.deployment.readinessProbe | nindent 12 }}
           {{- end }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}
-          {{- if .Values.envFrom }}
-          {{- with .Values.envFrom }}
-          envFrom:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+          {{- range $v := .Values.vaultSecrets }}
+          - name: {{$v.name}}
+            valueFrom:
+              secretKeyRef:
+                name: {{lower $v.name | replace "_" "-"}}
+                key: value
+          {{- end}}
+          {{- range $v := .Values.env }}
+          - name: {{$v.name}}
+            value: {{ quote $v.value }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
