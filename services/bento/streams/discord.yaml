@@ -9,8 +9,3 @@ output:
   discord:
     channel_id: 644753024287506452
     bot_token: <path:kv/data/bento/discord-token#value>
-
-cache_resources:
-- label: redis_cache
-  redis:
-    url: <path:kv/data/bento/redis-uri#value>

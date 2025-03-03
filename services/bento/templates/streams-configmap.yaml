@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bento-streams
+data:
+  {{- range $path, $_ :=  .Files.Glob  "streams/*.yaml" -}}
+    {{- regexFind "[a-zA-Z\\d_-]+.yaml$" $path | nindent 2 -}}: |
+    {{ $.Files.Get $path | nindent 4 | trim }}
+  {{- end -}}
