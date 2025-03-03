@@ -6,6 +6,8 @@ streams:
   enabled: true
   streamsConfigMap: "bento-streams"
   resourcesConfigMap: "bento-resources"
+  api:
+    enable: true
 
 deployment:
   replicaCount: 1
