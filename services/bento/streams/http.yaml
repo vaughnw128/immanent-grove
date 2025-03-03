@@ -1,11 +1,10 @@
 input:
-  label: "simple_http"
   http_server:
-    path: /post
-    ws_path: /post/ws
-    allowed_verbs:
-      - POST
-    timeout: 5s
+    path: /
+    allowed_verbs: [ GET, POST ]
+    sync_response:
+      headers:
+        Content-Type: application/json
 
   processors:
     - switch:
