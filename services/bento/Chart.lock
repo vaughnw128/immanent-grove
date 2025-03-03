@@ -1,6 +1,0 @@
-dependencies:
-- name: bento
-  repository: https://warpstreamlabs.github.io/bento-helm-chart
-  version: 0.1.0
-digest: sha256:d320efa252a6e4f1c58b63f9f04f3ef93157d9474f93c6f09a10a260b5adc6c1
-generated: "2025-03-02T16:42:24.320282895-05:00"
