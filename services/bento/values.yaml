@@ -92,7 +92,7 @@ service:
   name: http
   type: ClusterIP
   port: 80
-  targetPort: http
+  targetPort: 4195
   protocol: TCP
 
   extraPorts:
