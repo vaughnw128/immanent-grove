@@ -1,21 +1,8 @@
 input:
   http_server:
-    path: /
+    path: /http_test
+    ws_path: /http_test/ws
     allowed_verbs: [ GET, POST ]
     sync_response:
       headers:
         Content-Type: application/json
-
-  processors:
-    - switch:
-      - check: '@http_server_request_path == "/foo"'
-        processors:
-          - mapping: |
-              root.title = "You Got Fooed!"
-              root.result = content().string().uppercase()
-
-      - check: '@http_server_request_path == "/bar"'
-        processors:
-          - mapping: 'root.title = "Bar Is Slow"'
-          - sleep: # Simulate a slow endpoint
-              duration: 1s
