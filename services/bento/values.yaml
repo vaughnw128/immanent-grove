@@ -19,6 +19,10 @@ vaultSecrets:
   path: "bento/discord-token"
 - name: "REDIS_URI"
   path: "bento/redis-uri"
+- name: "OPENSEARCH_USERNAME"
+  path: "bento/opensearch-username"
+- name: "OPENSEARCH_PASSWORD"
+  path: "bento/opensearch-password"
 
 args: ["-c", "/bento.yaml", "-r", "/resources/*.yaml", "streams", "--no-api", "/streams/*.yaml"]
 
