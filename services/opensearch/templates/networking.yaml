@@ -19,7 +19,7 @@ spec:
     port: 9200
     name: opensearch
     tls:
-      mode: Terminate
+      mode: Passthrough
       certificateRefs:
       - kind: Secret
         name: secret-tls-opensearch-local
@@ -28,7 +28,7 @@ spec:
     port: 443
     name: https
     tls:
-      mode: Terminate
+      mode: Passthrough
       certificateRefs:
       - kind: Secret
         name: secret-tls-opensearch-local
