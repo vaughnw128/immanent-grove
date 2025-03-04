@@ -18,4 +18,5 @@ output:
       username: ${OPENSEARCH_USERNAME}
       password: ${OPENSEARCH_PASSWORD}
     tls:
+      enabled: true
       skip_cert_verify: true
