@@ -16,6 +16,7 @@ opensearch:
   config:
     opensearch.yml: |
       cluster.name: opensearch-cluster
+      cluster.
 
       # Bind to all interfaces because we don't know what IP address Docker will assign to us.
       network.host: 0.0.0.0
@@ -61,6 +62,20 @@ opensearch:
                 ".opendistro-notebooks",
                 ".opendistro-asynchronous-search-response*",
               ]
+        authc:
+          openid_auth_domain:
+            http_enabled: true
+            transport_enabled: true
+            order: 0
+            http_authenticator:
+              type: openid
+              challenge: false
+              config:
+                subject_key: preferred_username
+                roles_key: roles
+                openid_connect_url: https://auth.vaughn.sh/.well-known/openid-configuration
+            authentication_backend:
+              type: noop
   secretMounts:
     - name: opensearch-certs
       secretName: tls-for-opensearch-key-pair
