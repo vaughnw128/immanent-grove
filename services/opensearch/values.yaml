@@ -38,10 +38,7 @@ opensearch:
               pemtrustedcas_filepath: certs/ca.crt
               enforce_hostname_verification: false
             http:
-              enabled: true
-              pemcert_filepath: certs/tls.crt
-              pemkey_filepath: certs/tls.key
-              pemtrustedcas_filepath: certs/ca.crt
+              enabled: false
           allow_unsafe_democertificates: false
           allow_default_init_securityindex: true
           audit.type: internal_opensearch
