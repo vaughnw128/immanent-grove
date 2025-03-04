@@ -14,7 +14,7 @@ spec:
   - protocol: HTTPS
     hostname: opensearch-master.apicius.local
     port: 443
-    name: https
+    name: https-master
     tls:
       mode: Terminate
       certificateRefs:
@@ -23,7 +23,7 @@ spec:
   - protocol: HTTPS
     hostname: opensearch.apicius.local
     port: 443
-    name: https
+    name: https-dashboard
     tls:
       mode: Terminate
       certificateRefs:
