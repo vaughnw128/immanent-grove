@@ -38,7 +38,7 @@ http:
     enabled: true
     username: bento
     password_hash: ${HTTP_BASIC_PASSWORD}
-    algorith: sha256
+    algorithm: sha256
 
   cors:
     enabled: false
