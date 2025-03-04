@@ -66,6 +66,7 @@ opensearch:
       secretName: tls-for-opensearch-key-pair
       path: /usr/share/opensearch/config/certs
 opensearch-dashboards:
+  opensearchHosts: "http://opensearch-cluster-master:9200"
   extraEnvs:
   - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
     value: "<path:kv/data/opensearch/admin-password#value>"
