@@ -14,9 +14,14 @@ spec:
     hostname: opensearch.apicius.local
     port: 80
     name: http
-  - protocol: TCP
+  - protocol: HTTPS
     port: 9200
     name: opensearch
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-opensearch-local
   - protocol: HTTPS
     hostname: opensearch.apicius.local
     port: 443
@@ -37,13 +42,6 @@ spec:
   hostnames:
     - opensearch.apicius.local
   rules:
-#  - matches:
-#    - path:
-#        type: PathPrefix
-#        value: /
-#    backendRefs:
-#    - name: opensearch-cluster-master
-#      port: 9200
   - matches:
     - path:
         type: PathPrefix
