@@ -18,6 +18,11 @@ spec:
     hostname: opensearch.apicius.local
     port: 9200
     name: opensearch
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-opensearch-local
   - protocol: HTTPS
     hostname: opensearch.apicius.local
     port: 443
