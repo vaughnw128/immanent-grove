@@ -14,7 +14,7 @@ opensearch:
   opensearchHome: /usr/share/opensearch
   # such as opensearch.yml and log4j2.properties
   config:
-    opensearch.yml: |
+    opensearch.yml:
       cluster.name: opensearch-cluster
 
       # Bind to all interfaces because we don't know what IP address Docker will assign to us.
@@ -69,25 +69,26 @@ opensearch:
   securityConfig:
     config:
       data:
-        _meta:
-          type: "config"
-          config_version: 2
-        config:
-          dynamic:
-            authc:
-              openid_auth_domain:
-                http_enabled: true
-                transport_enabled: true
-                order: 0
-                http_authenticator:
-                  type: openid
-                  challenge: false
-                  config:
-                    subject_key: preferred_username
-                    roles_key: roles
-                    openid_connect_url: https://auth.vaughn.sh/.well-known/openid-configuration
-                authentication_backend:
-                  type: noop
+        config.yaml:
+          _meta:
+            type: "config"
+            config_version: 2
+          config:
+            dynamic:
+              authc:
+                openid_auth_domain:
+                  http_enabled: true
+                  transport_enabled: true
+                  order: 0
+                  http_authenticator:
+                    type: openid
+                    challenge: false
+                    config:
+                      subject_key: preferred_username
+                      roles_key: roles
+                      openid_connect_url: https://auth.vaughn.sh/.well-known/openid-configuration
+                  authentication_backend:
+                    type: noop
 
 
 opensearch-dashboards:
