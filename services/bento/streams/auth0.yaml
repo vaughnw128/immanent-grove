@@ -10,7 +10,6 @@ input:
 pipeline:
   processors:
     - bloblang: |
-        root = this
         timestamp = root.data.details.completedAt
 
 output:
