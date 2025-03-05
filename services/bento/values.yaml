@@ -76,10 +76,9 @@ deployment:
     httpGet:
       path: /ping
       port: http
-      # scheme: HTTPS
-      # httpHeaders:
-      # - name: My-Header
-      #   value: Bar
+      httpHeaders:
+      - name: Authorization
+        value: Basic <path:kv/data/bento/liveness-probe-auth#value>
 
   # podRestartPolicy - Container restart policy. ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy
   restartPolicy: Always

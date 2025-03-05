@@ -16,7 +16,6 @@ opensearch:
   config:
     opensearch.yml: |
       cluster.name: opensearch-cluster
-      cluster.
 
       # Bind to all interfaces because we don't know what IP address Docker will assign to us.
       network.host: 0.0.0.0
