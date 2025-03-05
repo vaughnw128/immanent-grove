@@ -11,7 +11,7 @@ input:
     processors:
       - bloblang: |
           root = this
-          root.timestamp = root.data.details.completedAt
+          timestamp = root.data.details.completedAt
 
 
 output:
