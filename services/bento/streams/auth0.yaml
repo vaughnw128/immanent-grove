@@ -7,12 +7,11 @@ input:
       headers:
         Content-Type: application/json
 
-  pipeline:
-    processors:
-      - bloblang: |
-          root = this
-          timestamp = root.data.details.completedAt
-
+pipeline:
+  processors:
+    - bloblang: |
+        root = this
+        timestamp = root.data.details.completedAt
 
 output:
   label: "opensearch"
