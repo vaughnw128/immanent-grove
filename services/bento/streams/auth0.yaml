@@ -27,5 +27,3 @@ output:
     tls:
       enabled: true
       skip_cert_verify: true
-  stdout:
-    codec: lines
