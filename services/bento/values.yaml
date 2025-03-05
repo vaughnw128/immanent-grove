@@ -64,6 +64,9 @@ deployment:
     httpGet:
       path: /ready
       port: http
+      httpHeaders:
+      - name: Authorization
+        value: Basic <path:kv/data/bento/liveness-probe-auth#value>
       # scheme: HTTPS
       # httpHeaders:
       # - name: My-Header
