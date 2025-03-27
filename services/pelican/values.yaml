@@ -1,9 +1,9 @@
 single-container:
-  name: "pelican-panel"
-  size: medium
-  image: "ghcr.io/pelican-dev/panel:v1.0.0-beta18"
+    name: "pelican-panel"
+    size: medium
+    image: "ghcr.io/pelican-dev/panel:v1.0.0-beta18"
 
-  gateway:
-   public: false
-   hostname: "panel.apicius.local"
-   port: 8080
+    gateway:
+        public: false
+        hostname: "panel.apicius.local"
+        port: 8080
