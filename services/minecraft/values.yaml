@@ -3,6 +3,8 @@ vaultSecrets:
   path: "minecraft/restic-password"
 - name: "RCON_PASSWORD"
   path: "minecraft/rcon-password"
+- name: "RESTIC_REPOSITORY"
+  path: "minecraft/restic-repository"
 
 minecraft:
   image:
@@ -112,6 +114,11 @@ minecraft:
         valueFrom:
           secretKeyRef:
             name: restic-password
+            key: value
+      RESTIC_REPOSITORY:
+        valueFrom:
+          secretKeyRef:
+            name: restic-repository
             key: value
 
     resources:
