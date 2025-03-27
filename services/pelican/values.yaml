@@ -6,14 +6,16 @@ single-container:
     gateway:
         public: false
         hostname: "panel.apicius.local"
-        containerPort: 443
+        containerPort: 80
 
     vaultSecrets:
     - name: "APP_KEY"
       path: "pelican/app-key"
     env:
+    - name: "TRUSTED_PROXIES"
+      value: "*"
     - name: "APP_URL"
-      value: "https://panel.apicius.local, http://, https://"
+      value: "https://panel.apicius.local"
     - name: "APP_ENV"
       value: "production"
     - name: "ADMIN_EMAIL"
