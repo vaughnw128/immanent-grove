@@ -6,7 +6,7 @@ single-container:
     gateway:
         public: false
         hostname: "panel.apicius.local"
-        containerPort: 9000
+        containerPort: 80
 
     vaultSecrets:
     - name: "APP_KEY"
@@ -20,5 +20,5 @@ single-container:
       value: "production"
     - name: "ADMIN_EMAIL"
       value: "admin@vaughn.sh"
-    - name: "SKIP_CADDY"
-      value: "true"
+#    - name: "SKIP_CADDY"
+#      value: "true"
