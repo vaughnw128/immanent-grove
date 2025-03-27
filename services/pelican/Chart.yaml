@@ -1,0 +1,10 @@
+apiVersion: v2
+name: pelican-panel
+description: Pelican Panel
+type: application
+version: 0.1.0
+appVersion: "v1.0.0-beta18"
+dependencies:
+- name: single-container
+  version: "0.1.11"
+  repository: "https://charts.vaughn.sh"
