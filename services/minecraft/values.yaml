@@ -61,7 +61,7 @@ minecraft:
     annotations: {}
     dataDir:
       enabled: true
-      Size: 64gi
+      Size: 64Gi
       accessModes:
         - ReadWriteOnce
 
