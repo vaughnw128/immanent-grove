@@ -7,3 +7,14 @@ single-container:
         public: false
         hostname: "panel.apicius.local"
         containerPort: 8080
+
+    vaultSecrets:
+    - name: "APP_KEY"
+      path: "pelican/app-key"
+    env:
+    - name: "APP_URL"
+      value: "https://panel.apicius.local"
+    - name: "APP_ENV"
+      value: "production"
+    - name: "ADMIN_EMAIL"
+      value: "admin@vaughn.sh"
