@@ -18,3 +18,5 @@ single-container:
       value: "production"
     - name: "ADMIN_EMAIL"
       value: "admin@vaughn.sh"
+    - name: "SKIP_CADDY"
+      value: "true"
