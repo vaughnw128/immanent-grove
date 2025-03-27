@@ -6,17 +6,17 @@ single-container:
     gateway:
         public: false
         hostname: "panel.apicius.local"
-        containerPort: 8080
+        containerPort: 80
 
     vaultSecrets:
     - name: "APP_KEY"
       path: "pelican/app-key"
     env:
     - name: "APP_URL"
-      value: "https://panel.apicius.local"
+      value: "https://panel.apicius.local, http://, https://"
     - name: "APP_ENV"
       value: "production"
     - name: "ADMIN_EMAIL"
       value: "admin@vaughn.sh"
-    - name: "SKIP_CADDY"
-      value: "true"
+#    - name: "SKIP_CADDY"
+#      value: "true"
