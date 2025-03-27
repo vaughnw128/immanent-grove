@@ -18,6 +18,8 @@ minecraft:
   # Define whether the server is run as a statefulset
   workloadAsStatefulSet: true
   strategyType: RollingUpdate
+  podAnnotations:
+    server: sexybabeycraft
 
   minecraftServer:
     eula: "TRUE"
@@ -30,7 +32,7 @@ minecraft:
     maxPlayers: 10
     spawnProtection: 0
     gameMode: survival
-    motd: "Welcome to Minecraft on Kubernetes!"
+    motd: "Every adventure is better with a friend!"
     worldSaveName: world
     memory: 1024M
     jvmXXOpts: "-Xms0M -Xmx0M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20"
@@ -57,27 +59,14 @@ minecraft:
       port: 25565
 
   persistence:
-    labels: {}
-    annotations: {}
+    annotations:
+      server: sexybabeycraft
     dataDir:
       enabled: true
       Size: 64Gi
       accessModes:
         - ReadWriteOnce
 
-  podAnnotations: {}
-  podLabels: {}
-
-  deploymentAnnotations: {}
-  deploymentLabels: {}
-
-  serviceAnnotations: {}
-  serviceLabels: {}
-
-  rconServiceAnnotations: {}
-  rconServiceLabels: {}
-
-  # PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
   mcbackup:
     enabled: true
 
