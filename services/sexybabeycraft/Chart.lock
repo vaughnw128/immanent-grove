@@ -1,0 +1,6 @@
+dependencies:
+- name: minecraft
+  repository: https://itzg.github.io/minecraft-server-charts/
+  version: 4.26.0
+digest: sha256:93962c014025d04795061fb5c07211f19a8463c72014e2ff5160f45bfcb3cf78
+generated: "2025-03-26T23:58:10.727051076-04:00"

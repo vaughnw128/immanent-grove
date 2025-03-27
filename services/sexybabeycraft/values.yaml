@@ -1,0 +1,131 @@
+vaultSecrets:
+- name: "RESTIC_PASSWORD"
+  path: "minecraft/restic-password"
+- name: "RCON_PASSWORD"
+  path: "minecraft/rcon-password"
+
+minecraft:
+  image:
+    repository: itzg/minecraft-server
+    tag: latest
+    pullPolicy: Always
+
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 500m
+
+  # Define whether the server is run as a statefulset
+  workloadAsStatefulSet: true
+  strategyType: RollingUpdate
+
+  minecraftServer:
+    eula: "TRUE"
+    version: "1.21.5"
+    type: "FABRIC"
+    difficulty: hard
+    whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze"
+    ops: "wauhn"
+    icon:
+    maxPlayers: 10
+    spawnProtection: 0
+    gameMode: survival
+    motd: "Welcome to Minecraft on Kubernetes!"
+    worldSaveName: world
+    memory: 1024M
+    jvmXXOpts: "-Xms0M -Xmx0M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20"
+    serviceType: LoadBalancer
+    servicePort: 25565
+
+    modrinth:
+      projects: []
+      downloadDependencies: required
+      allowedVersionType: default
+
+    rcon:
+      enabled: true
+      withGeneratedPassword: false
+      port: 25575
+      existingSecret: rcon-password
+      secretKey: value
+      serviceType: ClusterIP
+
+    tty: true
+    
+    query:
+      enabled: false
+      port: 25565
+
+  persistence:
+    labels: {}
+    annotations: {}
+    dataDir:
+      enabled: true
+      Size: 64gi
+      accessModes:
+        - ReadWriteOnce
+
+  podAnnotations: {}
+  podLabels: {}
+
+  deploymentAnnotations: {}
+  deploymentLabels: {}
+
+  serviceAnnotations: {}
+  serviceLabels: {}
+
+  rconServiceAnnotations: {}
+  rconServiceLabels: {}
+
+  # PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
+  mcbackup:
+    enabled: true
+
+    image:
+      repository: itzg/mc-backup
+      tag: latest
+      pullPolicy: IfNotPresent
+
+    #  wait 2 minutes before starting
+    initialDelay: 2m
+
+    # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+    # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+    # backupInterval="2h 30m" -> backup every two and a half hours
+    backupInterval: 24h
+
+    # option lets you pause backups if no players are online.
+    pauseIfNoPlayers: "false"
+
+    # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
+    pruneBackupsDays: 7
+
+    # Set to a negative value to retry indefinitely
+    rconRetries: 5
+    rconRetryInterval: 10s
+
+    # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
+    # logs folder and cache (used by i.e. PaperMC server).
+    excludes: "*.jar,cache,logs"
+
+    # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
+    backupMethod: restic
+    destDir: /mc_backups
+    linkLatest: "false"
+    compressMethod: "gzip"
+    zstdParameters: "-3 --long=25 --single-thread"
+    resticRepository: ""
+    resticAdditionalTags: "mc_backups"
+    pruneResticRetention: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75"
+
+    extraEnv:
+      RESTIC_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: restic-password
+            key: value
+
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 500m
