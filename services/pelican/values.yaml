@@ -6,4 +6,4 @@ single-container:
     gateway:
         public: false
         hostname: "panel.apicius.local"
-        port: 8080
+        containerPort: 8080
