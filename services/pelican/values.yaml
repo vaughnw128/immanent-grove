@@ -6,7 +6,7 @@ single-container:
     gateway:
         public: false
         hostname: "panel.apicius.local"
-        containerPort: 80
+        containerPort: 443
 
     vaultSecrets:
     - name: "APP_KEY"
