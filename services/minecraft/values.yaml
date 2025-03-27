@@ -9,7 +9,6 @@ minecraft:
     repository: itzg/minecraft-server
     tag: latest
     pullPolicy: Always
-    pullSecret: ""
 
   resources:
     requests:
@@ -133,12 +132,12 @@ minecraft:
     resticAdditionalTags: "mc_backups"
     pruneResticRetention: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75"
 
-    resticEnvs:
-    - name: RESTIC_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: restic-password
-          key: value
+    extraEnv:
+      RESTIC_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: restic-password
+            key: value
 
     resources:
       requests:

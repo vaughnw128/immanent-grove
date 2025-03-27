@@ -1,6 +1,6 @@
 apiVersion: v2
-name: minecraft
-description: A Helm chart for Kubernetes
+name: sexybabeycraft
+description: Every adventure is better with a friend!
 type: application
 version: 0.1.0
 appVersion: "1.21.5"
