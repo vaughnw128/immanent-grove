@@ -51,21 +51,7 @@ minecraft:
       serviceType: ClusterIP
 
     tty: true
-
-    extraPorts:
-     - name: map
-       containerPort: 8100
-       protocol: TCP
-       service:
-         enabled: true
-         embedded: false
-         annotations: {}
-         type: ClusterIP
-         externalTrafficPolicy: Cluster
-       ingress:
-         ingressClassName: cilium
-         enabled: true
-
+    
     query:
       enabled: false
       port: 25565
