@@ -50,7 +50,6 @@ minecraft:
 
     modrinth:
       projects:
-#        - c2me-fabric
         - ferrite-core
         - krypton
         - lithium
