@@ -5,7 +5,7 @@ metadata:
   name: bluemap
 spec:
   selector:
-    app: minecraft
+    app: minecraft-sexybabeycraft
   ports:
     - protocol: TCP
       port: 80
