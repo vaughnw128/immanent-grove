@@ -72,14 +72,6 @@ minecraft:
       serviceType: ClusterIP
 
     tty: true
-    
-    extraPorts:
-    - name: bluemap
-      containerPort: 8100
-      protocol: TCP
-      service:
-        enabled: true
-        type: ClusterIP
 
     query:
       enabled: false
