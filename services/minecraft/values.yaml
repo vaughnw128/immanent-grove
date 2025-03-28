@@ -59,7 +59,7 @@ minecraft:
         - tabtps
         - mixintrace
         - bluemap
-        - bmarker
+#        - bmarker
         - image2map
         - noisium
         - chunky
