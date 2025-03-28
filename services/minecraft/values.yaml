@@ -62,7 +62,7 @@ minecraft:
 #        - bmarker
         - image2map
         - noisium
-        - chunky
+#        - chunky
       downloadDependencies: required
       allowedVersionType: default
 
