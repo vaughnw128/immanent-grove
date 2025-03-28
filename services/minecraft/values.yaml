@@ -52,14 +52,14 @@ minecraft:
         - c2me-fabric
         - ferrite-core
         - krypton
-        - lithium
-        - modernfix
-        - spark
-        - tabtps
-        - bluemap
-        - bmarker
-        - image2map
-        - noisium
+#        - lithium
+#        - modernfix
+#        - spark
+#        - tabtps
+#        - bluemap
+#        - bmarker
+#        - image2map
+#        - noisium
       downloadDependencies: required
       allowedVersionType: default
 
