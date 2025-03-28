@@ -24,8 +24,7 @@ minecraft:
       cpu: 1500m
 
   # Define whether the server is run as a statefulset
-  workloadAsStatefulSet: true
-  strategyType: RollingUpdate
+  workloadAsStatefulSet: false
   podAnnotations:
     server: sexybabeycraft
 
