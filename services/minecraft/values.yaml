@@ -34,7 +34,7 @@ minecraft:
     difficulty: hard
     whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze"
     ops: "wauhn"
-#    icon: https://s3.vaughn.sh/cdn/server-icon.png
+    icon: https://s3.vaughn.sh/cdn/server-icon.png
     maxPlayers: 10
     spawnProtection: 0
     gameMode: survival
@@ -47,19 +47,19 @@ minecraft:
 
     modrinth:
       projects:
-        - c2me-fabric
-        - ferrite-core
-        - krypton
-        - lithium
-        - modernfix
-        - spark
-        - tabtps
-        - mixintrace
-        - bluemap
-        - bmarker
-        - image2map
-        - noisium
-        - chunky
+        - c2me-fabric:VSNURh3q
+        - ferrite-core:uXXizFIs
+        - krypton:fQEb0iXm
+        - lithium:gvQqBUqZ
+        - modernfix:nmDcB62a
+        - spark:l6YH9Als
+        - tabtps:cUhi3iB2
+        - mixintrace:sGmHWmeL
+        - bluemap:swbUV1cr
+        - bmarker:a8UoyV2h
+        - image2map:13RpG7dA
+        - noisium:KuNKN7d2
+        - chunky:fALzjamp
       downloadDependencies: required
       allowedVersionType: default
 
