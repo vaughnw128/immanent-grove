@@ -11,6 +11,8 @@ vaultSecrets:
   path: "minecraft/aws-secret-access-key"
 
 minecraft:
+  nameOverride: sexybabeycraft
+
   image:
     repository: itzg/minecraft-server
     tag: latest
