@@ -50,14 +50,14 @@ minecraft:
 
     modrinth:
       projects:
-        - c2me-fabric
+#        - c2me-fabric
         - ferrite-core
         - krypton
         - lithium
         - modernfix
         - spark
         - tabtps
-#        - mixintrace:LGYOH4RN
+        - mixintrace:LGYOH4RN
         - bluemap
         - bmarker
         - image2map
