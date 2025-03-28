@@ -18,8 +18,8 @@ minecraft:
 
   resources:
     requests:
-      memory: 512Mi
-      cpu: 500m
+      memory: 2048M
+      cpu: 1500m
 
   # Define whether the server is run as a statefulset
   workloadAsStatefulSet: true
@@ -34,7 +34,7 @@ minecraft:
     difficulty: hard
     whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze"
     ops: "wauhn"
-    icon: https://s3.vaughn.sh/cdn/server-icon.png
+#    icon: https://s3.vaughn.sh/cdn/server-icon.png
     maxPlayers: 10
     spawnProtection: 0
     gameMode: survival
