@@ -42,6 +42,7 @@ minecraft:
     gameMode: survival
     motd: "Every adventure is better with a friend!"
     worldSaveName: world
+    downloadWorldUrl: https://s3.vaughn.sh/cdn/world.zip
     memory: 1024M
     jvmXXOpts: "-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20"
     serviceType: ClusterIP
@@ -49,19 +50,19 @@ minecraft:
 
     modrinth:
       projects:
-        - c2me-fabric:VSNURh3q
-        - ferrite-core:uXXizFIs
-        - krypton:fQEb0iXm
-        - lithium:gvQqBUqZ
-        - modernfix:nmDcB62a
-        - spark:l6YH9Als
-        - tabtps:cUhi3iB2
-        - mixintrace:sGmHWmeL
-        - bluemap:swbUV1cr
-        - bmarker:a8UoyV2h
-        - image2map:13RpG7dA
-        - noisium:KuNKN7d2
-        - chunky:fALzjamp
+        - c2me-fabric
+        - ferrite-core
+        - krypton
+        - lithium
+        - modernfix
+        - spark
+        - tabtps
+        - mixintrace
+        - bluemap
+        - bmarker
+        - image2map
+        - noisium
+        - chunky
       downloadDependencies: required
       allowedVersionType: default
 
