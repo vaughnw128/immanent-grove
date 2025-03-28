@@ -30,7 +30,7 @@ minecraft:
 
   minecraftServer:
     eula: "TRUE"
-    version: "1.21.5"
+    version: "1.21.4"
     type: FABRIC
     difficulty: hard
     whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze"
@@ -49,15 +49,15 @@ minecraft:
 
     modrinth:
       projects:
-        - c2me-fabric:stzC1jlZ
-        - ferrite-core:IPM0JlHd
-        - krypton:Acz3ttTp
+        - c2me-fabric
+        - ferrite-core
+        - krypton
         - lithium
-        - modernfix:ZGxQddYr
+        - modernfix
         - spark
-#        - tabtps
-        - bluemap:Dr2hvJBc
-        - bmarker:NFoZ8bVO
+        - tabtps
+        - bluemap
+        - bmarker
 #        - image2map
 #        - noisium
       downloadDependencies: required
