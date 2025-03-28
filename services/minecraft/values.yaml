@@ -58,8 +58,8 @@ minecraft:
         - tabtps
         - bluemap
         - bmarker
-#        - image2map
-#        - noisium
+        - image2map
+        - noisium
       downloadDependencies: required
       allowedVersionType: default
 
