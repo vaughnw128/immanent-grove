@@ -50,14 +50,14 @@ minecraft:
     modrinth:
       projects:
         - c2me-fabric
-        - ferrite-core
-        - krypton
+        - ferrite-core:IPM0JlHd
+        - krypton:Acz3ttTp
         - lithium
-        - modernfix
-#        - spark
+        - modernfix:ZGxQddYr
+        - spark
 #        - tabtps
-#        - bluemap
-#        - bmarker
+        - bluemap:Dr2hvJBc
+        - bmarker:NFoZ8bVO
 #        - image2map
 #        - noisium
       downloadDependencies: required
