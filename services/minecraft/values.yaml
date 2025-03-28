@@ -52,8 +52,8 @@ minecraft:
         - c2me-fabric
         - ferrite-core
         - krypton
-#        - lithium
-#        - modernfix
+        - lithium
+        - modernfix
 #        - spark
 #        - tabtps
 #        - bluemap
