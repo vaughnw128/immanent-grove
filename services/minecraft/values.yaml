@@ -20,7 +20,7 @@ minecraft:
 
   resources:
     requests:
-      memory: 8192M
+      memory: 8192Mi
       cpu: 2000m
 
   # Define whether the server is run as a statefulset
