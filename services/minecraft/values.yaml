@@ -25,7 +25,6 @@ minecraft:
 
   # Define whether the server is run as a statefulset
   workloadAsStatefulSet: false
-  strategyType: Recreate
   podAnnotations:
     server: sexybabeycraft
 
