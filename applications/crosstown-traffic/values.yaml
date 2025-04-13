@@ -1,6 +1,6 @@
 single-container:
   name: "crosstown-traffic"
-  image: "ghcr.io/vaughnw128/sexybabeycord:v0.1.4"
+  image: "ghcr.io/vaughnw128/crosstown-traffic:v0.1.1"
   size: small
   gateway:
     public: true
