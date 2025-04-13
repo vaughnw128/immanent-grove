@@ -22,12 +22,9 @@ jobs:
           echo "DEPLOY_FILE_PATH=applications/${{ github.event.inputs.app_repo }}/values.yaml" >> $GITHUB_ENV
       - uses: actions/checkout@v3
       - name: Update values.yaml
-        uses: fjogeleit/yaml-update-action@main
+        uses: mikefarah/yq@master
         with:
-          valueFile: ${{ env.DEPLOY_FILE_PATH }}
-          propertyPath: 'single_container.image'
-          value: ${{ env.IMAGE }}
-          commitChange: false
+          cmd: yq -i '.single-container.image = "${{ env.IMAGE }}:${{ env.TAG_NAME }}"' '${{ env.DEPLOY_FILE_PATH }}'
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
