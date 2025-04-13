@@ -1,0 +1,18 @@
+single-container:
+  name: "crosstown-traffic"
+  image: "ghcr.io/vaughnw128/sexybabeycord:v0.1.4"
+  size: small
+  gateway:
+    public: true
+    hostname: "traffic.vaughn.sh"
+    containerPort: 8080
+  vaultSecrets:
+    - name: "DISCORD_TOKEN"
+      path: "crosstown-traffic/discord-token"
+    - name: "GOOGLE_MAPS_API_KEY"
+      path: "crosstown-traffic/google-maps-api-key"
+  env:
+    - name: "CHANNEL_ID"
+      value: "644752766736138241"
+    - name: "GUILD_ID"
+      value: "644752766241341460"
