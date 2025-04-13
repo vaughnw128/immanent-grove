@@ -1,4 +1,4 @@
-single-container:
+single_container:
     name: "sexybabeycord"
     size: medium
     image: "some-image:latest"

@@ -25,7 +25,7 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: ${{ env.DEPLOY_FILE_PATH }}
-          propertyPath: "single\-container.image"
+          propertyPath: single_container.image
           value: ${{ env.IMAGE }}
           branch: ${{ env.APP_REPO }}/${{ env.TAG_NAME }}
           createPR: true
