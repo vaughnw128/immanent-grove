@@ -1,7 +1,7 @@
 single-container:
   name: "sexybabeycord"
   size: medium
-  image: "ghcr.io/vaughnw128/sexybabeycord:v0.1.5"
+  image: "ghcr.io/vaughnw128/sexybabeycord:v0.1.6"
   vaultSecrets:
     - name: "DISCORD_TOKEN"
       path: "sexybabeycord/discord-token"
