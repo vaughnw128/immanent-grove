@@ -30,6 +30,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.RELEASE_TOKEN }}
           commit-message: Update ${{ env.APP_REPO }} to ${{ env.TAG_NAME }}
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
@@ -42,10 +43,3 @@ jobs:
           body: |
             This PR was automatically created.
             Please review and merge to deploy.
-            
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.16.4"
-        env:
-         MERGE_FILTER_AUTHOR: "github-actions[bot]"
-         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
