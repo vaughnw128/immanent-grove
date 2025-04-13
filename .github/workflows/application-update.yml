@@ -34,6 +34,9 @@ jobs:
           signoff: false
           branch: app-release/${{ env.APP_REPO }}/${{ env.TAG_NAME }}
           title: 'Update ${{ env.APP_REPO }} to version ${{ env.TAG_NAME }}'
+          labels: |
+            automerge
+            app-update
           body: |
             This PR was automatically created.
             Please review and merge to deploy.
