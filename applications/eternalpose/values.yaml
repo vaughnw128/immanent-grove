@@ -1,7 +1,7 @@
 single-container:
-    name: eternalpose
-    image: "someimage"
-    size: micro
-    vaultSecrets:
-        - name: "WEBHOOK_URL"
-          path: "eternalpose/webhook-url"
+  name: eternalpose
+  image: "ghcr.io/vaughnw128/eternalpose:sha-1b21540"
+  size: micro
+  vaultSecrets:
+    - name: "WEBHOOK_URL"
+      path: "eternalpose/webhook-url"
