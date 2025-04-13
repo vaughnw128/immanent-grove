@@ -1,6 +1,6 @@
 single-container:
   name: mc-status-rs
-  image: "ghcr.io/vaughnw128/mc-status-rs:0.1.16"
+  image: "ghcr.io/vaughnw128/mc-status-rs:0.1.18"
   size: micro
   vaultSecrets:
     - name: "DISCORD_TOKEN"
