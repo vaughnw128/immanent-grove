@@ -19,4 +19,24 @@ jobs:
           echo "APP_REPO=${{ github.event.inputs.app_repo }}" >> $GITHUB_ENV
           echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
           echo "IMAGE=ghcr.io/${{ github.event.repository.owner.name }}/${{ github.event.inputs.app_repo }}" >> $GITHUB_ENV
-          echo "DEPLOY_FILE_PATH=applications/${{ github.event.inputs.app_repo }}/deployment.yaml" >> $GITHUB_ENV
+          echo "DEPLOY_FILE_PATH=applications/${{ github.event.inputs.app_repo }}/values.yaml" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: ${{ env.DEPLOY_FILE_PATH }}
+          propertyPath: 'single-container.image'
+          value: ${{ env.IMAGE }}
+          commitChange: true
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Update ${{ env.APP_REPO }} to ${{ env.TAG_NAME }}
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: application_release${{ env.APP_REPO }}-${{ env.TAG_NAME }}
+          title: 'Update ${{ env.APP_REPO }} to version ${{ env.TAG_NAME }}'
+          body: |
+            This PR was automatically created.
+            Please review and merge to deploy.
