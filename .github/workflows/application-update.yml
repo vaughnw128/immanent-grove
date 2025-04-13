@@ -27,7 +27,6 @@ jobs:
           valueFile: ${{ env.DEPLOY_FILE_PATH }}
           propertyPath: 'single_container.image'
           value: ${{ env.IMAGE }}
-          commitChange: true
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
