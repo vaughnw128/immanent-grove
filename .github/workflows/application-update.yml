@@ -25,18 +25,8 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: ${{ env.DEPLOY_FILE_PATH }}
-          propertyPath: 'single-container.image'
+          propertyPath: single-container.image
           value: ${{ env.IMAGE }}
-          commitChange: true
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          commit-message: Update ${{ env.APP_REPO }} to ${{ env.TAG_NAME }}
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: application_release${{ env.APP_REPO }}-${{ env.TAG_NAME }}
-          title: 'Update ${{ env.APP_REPO }} to version ${{ env.TAG_NAME }}'
-          body: |
-            This PR was automatically created.
-            Please review and merge to deploy.
+          branch: ${{ env.APP_REPO }}/${{ env.TAG_NAME }}
+          createPR: true
+          message: 'Update Image Version to ${{ steps.image.outputs.version }}'
