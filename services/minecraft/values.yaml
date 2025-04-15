@@ -53,11 +53,11 @@ minecraft:
         - krypton
         - lithium
         - spark
-        - tabtps
+        # - tabtps
         - bluemap
-        - bmarker
+        # - bmarker
         - image2map
-        - noisium
+        # - noisium
       downloadDependencies: required
       allowedVersionType: default
 
