@@ -29,7 +29,7 @@ locals {
 }
 
 module "cluster" {
-  source = "./cluster"
+  source = "./cluster-mod"
 
   # Base cluster details
   name            = "immanent-grove"
