@@ -33,7 +33,7 @@ minecraft:
     version: "1.21.5"
     type: FABRIC
     difficulty: hard
-    whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze"
+    whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, poomanx"
     ops: "wauhn"
     icon: https://s3.vaughn.sh/cdn/server-icon.png
     maxPlayers: 10
