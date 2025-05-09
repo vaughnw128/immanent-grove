@@ -52,6 +52,7 @@ minecraft:
         - krypton
         - lithium
         - spark
+        - configurable-despawn-timer
         - bluemap
         # - bmarker
         - image2map
