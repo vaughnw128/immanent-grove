@@ -59,7 +59,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-crds
-    - name: infra-config
+    - name: infra-configs
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -78,7 +78,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-crds
-    - name: infra-config
+    - name: infra-configs
   interval: 1h
   retryInterval: 1m
   timeout: 5m
