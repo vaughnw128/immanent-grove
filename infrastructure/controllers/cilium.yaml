@@ -87,7 +87,6 @@ spec:
             - drop
             - tcp
             - flow
-            - distribution
             - icmp
             - httpV2:exemplars=true;labelsContext=source_ip
             - source_namespace
