@@ -23,7 +23,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: secret-tls-flux-system
+        name: secret-tls-capacitor
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -33,6 +33,7 @@ metadata:
 spec:
   parentRefs:
   - name: gateway
+    namespace: flux-system
   hostnames:
     - capacitor.apicius.local
   rules:
