@@ -15,10 +15,10 @@ metadata:
   namespace: crosstown-traffic
 spec:
   interval: 30m
+  releaseName: crosstown-traffic
   chart:
     spec:
       chart: crosstown-traffic
-      releaseName: crosstown-traffic
       version: "0.4.3"
       sourceRef:
         kind: HelmRepository
