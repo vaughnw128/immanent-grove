@@ -4,6 +4,7 @@ metadata:
   name: crosstown-traffic
   namespace: crosstown-traffic
 spec:
+  type: "oci"
   interval: 24h
   url: oci://ghcr.io/vaughnw128/chart/crosstown-traffic
 ---
