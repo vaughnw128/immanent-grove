@@ -18,6 +18,7 @@ spec:
   chart:
     spec:
       chart: crosstown-traffic
+      releaseName: crosstown-traffic
       version: "0.4.3"
       sourceRef:
         kind: HelmRepository
