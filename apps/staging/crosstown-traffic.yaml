@@ -1,0 +1,31 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: crosstown-traffic
+  namespace: crosstown-traffic
+spec:
+  interval: 5m0s
+  type: "oci"
+  url: oci://ghcr.io/vaughnw128/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crosstown-traffic
+  namespace: crosstown-traffic
+spec:
+  interval: 30m
+  releaseName: crosstown-traffic
+  test:
+    enable: true
+  chart:
+    spec:
+      chart: crosstown-traffic
+      version: "*.*.*"
+      sourceRef:
+        kind: HelmRepository
+        name: crosstown-traffic
+      valuesFiles:
+        - "values.yaml"
+        - "values-staging.yaml"
+      interval: 12h

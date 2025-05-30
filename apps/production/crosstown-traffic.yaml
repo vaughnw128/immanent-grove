@@ -16,6 +16,8 @@ metadata:
 spec:
   interval: 30m
   releaseName: crosstown-traffic
+  test:
+    enable: true
   chart:
     spec:
       chart: crosstown-traffic

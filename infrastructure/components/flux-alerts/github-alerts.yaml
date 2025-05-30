@@ -1,0 +1,28 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: github
+  namespace: apps
+spec:
+  type: githubdispatch
+  address: https://github.com/vaughnw128/immanent-grove
+  secretRef:
+    name: github-token
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: promotion-alert-trigger
+  namespace: flux-system
+spec:
+  providerRef:
+    name: github
+  summary: "Trigger promotion"
+  eventMetadata:
+    env: staging
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: '*'
+  inclusionList:
+    - ".*.upgrade.*succeeded.*"
