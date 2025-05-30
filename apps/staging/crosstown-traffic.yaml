@@ -21,7 +21,7 @@ spec:
   chart:
     spec:
       chart: crosstown-traffic
-      version: "*.*.*"
+      version: "*"
       sourceRef:
         kind: HelmRepository
         name: crosstown-traffic
