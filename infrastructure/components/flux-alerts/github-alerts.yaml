@@ -2,7 +2,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
   name: github
-  namespace: apps
+  namespace: flux-system
 spec:
   type: githubdispatch
   address: https://github.com/vaughnw128/immanent-grove
