@@ -25,4 +25,4 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: crosstown-traffic
-      interval: 12h
+      interval: 5m

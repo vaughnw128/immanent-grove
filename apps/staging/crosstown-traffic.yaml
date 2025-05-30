@@ -28,4 +28,4 @@ spec:
       valuesFiles:
         - "values.yaml"
         - "values-staging.yaml"
-      interval: 12h
+      interval: 5m
