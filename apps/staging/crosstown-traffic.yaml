@@ -14,7 +14,7 @@ metadata:
   name: crosstown-traffic
   namespace: crosstown-traffic
 spec:
-  interval: 30m
+  interval: 5m
   releaseName: crosstown-traffic
   test:
     enable: true
