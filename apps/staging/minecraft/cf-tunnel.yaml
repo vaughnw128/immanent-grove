@@ -1,0 +1,12 @@
+#apiVersion: networking.cfargotunnel.com/v1alpha1
+#kind: TunnelBinding
+#metadata:
+#  name: minecraft-cluster-tun
+#subjects:
+#  - name: bluemap
+#    spec:
+#      fqdn: maps.vaughn.sh
+#      protocol: http
+#tunnelRef:
+#  kind: ClusterTunnel
+#  name: cluster-tunnel

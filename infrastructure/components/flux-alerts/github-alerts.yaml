@@ -17,12 +17,10 @@ metadata:
 spec:
   providerRef:
     name: github
-  summary: "Trigger promotion"
+  summary: "Trigger Promotion"
   eventMetadata:
     env: staging
   eventSeverity: info
   eventSources:
     - kind: HelmRelease
       name: '*'
-  inclusionList:
-    - ".*.upgrade.*succeeded.*"
