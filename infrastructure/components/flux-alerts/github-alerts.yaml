@@ -1,13 +1,22 @@
+#apiVersion: notification.toolkit.fluxcd.io/v1beta3
+#kind: Provider
+#metadata:
+#  name: github
+#  namespace: flux-system
+#spec:
+#  type: githubdispatch
+#  address: https://github.com/vaughnw128/immanent-grove
+#  secretRef:
+#    name: github-token
+---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
-  name: github
+  name: webhook-site
   namespace: flux-system
 spec:
-  type: githubdispatch
-  address: https://github.com/vaughnw128/immanent-grove
-  secretRef:
-    name: github-token
+  type: generic
+  address: https://webhook.site/2ee5403f-fcfa-47d6-9f98-1e593733407a
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -16,7 +25,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: github
+    name: webhook-site
   summary: "Trigger promotion"
   eventMetadata:
     env: staging
