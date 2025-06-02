@@ -84,3 +84,7 @@ spec:
     name: flux-system
   path: ./infrastructure/controllers
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
