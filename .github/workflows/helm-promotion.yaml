@@ -1,6 +1,8 @@
 name: Helm Promotion
 on:
   repository_dispatch:
+    types:
+      - "HelmRelease/*.*"
 
 permissions:
   contents: write
@@ -13,14 +15,13 @@ jobs:
       github.event.client_payload.metadata.env == 'staging' &&
       github.event.client_payload.severity == 'info'
     steps:
-      # Checkout main branch.
       - uses: actions/checkout@v3
         with:
           ref: main
       - name: Get chart version from staging
         id: staging
         run: |
-          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1)
+          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1 | cut -d '+' -f1)
           echo VERSION=${VERSION} >> $GITHUB_OUTPUT
       - name: Set chart version in production
         id: production
@@ -28,7 +29,7 @@ jobs:
           CHART_VERSION: ${{ steps.staging.outputs.version }}
         run: |
           echo "set chart version to ${CHART_VERSION}"
-          yq eval '.spec.chart.spec.version=env(CHART_VERSION)' -i ./apps/staging/crosstown-traffic.yaml
+          yq eval '.spec.chart.spec.version=env(CHART_VERSION)' -i ./apps/production/crosstown-traffic.yaml
       - name: Open promotion PR
         uses: peter-evans/create-pull-request@v4
         with:
@@ -38,4 +39,4 @@ jobs:
           commit-message: Update demo to v${{ steps.staging.outputs.version }}
           title: Promote demo release to v${{ steps.staging.outputs.version }}
           body: |
-            Promote demo release on production to v${{ steps.staging.outputs.version }}
+            Promote app release on production to v${{ steps.staging.outputs.version }}

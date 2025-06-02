@@ -25,3 +25,34 @@ spec:
     - kind: HelmRelease
       name: '*'
       namespace: crosstown-traffic
+  inclusionList:
+    - ".*.upgrade.*succeeded.*"
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: webhook-site
+  namespace: flux-system
+spec:
+  type: generic
+  address: https://webhook.site/0d125cd4-a0fa-411a-a37d-1e45487ffa24
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: promotion-alert-trigger-webhook-site
+  namespace: flux-system
+spec:
+  providerRef:
+    name: webhook-site
+  summary: "Trigger promotion"
+  eventMetadata:
+    env: staging
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: '*'
+      namespace: crosstown-traffic
+  inclusionList:
+    - ".*.upgrade.*succeeded.*"
+
