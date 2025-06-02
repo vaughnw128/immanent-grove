@@ -24,13 +24,6 @@ spec:
         namespace: controllers
       interval: 12h
   values:
-    controller:
-      replicaCount: 2
-      podAnnotations:
-        secret.reloader.stakater.com/reload: &secret democratic-csi-config
-    node:
-      podAnnotations:
-        secret.reloader.stakater.com/reload: *secret
     csiDriver:
       name: "org.democratic-csi.nfs"
 
@@ -56,5 +49,5 @@ spec:
     driver:
       config:
         driver: freenas-api-nfs
-      existingConfigSecret: *secret
+      existingConfigSecret: democratic-csi-config
 
