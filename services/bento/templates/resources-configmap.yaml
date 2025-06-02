@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: bento-resources
-data:
-  {{- range $path, $_ :=  .Files.Glob  "resources/*.yaml" -}}
-    {{- regexFind "[a-zA-Z\\d_-]+.yaml$" $path | nindent 2 -}}: |
-    {{ $.Files.Get $path | nindent 4 | trim }}
-  {{- end -}}
