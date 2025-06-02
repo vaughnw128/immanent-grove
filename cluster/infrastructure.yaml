@@ -2,9 +2,26 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: namespaces
+  namespace: flux-system
+spec:
+  interval: 3m
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/namespaces
+  prune: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: infra-controllers
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: namespaces
   interval: 3m
   retryInterval: 1m
   timeout: 5m
@@ -20,6 +37,8 @@ metadata:
   name: infra-operators
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: namespaces
   interval: 3m
   retryInterval: 1m
   timeout: 5m
@@ -35,6 +54,8 @@ metadata:
   name: infra-components
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: namespaces
   interval: 3m
   retryInterval: 1m
   timeout: 5m
@@ -54,6 +75,7 @@ spec:
     - name: infra-components
     - name: infra-operators
     - name: infra-controllers
+    - name: namespaces
   interval: 3m
   retryInterval: 1m
   timeout: 5m
