@@ -1,8 +1,6 @@
 name: Helm Promotion
 on:
   repository_dispatch:
-    types:
-      - "HelmRelease/*.*"
 
 permissions:
   contents: write
@@ -11,9 +9,11 @@ permissions:
 jobs:
   promote:
     runs-on: ubuntu-latest
+    # Make sure this is actually running on the staging helmreleases
     if: |
       github.event.client_payload.metadata.env == 'staging' &&
-      github.event.client_payload.severity == 'info'
+      github.event.client_payload.severity == 'info' &&
+      github.event.client_payload.involvedObject.kind == 'HelmRelease'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -21,22 +21,21 @@ jobs:
       - name: Get chart version from staging
         id: staging
         run: |
-          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1 | cut -d '+' -f1)
+          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1)
           echo VERSION=${VERSION} >> $GITHUB_OUTPUT
+          echo NAME=${{ github.event.client_payload.involvedObject.name }} >> $GITHUB_OUTPUT
       - name: Set chart version in production
         id: production
-        env:
-          CHART_VERSION: ${{ steps.staging.outputs.version }}
         run: |
-          echo "set chart version to ${CHART_VERSION}"
-          yq eval '.spec.chart.spec.version=env(CHART_VERSION)' -i ./apps/production/crosstown-traffic.yaml
+          echo "set chart version to ${{ steps.staging.outputs.version }}"
+          yq eval '.spec.chart.spec.version=${{ steps.staging.outputs.version }}' -i ./apps/production/${{ steps.staging.outputs.name }}.yaml
       - name: Open promotion PR
         uses: peter-evans/create-pull-request@v4
         with:
           branch: app-promotion
           delete-branch: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update demo to v${{ steps.staging.outputs.version }}
-          title: Promote demo release to v${{ steps.staging.outputs.version }}
+          commit-message: Update ${{ steps.staging.outputs.name }} to v${{ steps.staging.outputs.version }}
+          title: Promote ${{ steps.staging.outputs.name }} release to v${{ steps.staging.outputs.version }}
           body: |
-            Promote app release on production to v${{ steps.staging.outputs.version }}
+            Promote ${{ steps.staging.outputs.name }} release on production to v${{ steps.staging.outputs.version }}
