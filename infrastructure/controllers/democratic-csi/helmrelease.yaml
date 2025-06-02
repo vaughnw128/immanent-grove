@@ -35,7 +35,7 @@ spec:
       name: "org.democratic-csi.nfs"
 
     storageClasses:
-    - name: truenas-nfs-csi
+    - name: truenas-nfs
       defaultClass: true
       reclaimPolicy: Delete
       volumeBindingMode: Immediate
