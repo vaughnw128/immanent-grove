@@ -1,65 +1,65 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: gateway
-  namespace: flux-system
-  annotations:
-    cert-manager.io/cluster-issuer: local-issuer
-spec:
-  gatewayClassName: cilium
-  infrastructure:
-    annotations:
-      external-dns.alpha.kubernetes.io/hostname: capacitor.apicius.local
-  listeners:
-  - protocol: HTTP
-    hostname: capacitor.apicius.local
-    port: 80
-    name: http
-  - protocol: HTTPS
-    hostname: capacitor.apicius.local
-    port: 443
-    name: https
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: secret-tls-capacitor
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: https-route
-  namespace: flux-system
-spec:
-  parentRefs:
-  - name: gateway
-    namespace: flux-system
-  hostnames:
-    - capacitor.apicius.local
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: capacitor
-      port: 9000
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: http-route-redirect
-  namespace: flux-system
-spec:
-  parentRefs:
-  - name: gateway
-    sectionName: http
-    namespace: flux-system
-  hostnames:
-  - capacitor.apicius.local
-  rules:
-  - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
-        statusCode: 301
+#apiVersion: gateway.networking.k8s.io/v1
+#kind: Gateway
+#metadata:
+#  name: gateway
+#  namespace: flux-system
+#  annotations:
+#    cert-manager.io/cluster-issuer: local-issuer
+#spec:
+#  gatewayClassName: cilium
+#  infrastructure:
+#    annotations:
+#      external-dns.alpha.kubernetes.io/hostname: capacitor.apicius.local
+#  listeners:
+#  - protocol: HTTP
+#    hostname: capacitor.apicius.local
+#    port: 80
+#    name: http
+#  - protocol: HTTPS
+#    hostname: capacitor.apicius.local
+#    port: 443
+#    name: https
+#    tls:
+#      mode: Terminate
+#      certificateRefs:
+#      - kind: Secret
+#        name: secret-tls-capacitor
+#---
+#apiVersion: gateway.networking.k8s.io/v1
+#kind: HTTPRoute
+#metadata:
+#  name: https-route
+#  namespace: flux-system
+#spec:
+#  parentRefs:
+#  - name: gateway
+#    namespace: flux-system
+#  hostnames:
+#    - capacitor.apicius.local
+#  rules:
+#  - matches:
+#    - path:
+#        type: PathPrefix
+#        value: /
+#    backendRefs:
+#    - name: capacitor
+#      port: 9000
+#---
+#apiVersion: gateway.networking.k8s.io/v1
+#kind: HTTPRoute
+#metadata:
+#  name: http-route-redirect
+#  namespace: flux-system
+#spec:
+#  parentRefs:
+#  - name: gateway
+#    sectionName: http
+#    namespace: flux-system
+#  hostnames:
+#  - capacitor.apicius.local
+#  rules:
+#  - filters:
+#    - type: RequestRedirect
+#      requestRedirect:
+#        scheme: https
+#        statusCode: 301

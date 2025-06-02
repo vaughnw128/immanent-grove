@@ -4,4 +4,4 @@ namespace: flux-system
 resources:
   - source.yaml
   - sync.yaml
-  - ingress.yaml
+#  - ingress.yaml
