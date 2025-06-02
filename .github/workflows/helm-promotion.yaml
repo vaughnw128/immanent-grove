@@ -21,8 +21,7 @@ jobs:
       - name: Get chart version from staging
         id: staging
         run: |
-          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1)
-          echo VERSION=${VERSION} >> $GITHUB_OUTPUT
+          echo VERSION=${{ github.event.client_payload.metadata.app-version }} >> $GITHUB_OUTPUT
           echo NAME=${{ github.event.client_payload.involvedObject.name }} >> $GITHUB_OUTPUT
       - name: Set chart version in production
         id: production
