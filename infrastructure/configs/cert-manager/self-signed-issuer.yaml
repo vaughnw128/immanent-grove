@@ -4,4 +4,4 @@ metadata:
   name:       local-self-signed-issuer
   namespace:  controllers
 spec:
-  selfSigned: "null"
+  selfSigned: {}
