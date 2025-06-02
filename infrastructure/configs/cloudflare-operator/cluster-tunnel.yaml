@@ -5,7 +5,7 @@ metadata:
   namespace: cloudflare-operator-system
 spec: 
   cloudflare: 
-    accountId: ""
+    accountId: "7ea17bbe539e6f5557c3ebe5dded1781"
     domain: "vaughn.sh"
     email: "vaughnwoerpel@gmail.com"
     secret: cloudflare-operator-secret

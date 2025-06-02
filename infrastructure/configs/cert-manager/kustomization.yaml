@@ -3,3 +3,7 @@ kind: Kustomization
 namespace: controllers
 resources:
   - secret.yaml
+  - cloudflare-issuer.yaml
+  - local-ca.yaml
+  - local-cluster-issuer.yaml
+  - self-signed-issuer.yaml
