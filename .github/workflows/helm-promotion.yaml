@@ -27,7 +27,7 @@ jobs:
         id: production
         run: |
           echo "set chart version to ${{ steps.staging.outputs.version }}"
-          yq eval '(select(.kind == "HelmRelease") | .spec.chart.spec.version)="${{ steps.staging.outputs.version }}"' -i ./apps/production/${{ steps.staging.outputs.name }}.yaml
+          yq eval '(select(.kind == "HelmRelease") | .spec.chart.spec.version)="${{ steps.staging.outputs.version }}"' -i ./test-applications/production/${{ steps.staging.outputs.name }}.yaml
       - name: Open promotion PR
         uses: peter-evans/create-pull-request@v4
         with:
