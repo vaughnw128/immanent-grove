@@ -1,0 +1,17 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: ClusterTunnel
+metadata: 
+  name: cluster-tunnel
+  namespace: cloudflare-operator-system
+spec: 
+  cloudflare: 
+    accountId: ""
+    domain: "vaughn.sh"
+    email: "vaughnwoerpel@gmail.com"
+    secret: cloudflare-operator-secret
+  noTlsVerify: false
+  protocol: auto
+  newTunnel: 
+    name: "immanent-grove"
+  image: cloudflare/cloudflared:2025.5.0
+  size : 2
