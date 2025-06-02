@@ -24,6 +24,13 @@ spec:
         namespace: controllers
       interval: 12h
   values:
+    controller:
+      replicaCount: 2
+      podAnnotations:
+        secret.reloader.stakater.com/reload: &secret democratic-csi-driver-config-secret
+    node:
+      podAnnotations:
+        secret.reloader.stakater.com/reload: *secret
     csiDriver:
       name: "org.democratic-csi.nfs"
 
@@ -49,28 +56,5 @@ spec:
     driver:
       config:
         driver: freenas-api-nfs
-        instance_id:
-        httpConnection:
-          protocol: https
-          port: 443
-          allowInsecure: true
-          host: "http://roke.apicius.local"
-          apiKey: "fake"
-        zfs:
-          datasetParentName: pool/k8s/nfs/v
-          detachedSnapshotsDatasetParentName: pool/k8s/nfs/s
-          datasetEnableQuotas: true
-          datasetEnableReservation: false
-          datasetPermissionsMode: "0777"
-          datasetPermissionsUser: 0
-          datasetPermissionsGroup: 0
-        nfs:
-          shareHost: "http://roke.apicius.local"
-          shareAlldirs: false
-          shareAllowedHosts: []
-          shareAllowedNetworks: []
-          shareMaprootUser: root
-          shareMaprootGroup: root
-          shareMapallUser: ""
-          shareMapallGroup: ""
+      existingConfigSecret: *secret
 
