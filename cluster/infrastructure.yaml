@@ -5,7 +5,7 @@ metadata:
   name: infra-controllers
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 3m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -13,7 +13,6 @@ spec:
     name: flux-system
   path: ./infrastructure/controllers
   prune: true
-  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -21,7 +20,7 @@ metadata:
   name: infra-operators
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 3m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -29,7 +28,6 @@ spec:
     name: flux-system
   path: ./infrastructure/operators
   prune: true
-  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -37,7 +35,7 @@ metadata:
   name: infra-components
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 3m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -45,4 +43,3 @@ spec:
     name: flux-system
   path: ./infrastructure/components
   prune: true
-  wait: true
