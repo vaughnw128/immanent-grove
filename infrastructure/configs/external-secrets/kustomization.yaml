@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: operators
 resources:
   - 1password-secret-store.yaml
+  - 1password-sa-token.yaml
