@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: applications
 resources:
   - secrets.yaml
+  - helmrelease.yaml
