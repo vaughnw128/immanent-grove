@@ -55,11 +55,7 @@ spec:
           port: 443
           allowInsecure: true
           host: "http://roke.apicius.local"
-          apiKey:
-            valueFrom:
-              secretKeyRef:
-                name: democratic-csi-secrets
-                key: truenas-api-key
+          apiKey: "fake"
         zfs:
           datasetParentName: pool/k8s/nfs/v
           detachedSnapshotsDatasetParentName: pool/k8s/nfs/s
