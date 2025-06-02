@@ -25,5 +25,3 @@ spec:
     - kind: HelmRelease
       name: '*'
       namespace: crosstown-traffic
-  inclusionList:
-    - ".*.upgrade.*succeeded.*"
