@@ -26,7 +26,6 @@ spec:
   values:
     csiDriver:
       name: "org.democratic-csi.nfs"
-
     storageClasses:
     - name: truenas-nfs
       defaultClass: true
@@ -35,7 +34,6 @@ spec:
       allowVolumeExpansion: true
       parameters:
         fsType: nfs
-
       mountOptions:
       - noatime
       - nfsvers=4
@@ -45,7 +43,6 @@ spec:
         node-stage-secret:
         node-publish-secret:
         controller-expand-secret:
-
     driver:
       extraEnv:
         - name: TRUENAS_API_TOKEN
@@ -81,5 +78,3 @@ spec:
           shareMaprootGroup: root
           shareMapallUser: ""
           shareMapallGroup: ""
-      existingConfigSecret: democratic-csi-config
-
