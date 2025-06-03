@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: controllers
 resources:
   - helmrelease.yaml
-  - secret.yaml
