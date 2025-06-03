@@ -60,7 +60,7 @@ spec:
         enableAlpn: true
         enableAppProtocol: true
         secretsNamespace:
-          sync: false
+          sync: true
     l2announcements:
         enabled: true
     ingressController:
