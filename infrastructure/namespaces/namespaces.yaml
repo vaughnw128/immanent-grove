@@ -15,4 +15,9 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: operators
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: cloudflare-operator-system
