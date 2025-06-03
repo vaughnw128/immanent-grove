@@ -94,8 +94,7 @@ spec:
         port: 25565
 
     persistence:
-      annotations:
-        server: sexybabeycraft
+      storageClass: "truenas-nfs"
       dataDir:
         enabled: true
         Size: 64Gi
