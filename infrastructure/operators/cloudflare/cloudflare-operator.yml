@@ -22,5 +22,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cloudflare-operator
-  path: ./config/default
+  path: config/default
   prune: true
