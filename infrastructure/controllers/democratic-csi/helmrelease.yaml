@@ -44,15 +44,16 @@ spec:
         node-publish-secret:
         controller-expand-secret:
     controller:
-      extraEnv:
-        - name: TRUENAS_API_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: truenas-api-key
-              key: truenas-api-key
-      image:
-        registry: docker.io/democraticcsi/democratic-csi
-        tag: next
+      driver:
+        image:
+          registry: docker.io/democraticcsi/democratic-csi
+          tag: next
+        extraEnv:
+          - name: TRUENAS_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: truenas-api-key
+                key: truenas-api-key
     driver:
       config:
         driver: freenas-api-nfs
