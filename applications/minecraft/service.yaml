@@ -9,5 +9,23 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8123
+      targetPort: 8100
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bluemap-cloudflare
+spec:
+  ingressClassName: cloudflare-tunnel
+  rules:
+  - host: maps.vaughn.sh
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bluemap
+            port:
+              number: 80
