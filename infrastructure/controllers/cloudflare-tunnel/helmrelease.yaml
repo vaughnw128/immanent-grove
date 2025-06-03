@@ -27,6 +27,6 @@ spec:
     cloudflare:
       accountId: "7ea17bbe539e6f5557c3ebe5dded1781"
       tunnelName: "immanent-grove"
-    secretRef:
-       name: cloudflare-token
-       apiTokenKey: cloudflare-api-token
+      secretRef:
+         name: cloudflare-token
+         apiTokenKey: cloudflare-api-token
