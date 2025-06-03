@@ -5,7 +5,7 @@ metadata:
   name: namespaces
   namespace: flux-system
 spec:
-  interval: 3m
+  interval: 60m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -22,7 +22,7 @@ metadata:
 spec:
   dependsOn:
     - name: namespaces
-  interval: 3m
+  interval: 60m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -39,7 +39,7 @@ metadata:
 spec:
   dependsOn:
     - name: namespaces
-  interval: 3m
+  interval: 60m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -56,7 +56,7 @@ metadata:
 spec:
   dependsOn:
     - name: namespaces
-  interval: 3m
+  interval: 60m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
@@ -76,7 +76,7 @@ spec:
     - name: infra-operators
     - name: infra-controllers
     - name: namespaces
-  interval: 3m
+  interval: 60m
   retryInterval: 1m
   timeout: 5m
   sourceRef:
