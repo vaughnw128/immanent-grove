@@ -23,4 +23,5 @@ spec:
     kind: GitRepository
     name: cloudflare-operator
   path: config/default
+  targetNamespace: operators
   prune: true
