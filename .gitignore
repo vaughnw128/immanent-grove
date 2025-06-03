@@ -5,7 +5,6 @@
 *.env*
 *.tgz
 secrets/
-scripts
 # Not really sure where
 cloudflare.yaml
 test-manifests/
