@@ -104,7 +104,6 @@ resource "talos_machine_bootstrap" "bootstrap" {
 }
 
 # Check the health after bootstrap
-# Skip kubernetes check until after cilium install as nodes will not be networked
 
 data "talos_cluster_health" "bootstrap_health" {
   depends_on             = [talos_machine_configuration_apply.config_apply]
@@ -120,16 +119,6 @@ resource "talos_cluster_kubeconfig" "kubeconfig" {
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.cluster_endpoint_ip
 }
-
-# Check cluster health after cilium release
-
-# data "talos_cluster_health" "health" {
-#   depends_on           = [ helm_release.cilium ]
-#   client_configuration = data.talos_client_configuration.talosconfig.client_configuration
-#   control_plane_nodes  = local.cluster_controlplane_ips
-#   worker_nodes         = local.cluster_worker_ips
-#   endpoints            = data.talos_client_configuration.talosconfig.endpoints
-# }
 
 # Export talos and kubeconfig for saving to system
 

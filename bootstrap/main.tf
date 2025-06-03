@@ -40,27 +40,13 @@ module "cluster" {
   local_domain    = "apicius.local"
   public_domain   = var.public_domain
 
-  # Cilium
-  cilium_ip_pool = "10.0.10.0/24"
-
   # Config locations - If configs should not be saved, remove the below paths.
   talosconfig_path = "/home/apicius/.talos/config"
   kubeconfig_path  = "/home/apicius/.kube/config"
 
-  # Cloudflare - External access via tunnels and DNS
-  tls_email             = var.email
-  cloudflare_token      = var.cloudflare_token
-  cloudflare_api_key    = var.cloudflare_api_key
-  cloudflare_account_id = var.cloudflare_account_id
-
-  # TrueNAS - NFS StorageClass
-  truenas_server  = "roke.apicius.local"
-  truenas_api_key = var.truenas_api_key
-
   # Optional features
   ts_auth_key = var.ts_auth_key # Talos Extension Setup - This is not needed, but will need a different image provided as the listed one uses tailscale.
   portainer   = true
-
 }
 
 output "talosconfig" {
