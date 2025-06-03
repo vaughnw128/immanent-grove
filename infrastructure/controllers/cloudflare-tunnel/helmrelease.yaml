@@ -1,0 +1,32 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: cloudflare-tunnel-ingress-controller
+  namespace: controllers
+spec:
+  interval: 24h
+  url: https://helm.strrl.dev
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudflare-tunnel-ingress-controller
+  namespace: controllers
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: cloudflare-tunnel-ingress-controller
+      version: "0.0.18"
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: kube-system
+      interval: 12h
+  values:
+    cloudflare:
+      accountId: "7ea17bbe539e6f5557c3ebe5dded1781"
+      tunnelName: "immanent-grove"
+    secretRef:
+       name: cloudflare-api-token
+       apiTokenKey: cloudflare-api-token
