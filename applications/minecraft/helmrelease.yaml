@@ -55,7 +55,7 @@ spec:
       motd: "Every adventure is better with a friend!"
       worldSaveName: world
       downloadWorldUrl: https://s3.vaughn.sh/cdn/world-new.zip
-      memory: 8192M
+      memory: 1024M
       serviceType: LoadBalancer
       servicePort: 25565
 
