@@ -43,7 +43,7 @@ spec:
         node-stage-secret:
         node-publish-secret:
         controller-expand-secret:
-    driver:
+    controller:
       extraEnv:
         - name: TRUENAS_API_TOKEN
           valueFrom:
@@ -53,6 +53,7 @@ spec:
       image:
         registry: docker.io/democraticcsi/democratic-csi
         tag: next
+    driver:
       config:
         driver: freenas-api-nfs
         httpConnection:
