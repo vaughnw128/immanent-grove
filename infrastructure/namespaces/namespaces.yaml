@@ -17,7 +17,7 @@ kind: Namespace
 metadata:
   name: applications
 ---
-#apiVersion: v1
-#kind: Namespace
-#metadata:
-#  name: cloudflare-operator-system
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudflare-operator-system
