@@ -24,3 +24,4 @@ spec:
     name: cloudflare-operator
   path: ./config/default
   prune: true
+  targetNamespace: operators
