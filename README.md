@@ -4,7 +4,8 @@ K8s cluster bootstrapping, because nuking and rebuilding your homelab should be 
 
 ## Overview
 
-This repository serves to let me control my entire k8s homelab environment with IaC, and is a test bed for my knowledge on modern DevOps principles. The primary method of deployment is built on [Terraform](https://www.terraform.io/) and [Helm](https://helm.sh/).
+This repository serves to let me control my entire k8s homelab environment with IaC, and is a test bed for my knowledge on modern DevOps principles. 
+The cluster is bootstrapped with Terraform and then managed with FluxCD.
 
 ---
 
@@ -14,15 +15,11 @@ This cluster is built around Talos and Cilium, and heavily leverages the new Gat
 
 ## Core Services
 - [cilium](https://cilium.io/) - Container Network Interface, supporting Gateway API and networking observability
-- [Prometheus/Grafana](https://grafana.com/) - Observability and metrics
-- [ArgoCD](https://argo-cd.readthedocs.io/en/stable/) - GitOps and continuous deployment
+- [FluxCD](https://argo-cd.readthedocs.io/en/stable/) - GitOps and continuous deployment
 - [Cloudflare-operator](https://github.com/adyanth/cloudflare-operator) - k8s operator for cloudflare tunnels and external DNS
 - [democratic-csi](https://github.com/democratic-csi/democratic-csi) - k8s storageclass on TrueNAS
 - [cert-manager](https://cert-manager.io/) - Automatic certificate requests
-- [portainer](https://www.portainer.io/) - Hook k8s into existing portainer
-- [synkronized](https://github.com/vaughnw128/synkronized) - ArgoCD based deployment pipeline
 - [reflector](https://github.com/emberstack/kubernetes-reflector) - Copy secrets across namespaces
-- [argocd-vault-plugin](https://argocd-vault-plugin.readthedocs.io/en/stable/) - Format secrets into Values.yaml files for easy helm charts.
 
 ---
 
@@ -35,7 +32,8 @@ This cluster is built around Talos and Cilium, and heavily leverages the new Gat
 
 ## Terraform Deployment
 
-The Terraform IaC can easily be deployed using the `immanent-grove` script, but requires some secret variables to first be set.
+To bootstrap the cluster simply deploy with Terraform `terraform plan` & `terraform apply`. All of the variables will need to be
+customized to your own cluster.
 
 ### Variables
 
@@ -49,27 +47,8 @@ proxmox_ssh_password = "<secretstuff>"
 
 # Tailscale
 ts_auth_key          = "tskey-auth-<secretstuff>"
-
-# Cloudflare
-email = "fake@person.com"
-public_domain = "fake.domain"
-cloudflare_token = "<secretstuff>"
-cloudflare_api_key = "<secretstuff>"
-cloudflare_account_id = "<secretstuff>"
-
-# TrueNAS
-truenas_api_key = 3-<secretstuff>
 ```
 
-### Deploy script
-
-Terraform can be applied using the handy `./immanent-grove` script. This allows for pulling of recent helm chart versions prior to apply.
-
-1. `./immanent-grove plan` to plan
-2. `./immanent-grove apply` to apply (will auto-approve)
-3. `./immanent-grove vault-init` to initialize vault
-4. `./immanent-grove dns` to grab gateway IPs for internal DNS records
-5. `./immanent-grove vault-argo-plugin-init` to set up the vault plugin with proper SA roles.
 ## Testing
 
 Tests can be run by applying manifests in `/examples` and verifying their output.
