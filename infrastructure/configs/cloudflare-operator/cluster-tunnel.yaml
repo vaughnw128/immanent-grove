@@ -9,3 +9,7 @@ spec:
     accountName: "Vaughnwoerpel@gmail.com"
     email: "vaughnwoerpel@gmail.com"
     secret: cloudflare-operator-secret
+  noTlsVerify: false
+  protocol: auto
+  newTunnel:
+    name: "immanent-grove"
