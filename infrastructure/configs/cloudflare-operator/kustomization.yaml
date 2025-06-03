@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: cloudflare-operator-system
 resources:
   - secret.yaml
-#  - cluster-tunnel.yaml
+  - cluster-tunnel.yaml
