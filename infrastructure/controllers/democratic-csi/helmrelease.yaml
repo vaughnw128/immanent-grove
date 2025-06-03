@@ -47,7 +47,39 @@ spec:
         controller-expand-secret:
 
     driver:
+      extraEnv:
+        - name: TRUENAS_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: truenas-api-key
+              key: truenas-api-key
+      image:
+        registry: docker.io/democraticcsi/democratic-csi
+        tag: next
       config:
         driver: freenas-api-nfs
+        httpConnection:
+          protocol: https
+          port: 443
+          allowInsecure: true
+          host: "roke.apicius.local"
+          apiKey: "${TRUENAS_API_TOKEN}"
+        zfs:
+          datasetParentName: pool/k8s/nfs/v
+          detachedSnapshotsDatasetParentName: pool/k8s/nfs/s
+          datasetEnableQuotas: true
+          datasetEnableReservation: false
+          datasetPermissionsMode: "0777"
+          datasetPermissionsUser: 0
+          datasetPermissionsGroup: 0
+        nfs:
+          shareHost: "roke.apicius.local"
+          shareAlldirs: false
+          shareAllowedHosts: []
+          shareAllowedNetworks: []
+          shareMaprootUser: root
+          shareMaprootGroup: root
+          shareMapallUser: ""
+          shareMapallGroup: ""
       existingConfigSecret: democratic-csi-config
 
