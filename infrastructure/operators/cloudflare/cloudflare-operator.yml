@@ -8,7 +8,7 @@ spec:
   interval: 5m0s
   url: https://github.com/adyanth/cloudflare-operator
   ref:
-    branch: main
+    tag: v0.13.0
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -24,4 +24,3 @@ spec:
     name: cloudflare-operator
   path: ./config/default
   prune: true
-  targetNamespace: cloudflare-operator-system
