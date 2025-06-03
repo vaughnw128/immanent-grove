@@ -4,3 +4,5 @@ namespace: applications
 resources:
   - secrets.yaml
   - helmrelease.yaml
+  - service.yaml
+  - cf-tunnel.yaml
