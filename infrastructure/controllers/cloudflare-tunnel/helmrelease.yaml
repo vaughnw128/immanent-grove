@@ -25,8 +25,8 @@ spec:
       interval: 12h
   values:
     cloudflare:
-      accountId: "7ea17bbe539e6f5557c3ebe5dded1781"
-      tunnelName: "immanent-grove"
       secretRef:
-         name: cloudflare-token
-         apiTokenKey: cloudflare-api-token
+         name: cloudflare-tunnel-controller
+         apiTokenKey: token
+         tunnelNameKey: name
+         accountIDKey: account-id
