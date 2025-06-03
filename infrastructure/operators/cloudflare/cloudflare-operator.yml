@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: cloudflare-operator
-  namespace: cloudflare-operator-system
+  namespace: operators
 spec:
   interval: 5m0s
   url: https://github.com/adyanth/cloudflare-operator
@@ -14,7 +14,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cloudflare-operator
-  namespace: cloudflare-operator-system
+  namespace: operators
 spec:
   interval: 3m
   retryInterval: 1m
