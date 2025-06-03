@@ -24,4 +24,3 @@ spec:
     name: cloudflare-operator
   path: ./config/default
   prune: true
-  targetNamespace: cloudflare-operator-system
