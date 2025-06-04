@@ -22,10 +22,16 @@ spec:
         name: tofu-controller
       version: '0.16.0-rc.5'
   interval: 1h0s
-  releaseName: tofu-controller
+  releaseName: tf-controller
   targetNamespace: flux-terraform
   values:
-    replicaCount: 3
-    concurrency: 24
+    image:
+      repository: ghcr.io/vaughnw128/custom-tf-runner
+      tag: 1.1.0
+    runner:
+      image:
+        repository: ghcr.io/vaughnw128/custom-tf-runner
+        tag: 1.1.0
+    replicaCount: 1
     branchPlanner:
       enabled: true

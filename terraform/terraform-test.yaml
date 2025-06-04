@@ -18,7 +18,7 @@ metadata:
 spec:
   approvePlan: auto
   path: ./
-  interval: 1m
+  interval: 5m
   sourceRef:
     kind: GitRepository
     name: terraform-test
@@ -27,4 +27,4 @@ spec:
     - kind: Secret
       name: 1password-sa-token
       varsKeys:
-        - token:1password-sa-token
+        - token:onepassword_sa_token
