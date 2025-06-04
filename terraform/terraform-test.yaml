@@ -18,7 +18,7 @@ metadata:
 spec:
   approvePlan: auto
   path: ./
-  interval: 1m
+  interval: 5m
   sourceRef:
     kind: GitRepository
     name: terraform-test
