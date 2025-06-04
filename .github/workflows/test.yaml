@@ -32,7 +32,9 @@ jobs:
       - name: Install kustomize
         run: |
           curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-          mv kustomize /bin/kustomize
+          mkdir -p $HOME/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          mv kustomize $HOME/.local/bin/kustomize
       - uses: allenporter/flux-local/action/test@4.3.1
         with:
           path: ./cluster/
