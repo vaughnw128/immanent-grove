@@ -28,14 +28,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@v2.2.2
-      - name: Install kustomize
-        run: |
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-          mkdir -p $HOME/.local/bin
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          mv kustomize $HOME/.local/bin/kustomize
-      - uses: allenporter/flux-local/action/test@4.3.1
+        uses: fluxcd/flux2/action@v2.6.1
+      - uses: allenporter/flux-local/action/test@7.5.4
         with:
           path: ./cluster/
           enable-helm: true
