@@ -27,4 +27,4 @@ spec:
     - kind: Secret
       name: 1password-sa-token
       varsKeys:
-        - token:1password_sa_token
+        - token:onepassword_sa_token
