@@ -31,10 +31,13 @@ jobs:
          message-id: ${{ github.event.pull_request.number }}/cluster/${{ matrix.resource }}
          message-failure: Unable to post diff
          message: |      
-           <details><summary>Planned the next cluster releases for ${{ matrix.resource }}</summary>
-           `````diff
-           
+           Ran a diff for cluster on ${{ matrix.resource }}
+           <details><summary>Show Output</summary>
+          
+           ```diff
+          
            ${{ steps.diff.outputs.diff }}
-           
-           `
+          
+           ```
+          </details>
            </details>
