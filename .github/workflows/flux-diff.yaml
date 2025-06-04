@@ -30,7 +30,9 @@ jobs:
          repo-token: ${{ secrets.GITHUB_TOKEN }}
          message-id: ${{ github.event.pull_request.number }}/cluster/${{ matrix.resource }}
          message-failure: Unable to post diff
-         message: |
+         message: |      
+           <details><summary>Planned the next cluster release</summary>
            `````diff
            ${{ steps.diff.outputs.diff }}
            `
+           </details>
