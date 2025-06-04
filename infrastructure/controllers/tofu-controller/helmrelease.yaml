@@ -26,10 +26,6 @@ spec:
   releaseName: tf-controller
   targetNamespace: flux-terraform
   values:
-    runner:
-      image:
-        repository: ghcr.io/vaughnw128/custom-tf-runner
-        tag: 1.1.0
     replicaCount: 1
     branchPlanner:
       enabled: true
