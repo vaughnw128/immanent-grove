@@ -16,6 +16,7 @@ metadata:
 spec:
   chart:
     spec:
+      reconcileStrategy: Revision
       chart: tofu-controller
       sourceRef:
         kind: HelmRepository
