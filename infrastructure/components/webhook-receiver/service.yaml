@@ -4,6 +4,7 @@ metadata:
   name: webhook-receiver
   namespace: flux-system
 spec:
+  ingressClassName: cloudflare-tunnel
   rules:
   - host: flux-webhook.vaughn.sh
     http:
