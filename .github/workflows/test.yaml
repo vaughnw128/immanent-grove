@@ -25,9 +25,13 @@ jobs:
     name: Flux Local Testing
     runs-on: ubuntu-latest
     steps:
+      - name: where am I
+        run: ls -la
+      - name: where was I
+        run: ls -la ../
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.2.2
       - uses: allenporter/flux-local/action/test@4.3.1
         with:
-          path: cluster
+          path: ./cluster/
           enable-helm: true

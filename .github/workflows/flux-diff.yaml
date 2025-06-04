@@ -16,7 +16,7 @@ jobs:
        id: diff
        with:
          live-branch: main
-         path: cluster
+         path: ./cluster/
          resource: helmrelease
      - name: PR Comments
        uses: mshick/add-pr-comment@v2
