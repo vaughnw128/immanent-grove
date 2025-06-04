@@ -10,6 +10,8 @@ jobs:
     name: Flux Local Diff
     runs-on: ubuntu-latest
     steps:
+     - name: Checkout
+       uses: actions/checkout@v3
      - name: Setup Flux CLI
        uses: fluxcd/flux2/action@v2.2.3
      - uses: allenporter/flux-local/action/diff@4.3.1
