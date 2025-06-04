@@ -25,9 +25,6 @@ spec:
   releaseName: tf-controller
   targetNamespace: flux-terraform
   values:
-    image:
-      repository: ghcr.io/vaughnw128/custom-tf-runner
-      tag: 1.1.0
     runner:
       image:
         repository: ghcr.io/vaughnw128/custom-tf-runner
