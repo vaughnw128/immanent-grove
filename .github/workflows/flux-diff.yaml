@@ -1,0 +1,36 @@
+name: Flux Diff
+
+on:
+  pull_request:
+     branches:
+          - 'main'
+
+jobs:
+  diff:
+    name: Flux Local Diff
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resource:
+          - helmrelease
+          - kustomization
+    steps:
+     - name: Setup Flux CLI
+       uses: fluxcd/flux2/action@v2.6.1
+     - uses: allenporter/flux-local/action/diff@7.5.4
+       id: diff
+       with:
+         live-branch: main
+         path: cluster
+         resource: ${{ matrix.resource }}
+     - name: PR Comments
+       uses: mshick/add-pr-comment@v2
+       if: ${{ steps.diff.outputs.diff != '' }}
+       with:
+         repo-token: ${{ secrets.GITHUB_TOKEN }}
+         message-id: ${{ github.event.pull_request.number }}/cluster/${{ matrix.resource }}
+         message-failure: Unable to post diff
+         message: |
+           `````diff
+           ${{ steps.diff.outputs.diff }}
+           `
