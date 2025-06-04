@@ -2,6 +2,7 @@
 
 # Secrets
 .env
+.venv
 *.env*
 *.tgz
 secrets/
