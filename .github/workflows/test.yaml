@@ -21,3 +21,13 @@ jobs:
         uses: fluxcd/pkg/actions/kustomize@main
       - name: Validate manifests
         run: bash ./scripts/validate-flux.sh
+  flux-local:
+    name: Flux Local Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@v2.2.2
+      - uses: allenporter/flux-local/action/test@4.3.1
+        with:
+          path: cluster
+          enable-helm: true
