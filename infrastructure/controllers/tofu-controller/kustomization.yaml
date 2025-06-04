@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: flux-terraform
+resources:
+  - helmrelease.yaml
+  - branchplanner.yaml
+  - secret.yaml
+  - 1password-sa-secret.yaml

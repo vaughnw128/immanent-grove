@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: terraform-test
+  namespace: flux-terraform
+spec:
+  interval: 30s
+  url: https://github.com/vaughnw128/terraform-test
+  ref:
+    branch: main
+---
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: terraform-test
+  namespace: flux-terraform
+spec:
+  approvePlan: auto
+  path: ./
+  interval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: terraform-test
+    namespace: flux-terraform
+  varsFrom:
+    - kind: Secret
+      name: 1password-sa-token
+      varsKeys:
+        - token:1password-sa-token
