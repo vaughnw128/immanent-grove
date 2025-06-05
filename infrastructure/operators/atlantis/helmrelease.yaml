@@ -28,7 +28,7 @@ spec:
     loadEnvFromSecrets:
       - atlantis-gh-secret
     orgAllowlist: github.com/vaughnw128/*
-    ingress:
+    webhook_ingress:
       enabled: true
       ingressClassName: cloudflare-tunnel
       path: /*
@@ -36,3 +36,8 @@ spec:
       host: "atlantis.vaughn.sh"
     environment:
       ATLANTIS_WRITE_GIT_CREDS: true
+    service:
+      type: ClusterIP
+      port: 80
+      portName: atlantis
+      targetPort: 4141
