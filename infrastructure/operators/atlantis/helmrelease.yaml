@@ -34,3 +34,5 @@ spec:
       path: /*
       pathType: ImplementationSpecific
       host: "atlantis.vaughn.sh"
+    environment:
+      ATLANTIS_WRITE_GIT_CREDS: true
