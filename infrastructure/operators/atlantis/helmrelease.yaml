@@ -31,8 +31,8 @@ spec:
     webhook_ingress:
       enabled: true
       ingressClassName: cloudflare-tunnel
-      path: /events/
-      pathType: ImplementationSpecific
+      path: /events
+      pathType: Prefix
       host: "atlantis.vaughn.sh"
     environment:
       ATLANTIS_WRITE_GIT_CREDS: true
