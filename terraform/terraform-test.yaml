@@ -23,8 +23,8 @@ spec:
     kind: GitRepository
     name: terraform-test
     namespace: flux-terraform
-  varsFrom:
-    - kind: Secret
-      name: 1password-sa-token
-      varsKeys:
-        - token:onepassword_sa_token
+#  varsFrom:
+#    - kind: Secret
+#      name: 1password-sa-token
+#      varsKeys:
+#        - token:onepassword_sa_token

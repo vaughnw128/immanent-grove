@@ -23,9 +23,8 @@ spec:
         name: tofu-controller
       version: '0.16.0-rc.5'
   interval: 1h0s
-  releaseName: tf-controller
+  releaseName: tofu-controller
   targetNamespace: flux-terraform
   values:
-    replicaCount: 1
     branchPlanner:
       enabled: true
