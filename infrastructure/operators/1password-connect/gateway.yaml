@@ -1,0 +1,61 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: connect-gateway
+  annotations:
+    cert-manager.io/cluster-issuer: local-issuer
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: connect.apicius.local
+  listeners:
+  - protocol: HTTP
+    hostname: connect.apicius.local
+    port: 80
+    name: http
+  - protocol: HTTPS
+    hostname: connect.apicius.local
+    port: 443
+    name: https
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-connect-local
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: connect-https-route
+spec:
+  parentRefs:
+  - name: connect-gateway
+  hostnames:
+    - connect.apicius.local
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: onepassword-connect
+      port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: connect-http-route-redirect
+spec:
+  parentRefs:
+  - name: connect-gateway
+    sectionName: http
+  hostnames:
+  - connect.apicius.local
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
