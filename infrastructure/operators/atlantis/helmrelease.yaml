@@ -25,6 +25,8 @@ spec:
         namespace: operators
       interval: 12h
   values:
+    githubApp:
+      slug: "VeryLargeWorm"
     loadEnvFromSecrets:
       - atlantis-gh-secret
     orgAllowlist: github.com/vaughnw128/*
