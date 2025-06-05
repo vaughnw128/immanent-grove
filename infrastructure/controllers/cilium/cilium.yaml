@@ -16,6 +16,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      reconcileStrategy: Revision
       chart: cilium
       version: "1.18.0-pre.2"
       sourceRef:
@@ -88,10 +89,5 @@ spec:
             - dns
             - drop
             - tcp
-    prometheus:
-        enabled: true
     bgpControlPlane:
         enabled: true
-    operator:
-        prometheus:
-            enabled: true

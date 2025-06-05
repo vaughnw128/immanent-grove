@@ -18,6 +18,7 @@ spec:
   releaseName: sexybabeycord
   chart:
     spec:
+      reconcileStrategy: ChartVersion
       chart: sexybabeycord
       version: "*"
       sourceRef:

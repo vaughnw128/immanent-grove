@@ -16,6 +16,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      reconcileStrategy: Revision
       chart: headlamp
       version: "0.31.0"
       sourceRef:

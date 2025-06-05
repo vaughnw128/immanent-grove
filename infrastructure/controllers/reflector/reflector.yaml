@@ -16,6 +16,7 @@ spec:
   interval: 30m
   chart:
     spec:
+      reconcileStrategy: Revision
       chart: reflector
       version: "9.1.7"
       sourceRef:
