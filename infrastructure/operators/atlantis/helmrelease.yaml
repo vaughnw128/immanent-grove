@@ -27,7 +27,7 @@ spec:
   values:
     loadEnvFromSecrets:
       - atlantis-gh-secret
-    orgAllowlist: github.com/vaughnw128/*
+    orgAllowlist: github.com/vaughnw128/terraform-*
     webhook_ingress:
       enabled: true
       ingressClassName: cloudflare-tunnel
