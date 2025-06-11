@@ -10,7 +10,7 @@
     ":semanticCommits",
     ":timezone(America/New_York)",
   ],
-  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  dependencyDashboardTitle: "Renovate Dashboard",
   suppressNotifications: [
     "prEditedNotification",
     "prIgnoreNotification",
@@ -19,12 +19,10 @@
     "**/*.sops.*"
   ],
   flux: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
-  },
-  "helm-values": {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
-  },
-  kubernetes: {
-    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+      "managerFilePatterns": [
+        "/applications/.+\\.yaml$/",
+        "/cluster/.+\\.yaml$/",
+        "/infrastructure/.+\\.yaml$/",
+      ]
   },
 }
