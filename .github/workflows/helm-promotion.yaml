@@ -15,7 +15,14 @@ jobs:
       github.event.client_payload.severity == 'info' &&
       github.event.client_payload.involvedObject.kind == 'HelmRelease'
     steps:
-      - uses: actions/checkout@v3
+      - name: Get app token
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
         with:
           ref: main
       - name: Get chart version from staging
@@ -28,12 +35,18 @@ jobs:
         run: |
           echo "set chart version to ${{ steps.staging.outputs.version }}"
           yq eval '(select(.kind == "HelmRelease") | .spec.chart.spec.version)="${{ steps.staging.outputs.version }}"' -i ./test-applications/production/${{ steps.staging.outputs.name }}.yaml
+
+      - name: Set user
+        run: |
+          git config --local user.email "195056476+synkronizedcd[bot]@users.noreply.github.com"
+          git config --local user.name "synkronizedcd[bot]"
+
       - name: Open promotion PR
         uses: peter-evans/create-pull-request@v4
         with:
           branch: app-promotion
           delete-branch: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: Update ${{ steps.staging.outputs.name }} to v${{ steps.staging.outputs.version }}
           title: Promote ${{ steps.staging.outputs.name }} release to v${{ steps.staging.outputs.version }}
           body: |
