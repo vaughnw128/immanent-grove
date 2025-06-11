@@ -16,7 +16,8 @@
     "prIgnoreNotification",
   ],
   ignorePaths: [
-    "**/*.sops.*"
+    "**/*.sops.*",
+    "terraform/*"
   ],
   flux: {
       "managerFilePatterns": [
