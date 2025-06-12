@@ -5,9 +5,9 @@ metadata:
   namespace: controllers
 spec:
   commonName: "apicius.local"
-#  dnsNames:
-#    - "apicius.local"
-#    - "*.apicius.local"
+  dnsNames:
+    - "apicius.local"
+    - "*.apicius.local"
   isCA: true
   issuerRef:
     group: cert-manager.io
