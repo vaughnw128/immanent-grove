@@ -1,4 +1,8 @@
 # It is assumed that kube-system, flux-system, and default will be created automatically
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux-system
 ---
 apiVersion: v1
 kind: Namespace
