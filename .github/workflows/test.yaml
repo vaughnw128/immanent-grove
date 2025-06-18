@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.6.1
-      - uses: allenporter/flux-local/action/test@7.5.4
+      - uses: allenporter/flux-local/action/test@7.5.6
         with:
-          path: ./cluster/
+          path: ./cluster
           enable-helm: true
