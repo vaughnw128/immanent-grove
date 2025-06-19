@@ -17,7 +17,8 @@
   ],
   ignorePaths: [
     "**/*.sops.*",
-    "terraform/*"
+    "cluster-bootstrap/*",
+    "test-applications/*"
   ],
   flux: {
       "managerFilePatterns": [
