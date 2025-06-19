@@ -6,9 +6,9 @@ metadata:
 spec:
   sources:
 #  - useDefaultCAs: true
-  - secret:
-      name: "apicius-local"
-      key: "tls.crt"
+#  - secret:
+#      name: "apicius-local"
+#      key: "tls.crt"
   - secret:
       name: "apicius-local"
       key: "ca.crt"
