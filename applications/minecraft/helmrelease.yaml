@@ -17,7 +17,7 @@ spec:
   releaseName: minecraft
   chart:
     spec:
-      reconcileStrategy: ChartVersion
+      reconcileStrategy: Revision
       chart: minecraft
       version: 4.26.3
       sourceRef:
