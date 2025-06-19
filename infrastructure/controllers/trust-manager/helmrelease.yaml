@@ -25,9 +25,6 @@ spec:
         namespace: controllers
       interval: 12h
   values:
-    secretTargets:
-      enabled: true
-      authorizedSecrets: [ ]
     app:
       trust:
         namespace: controllers
