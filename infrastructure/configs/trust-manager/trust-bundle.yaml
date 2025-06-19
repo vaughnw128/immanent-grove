@@ -6,12 +6,9 @@ metadata:
 spec:
   sources:
 #  - useDefaultCAs: true
-#  - secret:
-#      name: "apicius-local"
-#      key: "tls.crt"
   - secret:
       name: "apicius-local"
-      key: "ca.crt"
+      key: "tls.crt"
   target:
     configMap:
-      key: "ca-bundle.pem"
+      key: "cert-bundle.crt"
