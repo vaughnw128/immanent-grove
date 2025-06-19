@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       reconcileStrategy: Revision
-      chart: fission
+      chart: fission-all
       version: "1.21.0"
       sourceRef:
         kind: HelmRepository
