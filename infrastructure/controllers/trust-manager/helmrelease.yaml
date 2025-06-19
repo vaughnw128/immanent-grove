@@ -24,12 +24,12 @@ spec:
         name: trust-manager
         namespace: controllers
       interval: 12h
-    values:
-      app:
-        trust:
-          namespace: controllers
-        webhook:
-          tls:
-            approverPolicy:
-              enabled: true
-              certManagerNamespace: controllers
+  values:
+    app:
+      trust:
+        namespace: controllers
+      webhook:
+        tls:
+          approverPolicy:
+            enabled: true
+            certManagerNamespace: controllers
