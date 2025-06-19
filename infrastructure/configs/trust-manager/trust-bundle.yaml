@@ -10,7 +10,7 @@ spec:
       key: "tls.crt"
   target:
     configMap:
-      key: "trust-bundle.pem"
+      key: "ca-bundle.pem"
       metadata:
         annotations:
           argocd.argoproj.io/sync-wave: "1"
