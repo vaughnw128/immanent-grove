@@ -33,17 +33,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: bluemap-cloudflare-tailscale
+  name: bluemap-tailscale
 spec:
   ingressClassName: tailscale
-  rules:
-  - host: maps.tailnet
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: bluemap
-            port:
-              number: 80
+  defaultBackend:
+    service:
+      name: bluemap
+      port:
+        number: 80
