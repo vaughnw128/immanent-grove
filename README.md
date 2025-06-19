@@ -1,6 +1,7 @@
 # immanent-grove
 
 [![Renovate](https://github.com/vaughnw128/immanent-grove/actions/workflows/renovate.yaml/badge.svg)](https://github.com/vaughnw128/immanent-grove/actions/workflows/renovate.yaml)
+[![Flux Tests](https://github.com/vaughnw128/immanent-grove/actions/workflows/test.yaml/badge.svg)](https://github.com/vaughnw128/immanent-grove/actions/workflows/test.yaml)
 
 K8s cluster bootstrapping, because nuking and rebuilding your homelab should be _easy_.
 
