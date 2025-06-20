@@ -34,6 +34,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: bluemap-tailscale
+  annotations:
+    tailscale.com/funnel: "true"
 spec:
   ingressClassName: tailscale
   defaultBackend:
