@@ -22,7 +22,10 @@ This cluster is built around Talos and Cilium, and heavily leverages the new Gat
 - [Cloudflare-operator](https://github.com/adyanth/cloudflare-operator) - k8s operator for cloudflare tunnels and external DNS
 - [democratic-csi](https://github.com/democratic-csi/democratic-csi) - k8s storageclass on TrueNAS
 - [cert-manager](https://cert-manager.io/) - Automatic certificate requests
+- trust-manager - Easy trust bundles for trusted local CAs!
 - [reflector](https://github.com/emberstack/kubernetes-reflector) - Copy secrets across namespaces
+- tailscale-operator - Create simple ingress routes to my tailnet
+- external-secrets - Grab secrets from a secret store (1password) and expose them to the cluster
 
 ---
 

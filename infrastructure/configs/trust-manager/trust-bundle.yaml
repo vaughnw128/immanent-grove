@@ -5,7 +5,7 @@ metadata:
   namespace: controllers
 spec:
   sources:
-#  - useDefaultCAs: true
+  - useDefaultCAs: true
   - secret:
       name: "apicius-local"
       key: "tls.crt"
