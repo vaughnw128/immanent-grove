@@ -1,0 +1,104 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: istio
+  namespace: kube-system
+spec:
+  interval: 24h
+  url: https://istio-release.storage.googleapis.com/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-base
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: base
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: kube-system
+      interval: 12h
+  values:
+    profile: ambient
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istiod
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: istiod
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: kube-system
+      interval: 12h
+  values:
+    profile: ambient
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-cni
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: cni
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: kube-system
+      interval: 12h
+  values:
+    profile: ambient
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-ztunnel
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: ztunnel
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: kube-system
+      interval: 12h
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-ingress
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: gateway
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: kube-system
+      interval: 12h

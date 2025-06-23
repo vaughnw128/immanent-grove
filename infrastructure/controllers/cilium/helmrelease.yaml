@@ -74,6 +74,8 @@ spec:
         enforceHttps: false
     envoy:
         enabled: true
+    cni:
+      exclusive: false
     hubble:
         peerService:
             clusterDomain: cluster.local
