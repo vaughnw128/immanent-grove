@@ -50,7 +50,7 @@ spec:
                 - SYS_ADMIN
                 - SYS_RESOURCE
     bpf:
-        vlanBypass: [0]
+        masquerade: false
     cgroup:
         autoMount:
             enabled: false
@@ -92,5 +92,3 @@ spec:
             - dns
             - drop
             - tcp
-    bgpControlPlane:
-        enabled: true
