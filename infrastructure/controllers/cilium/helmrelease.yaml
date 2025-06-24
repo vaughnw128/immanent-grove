@@ -84,9 +84,8 @@ spec:
             enabled: true
         tls:
             auto:
-              enabled: true
+              enabled: false
               method: helm
-              certValidityDuration: 2000
         metrics:
             enableOpenMetrics: true
             enabled:
