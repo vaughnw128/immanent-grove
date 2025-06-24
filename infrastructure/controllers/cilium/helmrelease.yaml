@@ -71,6 +71,12 @@ spec:
         enabled: true
     cni:
       exclusive: false
+    authentication:
+      mutual:
+        spire:
+          install:
+            enabled: true
+          enabled: true
     hubble:
         peerService:
             clusterDomain: cluster.local
