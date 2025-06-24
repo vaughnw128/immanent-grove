@@ -25,9 +25,6 @@ spec:
         namespace: kube-system
       interval: 12h
   values:
-    routingMode: native
-    socketLB:
-      hostNamespaceOnly: true
     ipam:
         mode: kubernetes
     kubeProxyReplacement: true
@@ -49,8 +46,6 @@ spec:
                 - NET_ADMIN
                 - SYS_ADMIN
                 - SYS_RESOURCE
-    bpf:
-        masquerade: false
     cgroup:
         autoMount:
             enabled: false
