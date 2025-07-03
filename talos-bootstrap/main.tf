@@ -20,21 +20,6 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   overwrite               = false
 }
 
-import {
-  to = proxmox_virtual_environment_vm.talos_vm["controlplane"]
-  id = "havnor/100"
-}
-
-import {
-  to = proxmox_virtual_environment_vm.talos_vm["worker-1"]
-  id = "atuan/101"
-}
-
-import {
-  to = proxmox_virtual_environment_vm.talos_vm["worker-2"]
-  id = "atuan/102"
-}
-
 resource "proxmox_virtual_environment_vm" "talos_vm" {
   for_each    = { for node in local.nodes : node.name => node }
   name        = "talos-${each.key}"
@@ -116,11 +101,6 @@ resource "talos_machine_configuration_apply" "config_apply" {
   machine_configuration_input = data.talos_machine_configuration.machineconfig[each.key].machine_configuration
   node                        = each.value.ip
   config_patches              = local.shared_machine_config
-}
-
-import {
-  to = talos_machine_bootstrap.bootstrap
-  id = "da6d3f62-d11d-4969-a3ce-651f37ded792"
 }
 
 resource "talos_machine_bootstrap" "bootstrap" {
