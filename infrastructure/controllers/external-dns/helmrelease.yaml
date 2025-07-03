@@ -63,4 +63,4 @@ spec:
     sources: [ "ingress", "service" ]
     txtOwnerId: default
     txtPrefix: k8s.
-    domainFilters: [ "apicius.local" ] # replace with your domain
+    domainFilters: [ "apicius.local", "vw-ops.net" ] # replace with your domain

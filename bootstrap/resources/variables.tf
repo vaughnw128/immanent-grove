@@ -32,7 +32,3 @@ variable "talosconfig_path" {
 variable "kubeconfig_path" {
   type = string
 }
-
-variable "tls_email" {
-  type = string
-}

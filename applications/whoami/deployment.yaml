@@ -1,0 +1,23 @@
+# Sample deployment for local utilization of cilium, and cert manager
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+spec:
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+          app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80

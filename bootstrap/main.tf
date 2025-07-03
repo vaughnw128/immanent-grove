@@ -37,8 +37,6 @@ module "cluster" {
   default_gateway = "10.0.0.1"
   nodes           = local.nodes
   talos_image     = "https://factory.talos.dev/image/58e4656b31857557c8bad0585e1b2ee53f7446f4218f3fae486aa26d4f6470d8/v1.9.2/nocloud-amd64.raw.zst"
-  local_domain    = "apicius.local"
-  public_domain   = var.public_domain
 
   # Config locations - If configs should not be saved, remove the below paths.
   talosconfig_path = "/home/apicius/.talos/config"
@@ -46,7 +44,6 @@ module "cluster" {
 
   # Optional features
   ts_auth_key = var.ts_auth_key # Talos Extension Setup - This is not needed, but will need a different image provided as the listed one uses tailscale.
-  portainer   = true
 }
 
 output "talosconfig" {
