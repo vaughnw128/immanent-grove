@@ -64,3 +64,22 @@ provider "proxmox" {
     password = data.onepassword_item.proxmox_ssh.password
   }
 }
+
+provider "helm" {
+  kubernetes = {
+    host                   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.host
+    cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
+
+    client_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate)
+    client_key         = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key)
+  }
+}
+
+provider "kubectl" {
+  host                   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.host
+  cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
+
+  client_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate)
+  client_key         = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key)
+  load_config_file   = false
+}
