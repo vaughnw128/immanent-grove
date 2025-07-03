@@ -24,17 +24,3 @@ spec:
         name: external-secrets
         namespace: operators
       interval: 12h
-  values:
-    extraVolumeMounts:
-      - mountPath: /etc/ssl/certs/
-        name: cert-bundle
-        readOnly: true
-    extraVolumes:
-      - name: cert-bundle
-        configMap:
-          name: apicius-local-bundle
-          defaultMode: 0644
-          optional: false
-          items:
-            - key: cert-bundle.crt
-              path: cert-bundle.crt
