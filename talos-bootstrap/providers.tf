@@ -22,14 +22,6 @@ terraform {
       source  = "siderolabs/talos"
       version = "0.7.0"
     }
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = ">= 1.7.0"
-    }
-    helm = {
-      source = "hashicorp/helm"
-      version = "3.0.2"
-    }
   }
 }
 
@@ -63,23 +55,4 @@ provider "proxmox" {
     username = data.onepassword_item.proxmox_ssh.username
     password = data.onepassword_item.proxmox_ssh.password
   }
-}
-
-provider "helm" {
-  kubernetes = {
-    host                   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.host
-    cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
-
-    client_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate)
-    client_key         = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key)
-  }
-}
-
-provider "kubectl" {
-  host                   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.host
-  cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
-
-  client_certificate = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate)
-  client_key         = base64decode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key)
-  load_config_file   = false
 }
