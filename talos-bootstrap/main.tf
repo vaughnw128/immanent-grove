@@ -32,7 +32,7 @@ import {
 
 import {
   to = proxmox_virtual_environment_vm.talos_vm["worker-2"]
-  id = "talos-worker-2/101"
+  id = "talos-worker-2/102"
 }
 
 resource "proxmox_virtual_environment_vm" "talos_vm" {
