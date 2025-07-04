@@ -17,8 +17,6 @@
   ],
   ignorePaths: [
     "**/*.sops.*",
-    "cluster-bootstrap/*",
-    "test-applications/*"
   ],
   flux: {
       "managerFilePatterns": [

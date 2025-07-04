@@ -21,7 +21,7 @@ This makes for an easily IaC controlled environment, and the bootstrap process i
 ## Hardware
 
 My k8s hardware is dead simple and 'cheap':
- - 1x UN100L Arm64 16gb memory
+ - 1x UN100L Amd64 16gb memory
  - 1x UN1290 Amd64 32gb memory
 
 I love these stupid Mini PCs, and they keep my power bill quite low. This is supplemented by a TrueNAS Scale 
@@ -78,6 +78,6 @@ Tests can be run by applying manifests in `/examples` and verifying their output
 $ talosctl upgrade --nodes 10.0.0.52 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5
 $ talosctl upgrade --nodes 10.0.0.51 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5
 
-# Then finally the control plane node - In my case this is arm64, so needs a different image
+# Then finally the control plane node
 $ talosctl upgrade --nodes 10.0.0.50 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5 
 ```
