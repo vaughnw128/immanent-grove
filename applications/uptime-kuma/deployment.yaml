@@ -28,25 +28,6 @@ spec:
           volumeMounts:
             - mountPath: /app/data
               name: storage
-          livenessProbe:
-            initialDelaySeconds: 180
-            periodSeconds: 10
-            timeoutSeconds: 2
-            failureThreshold: 3
-            successThreshold: 1
-            exec:
-              command:
-                - extra/healthcheck
-          readinessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 1
-            failureThreshold: 3
-            successThreshold: 1
-            httpGet:
-              path: /
-              port: 3001
-              scheme: HTTP
       volumes:
         - name: storage
           persistentVolumeClaim:
