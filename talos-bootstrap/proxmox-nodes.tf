@@ -7,6 +7,7 @@ locals {
     cpu          = 4
     memory       = 16
     disk         = 100
+    arch         = "arm64"
     },
     {
       name         = "worker-1"
@@ -16,6 +17,7 @@ locals {
       cpu          = 12
       memory       = 16
       disk         = 100
+      arch         = "amd64"
     },
     {
       name         = "worker-2"
@@ -25,5 +27,6 @@ locals {
       cpu          = 12
       memory       = 16
       disk         = 100
+      arch         = "amd64"
   }]
 }
