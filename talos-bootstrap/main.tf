@@ -1,21 +1,42 @@
+locals {
+  name            = "immanent-grove"
+  default_gateway = "10.0.0.1"
+
+  ### TALOS IMAGES ###
+  # Super super important, these have:
+  #   - qemu-guest agent
+  #   - iscsi-tools
+  #   - nfsd
+  # No CLI options. This image here just needs to be used for the first install, images later will
+  # need to be updated with the talosctl command after generating a new image from factory.talos.dev
+
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  talos_image     = "https://factory.talos.dev/image/58e4656b31857557c8bad0585e1b2ee53f7446f4218f3fae486aa26d4f6470d8/v1.9.2/nocloud-amd64.raw.zst"
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+}
+
 # #### Proxmox VM base setup ####
 
 # Nocloud image must exist on all nodes of the proxmox cluster
 
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  for_each     = toset([for node in var.nodes : node.pve_node])
+  for_each     = toset([for node in local.nodes : node.pve_node])
   content_type = "iso"
   datastore_id = "local"
   node_name    = each.key
 
   file_name               = "talos-nocloud-amd64.img"
-  url                     = var.talos_image
+  url                     = local.talos_image
   decompression_algorithm = "zst"
   overwrite               = false
 }
 
 resource "proxmox_virtual_environment_vm" "talos_vm" {
-  for_each    = { for node in var.nodes : node.name => node }
+  for_each    = { for node in local.nodes : node.name => node }
   name        = "talos-${each.key}"
   description = "Managed by Terraform"
   tags        = ["terraform", "talos"]
@@ -56,9 +77,15 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
     ip_config {
       ipv4 {
         address = "${each.value.ip}/24"
-        gateway = var.default_gateway
+        gateway = local.default_gateway
       }
     }
+  }
+
+  lifecycle {
+    ignore_changes  = [
+      network_device
+    ]
   }
 }
 
@@ -67,29 +94,28 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 resource "talos_machine_secrets" "machine_secrets" {}
 
 locals {
-  cluster_endpoint_ip      = { for k, v in var.nodes : k => v if v.controlplane == true }[0].ip
-  cluster_controlplane_ips = [for node in var.nodes : node.ip if node.controlplane == true]
-  cluster_worker_ips       = [for node in var.nodes : node.ip if node.controlplane == false]
+  cluster_endpoint_ip      = { for k, v in local.nodes : k => v if v.controlplane == true }[0].ip
+  cluster_controlplane_ips = [for node in local.nodes : node.ip if node.controlplane == true]
 }
 
 # Bootstrap talos cluster with custom configs from talos-configs.tf
 
 data "talos_client_configuration" "talosconfig" {
-  cluster_name         = var.name
+  cluster_name         = local.name
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   endpoints            = local.cluster_controlplane_ips
 }
 
 data "talos_machine_configuration" "machineconfig" {
-  for_each         = { for node in var.nodes : node.name => node }
-  cluster_name     = var.name
+  for_each         = { for node in local.nodes : node.name => node }
+  cluster_name     = local.name
   cluster_endpoint = "https://${local.cluster_endpoint_ip}:6443"
   machine_type     = each.value.controlplane == true ? "controlplane" : "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
 }
 
 resource "talos_machine_configuration_apply" "config_apply" {
-  for_each                    = { for node in var.nodes : node.name => node }
+  for_each                    = { for node in local.nodes : node.name => node }
   depends_on                  = [proxmox_virtual_environment_vm.talos_vm]
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig[each.key].machine_configuration
@@ -101,47 +127,4 @@ resource "talos_machine_bootstrap" "bootstrap" {
   depends_on           = [talos_machine_configuration_apply.config_apply]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.cluster_endpoint_ip
-}
-
-# Check the health after bootstrap
-
-data "talos_cluster_health" "bootstrap_health" {
-  depends_on             = [talos_machine_configuration_apply.config_apply]
-  client_configuration   = data.talos_client_configuration.talosconfig.client_configuration
-  control_plane_nodes    = local.cluster_controlplane_ips
-  worker_nodes           = local.cluster_worker_ips
-  endpoints              = data.talos_client_configuration.talosconfig.endpoints
-  skip_kubernetes_checks = true
-}
-
-resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.bootstrap]
-  client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = local.cluster_endpoint_ip
-}
-
-# Export talos and kubeconfig for saving to system
-
-resource "local_file" "talosconfig_localfile" {
-  count           = var.talosconfig_path != "" ? 1 : 0
-  content         = data.talos_client_configuration.talosconfig.talos_config
-  filename        = var.talosconfig_path
-  file_permission = "0644"
-}
-
-resource "local_file" "kubeconfig_localfile" {
-  count           = var.kubeconfig_path != "" ? 1 : 0
-  content         = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
-  filename        = var.kubeconfig_path
-  file_permission = "0644"
-}
-
-output "talosconfig" {
-  value     = data.talos_client_configuration.talosconfig.talos_config
-  sensitive = true
-}
-
-output "kubeconfig" {
-  value     = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
-  sensitive = true
 }
