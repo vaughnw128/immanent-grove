@@ -108,25 +108,3 @@ resource "talos_machine_bootstrap" "bootstrap" {
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.cluster_endpoint_ip
 }
-
-# Check the health after bootstrap
-
-data "talos_cluster_health" "bootstrap_health" {
-  depends_on             = [talos_machine_configuration_apply.config_apply]
-  client_configuration   = data.talos_client_configuration.talosconfig.client_configuration
-  control_plane_nodes    = local.cluster_controlplane_ips
-  worker_nodes           = local.cluster_worker_ips
-  endpoints              = data.talos_client_configuration.talosconfig.endpoints
-  skip_kubernetes_checks = true
-}
-
-resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.bootstrap]
-  client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = local.cluster_endpoint_ip
-}
-
-output "bootstrap_health" {
-  value = data.talos_cluster_health.bootstrap_health
-  description = "Health of the cluster"
-}

@@ -3,10 +3,12 @@ terraform {
     bucket = "tfstate"
     key    = "talos-bootstrap.tfstate"
     region = "us-east"
-    endpoint = "https://s3.vaughn.sh"
+    endpoints = {
+      s3 = "https://s3.vaughn.sh"
+    }
     skip_region_validation = true
     skip_credentials_validation = true
-    force_path_style = true
+    use_path_style = true
   }
 
   required_providers {
