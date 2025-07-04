@@ -4,14 +4,13 @@ locals {
 
   ### TALOS IMAGES ###
   # Super super important, these have:
-  #   - qemu-guest-agent
+  #   - qemu-guest agent
   #   - iscsi-tools
   #   - nfsd
-  #   - vm
-  # It has no CLI arguments
+  # No CLI options. This image here just needs to be used for the first install, images later will
+  # need to be updated with the talosctl command after generating a new image from factory.talos.dev
 
-  talos_image_amd64     = "https://factory.talos.dev/image/4ec563327034da664de0e0f4b92cfbd68a4eac6700cd5f4f0ab2966eed213469/v1.10.5/nocloud-amd64.raw.zst"
-  talos_image_arm64     = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.10.5/nocloud-arm64.raw.zst"
+  talos_image     = "https://factory.talos.dev/image/58e4656b31857557c8bad0585e1b2ee53f7446f4218f3fae486aa26d4f6470d8/v1.9.2/nocloud-amd64.raw.zst"
 }
 
 # #### Proxmox VM base setup ####
@@ -19,13 +18,13 @@ locals {
 # Nocloud image must exist on all nodes of the proxmox cluster
 
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  for_each     = { for node in local.nodes : node.pve_node => node... }
+  for_each     = toset([for node in local.nodes : node.pve_node])
   content_type = "iso"
   datastore_id = "local"
   node_name    = each.key
 
   file_name               = "talos-nocloud-amd64.img"
-  url                     = each.key == "pve_node" ? local.talos_image_amd64 : local.talos_image_arm64
+  url                     = local.talos_image
   decompression_algorithm = "zst"
   overwrite               = false
 }
@@ -78,14 +77,8 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
   }
 
   lifecycle {
-    ignore_changes = [
-      network_device,
-      vga,
-      initialization,
-      network_interface_names,
-      mac_addresses,
-      ipv4_addresses,
-      ipv6_addresses
+    ignore_changes  = [
+      network_device
     ]
   }
 }
@@ -97,6 +90,7 @@ resource "talos_machine_secrets" "machine_secrets" {}
 locals {
   cluster_endpoint_ip      = { for k, v in local.nodes : k => v if v.controlplane == true }[0].ip
   cluster_controlplane_ips = [for node in local.nodes : node.ip if node.controlplane == true]
+  cluster_worker_ips       = [for node in local.nodes : node.ip if node.controlplane == false]
 }
 
 # Bootstrap talos cluster with custom configs from talos-configs.tf
