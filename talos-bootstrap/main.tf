@@ -10,7 +10,13 @@ locals {
   # No CLI options. This image here just needs to be used for the first install, images later will
   # need to be updated with the talosctl command after generating a new image from factory.talos.dev
 
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
   talos_image     = "https://factory.talos.dev/image/58e4656b31857557c8bad0585e1b2ee53f7446f4218f3fae486aa26d4f6470d8/v1.9.2/nocloud-amd64.raw.zst"
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
+  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
 }
 
 # #### Proxmox VM base setup ####
@@ -90,7 +96,6 @@ resource "talos_machine_secrets" "machine_secrets" {}
 locals {
   cluster_endpoint_ip      = { for k, v in local.nodes : k => v if v.controlplane == true }[0].ip
   cluster_controlplane_ips = [for node in local.nodes : node.ip if node.controlplane == true]
-  cluster_worker_ips       = [for node in local.nodes : node.ip if node.controlplane == false]
 }
 
 # Bootstrap talos cluster with custom configs from talos-configs.tf
