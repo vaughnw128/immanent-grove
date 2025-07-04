@@ -69,12 +69,6 @@ spec:
         enforceHttps: false
     envoy:
         enabled: true
-    authentication:
-      mutual:
-        spire:
-          install:
-            enabled: true
-          enabled: true
     hubble:
         peerService:
             clusterDomain: cluster.local
