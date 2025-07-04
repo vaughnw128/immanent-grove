@@ -4,6 +4,4 @@ namespace: applications
 resources:
   - gateway.yaml
   - routes.yaml
-  - deployment.yaml
-  - service.yaml
-  - pvc.yaml
+  - helmrelease.yaml
