@@ -1,5 +1,7 @@
 .idea
 
+template.yaml
+
 # Secrets
 .env
 .venv
