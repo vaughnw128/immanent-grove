@@ -21,7 +21,7 @@ spec:
       version: "v1.18.2"
       sourceRef:
         kind: HelmRepository
-        name: prometheus
+        name: prometheus-community
         namespace: monitoring
       interval: 12h
   values:
