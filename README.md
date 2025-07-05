@@ -10,8 +10,6 @@ K8s cluster bootstrapping, because nuking and rebuilding your homelab should be 
 This repository serves to let me control my entire k8s homelab environment with IaC, and is a test bed for my knowledge on modern DevOps principles. 
 The cluster is bootstrapped with Terraform via Digger and then managed with FluxCD.
 
----
-
 ## Deployment
 
 This cluster is built around Talos and Cilium, and heavily leverages the new Gateway API for exposing HTTPRoutes to both public and local audiences. 
@@ -56,8 +54,6 @@ system that runs some nice persistence services like Minio and is the backend fo
 | Applications | Fission                   | Serverless framework deployment          | [applications/fission/helmrelease.yaml](applications/fission/helmrelease.yaml) |
 | Applications | Minecraft                 | It's Minecraft!!                         | [applications/minecraft/helmrelease.yaml](applications/minecraft/helmrelease.yaml) |
 | Applications | Whoami                    | Simple test application                  | [applications/whoami/deployment.yaml](applications/whoami/deployment.yaml) |
-
----
 
 ## Terraform Deployment
 
