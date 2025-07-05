@@ -27,20 +27,35 @@ My k8s hardware is dead simple and 'cheap':
 I love these stupid Mini PCs, and they keep my power bill quite low. This is supplemented by a TrueNAS Scale 
 system that runs some nice persistence services like Minio and is the backend for Democratic CSI.
 
-## Core Services
-- [cilium](https://cilium.io/) - Container Network Interface, supporting Gateway API and networking observability
-- [FluxCD](https://argo-cd.readthedocs.io/en/stable/) - GitOps and continuous deployment
-- [Cloudflare-operator](https://github.com/adyanth/cloudflare-operator) - k8s operator for cloudflare tunnels and external DNS
-- [democratic-csi](https://github.com/democratic-csi/democratic-csi) - k8s storageclass on TrueNAS
-- [cert-manager](https://cert-manager.io/) - Automatic certificate requests
-- [reflector](https://github.com/emberstack/kubernetes-reflector) - Copy secrets across namespaces
-- tailscale-operator - Create simple ingress routes to my tailnet
-- external-secrets - Grab secrets from a secret store (1password) and expose them to the cluster
+## Core Features
 
----
+### Terraform Features
 
-## Plans
-- UptimeKuma with preconfigured config
+| Category | Component           | Description                                  | File Path |
+|----------|---------------------|----------------------------------------------|-----------|
+| Infrastructure | Talos Kubernetes    | Bootstrapping Talos-based Kubernetes cluster | [talos-bootstrap/main.tf](talos-bootstrap/main.tf) |
+| Infrastructure | Proxmox Nodes       | VM Node information for Proxmox              | [talos-bootstrap/proxmox-nodes.tf](talos-bootstrap/proxmox-nodes.tf) |
+| Infrastructure | Talos Configuration | Talos-specific configurations                | [talos-bootstrap/talos-configs.tf](talos-bootstrap/talos-configs.tf) |
+
+
+### Flux Features
+
+| Category | Component                 | Description                              | File Path |
+|----------|---------------------------|------------------------------------------|-----------|
+| Core | Flux Operator             | Kubernetes resource reconciliation       | [cluster/flux-operator.yaml](cluster/flux-operator.yaml) |
+| Infrastructure | Cert Manager              | TLS certificate management               | [infrastructure/controllers/cert-manager/helmrelease.yaml](infrastructure/controllers/cert-manager/helmrelease.yaml) |
+| Infrastructure | Cilium                    | Network policy and CNI                   | [infrastructure/controllers/cilium/helmrelease.yaml](infrastructure/controllers/cilium/helmrelease.yaml) |
+| Infrastructure | Cloudflare Tunnel         | External access via Cloudflare           | [infrastructure/controllers/cloudflare-tunnel/helmrelease.yaml](infrastructure/controllers/cloudflare-tunnel/helmrelease.yaml) |
+| Infrastructure | Democratic CSI            | Storage management w/ TrueNAS            | [infrastructure/controllers/democratic-csi/helmrelease.yaml](infrastructure/controllers/democratic-csi/helmrelease.yaml) |
+| Infrastructure | External DNS              | DNS management w/ Unifi                  | [infrastructure/controllers/external-dns/helmrelease.yaml](infrastructure/controllers/external-dns/helmrelease.yaml) |
+| Infrastructure | 1Password Connect         | Secret management integration            | [infrastructure/operators/1password-connect/helmrelease.yaml](infrastructure/operators/1password-connect/helmrelease.yaml) |
+| Infrastructure | External Secrets Operator | External secrets management w/ 1Password | [infrastructure/operators/external-secrets/helmrelease.yaml](infrastructure/operators/external-secrets/helmrelease.yaml) |
+| Infrastructure | Tailscale Operator        | VPN ingress resources                    | [infrastructure/operators/tailscale/helmrelease.yaml](infrastructure/operators/tailscale/helmrelease.yaml) |
+| Applications | Uptime Kuma               | Uptime monitoring                        | [applications/uptime-kuma/helmrelease.yaml](applications/uptime-kuma/helmrelease.yaml) |
+| Applications | Crosstown Traffic         | Personal location tracker                | [applications/crosstown-traffic/crosstown-traffic.yaml](applications/crosstown-traffic/crosstown-traffic.yaml) |
+| Applications | Fission                   | Serverless framework deployment          | [applications/fission/helmrelease.yaml](applications/fission/helmrelease.yaml) |
+| Applications | Minecraft                 | It's Minecraft!!                         | [applications/minecraft/helmrelease.yaml](applications/minecraft/helmrelease.yaml) |
+| Applications | Whoami                    | Simple test application                  | [applications/whoami/deployment.yaml](applications/whoami/deployment.yaml) |
 
 ---
 
