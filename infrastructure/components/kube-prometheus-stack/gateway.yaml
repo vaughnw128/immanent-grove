@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: grafana
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: grafana.internal.vw-ops.net
+  listeners:
+  - protocol: HTTP
+    hostname: grafana.internal.vw-ops.net
+    port: 80
+    name: http
+  - protocol: HTTPS
+    hostname: grafana.internal.vw-ops.net
+    port: 443
+    name: https
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-grafana-local
