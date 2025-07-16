@@ -129,11 +129,13 @@ resource "talos_machine_bootstrap" "bootstrap" {
   node                 = local.cluster_endpoint_ip
 }
 
-
-
-
 resource "talos_cluster_kubeconfig" "kubeconfig" {
   depends_on           = [talos_machine_bootstrap.bootstrap]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.cluster_endpoint_ip
+}
+
+output "kubeconfig" {
+  value = talos_cluster_kubeconfig.kubeconfig
+  sensitive = true
 }
