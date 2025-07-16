@@ -94,7 +94,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 resource "talos_machine_secrets" "machine_secrets" {}
 
 locals {
-  cluster_endpoint_ip      = { for k, v in local.nodes : k => v if v.controlplane == true }[0].ip
+  cluster_endpoint_ip      = "cluster.internal.vw-ops.net"
   cluster_controlplane_ips = [for node in local.nodes : node.ip if node.controlplane == true]
 }
 
