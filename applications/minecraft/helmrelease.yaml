@@ -47,7 +47,7 @@ spec:
       version: "1.21.5"
       type: FABRIC
       difficulty: hard
-      whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6"
+      whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
       ops: "wauhn"
       icon: https://s3.vaughn.sh/cdn/server-icon.png
       maxPlayers: 10
