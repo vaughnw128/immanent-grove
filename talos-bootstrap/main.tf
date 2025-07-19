@@ -30,9 +30,9 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   node_name    = each.key
 
   file_name               = "talos-nocloud-amd64.img"
-  url                     = local.talos_image
+  url                     = each.value.image
   decompression_algorithm = "zst"
-  overwrite               = false
+  overwrite               = true
 }
 
 resource "proxmox_virtual_environment_vm" "talos_vm" {
