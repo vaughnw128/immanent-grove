@@ -19,6 +19,7 @@ locals {
         memory       = 16
         disk         = 100
         arch         = "amd64"
+        lock = true
       },
       {
         name         = "controlplane-3"
@@ -29,6 +30,7 @@ locals {
         memory       = 16
         disk         = 100
         arch         = "amd64"
+        lock = true
       },
       {
         name         = "worker-1"
@@ -39,6 +41,7 @@ locals {
         memory       = 16
         disk         = 100
         arch         = "amd64"
+        lock = true
       },
       {
         name         = "worker-2"
@@ -49,6 +52,7 @@ locals {
         memory       = 16
         disk         = 100
         arch         = "amd64"
+        lock = true
     }
   ]
 }
