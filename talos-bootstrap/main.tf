@@ -24,7 +24,7 @@ locals {
 # Nocloud image must exist on all nodes of the proxmox cluster
 
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  for_each     = toset([for node in local.nodes : node.pve_node if node.lock == false ])
+  for_each     = toset([for node in local.nodes : node.pve_node])
   content_type = "iso"
   datastore_id = "local"
   node_name    = each.key
@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_vm" {
-  for_each    = { for node in local.nodes : node.name => node if node.lock == false }
+  for_each    = { for node in local.nodes : node.name => node }
   name        = "talos-${each.key}"
   description = "Managed by Terraform"
   tags        = ["terraform", "talos"]
@@ -107,7 +107,7 @@ data "talos_client_configuration" "talosconfig" {
 }
 
 data "talos_machine_configuration" "machineconfig" {
-  for_each         = { for node in local.nodes : node.name => node if node.lock == false}
+  for_each         = { for node in local.nodes : node.name => node }
   cluster_name     = local.name
   cluster_endpoint = "https://${local.cluster_endpoint_ip}:6443"
   machine_type     = each.value.controlplane == true ? "controlplane" : "worker"
@@ -115,7 +115,7 @@ data "talos_machine_configuration" "machineconfig" {
 }
 
 resource "talos_machine_configuration_apply" "config_apply" {
-  for_each                    = { for node in local.nodes : node.name => node if node.lock == false }
+  for_each                    = { for node in local.nodes : node.name => node }
   depends_on                  = [proxmox_virtual_environment_vm.talos_vm]
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig[each.key].machine_configuration
