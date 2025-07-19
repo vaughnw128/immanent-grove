@@ -24,13 +24,13 @@ locals {
 # Nocloud image must exist on all nodes of the proxmox cluster
 
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  for_each     = toset({for node in local.nodes : node.pve_node => node })
+  for_each     = values(zipmap(local.nodes.*.pve_node, local.nodes.image))
   content_type = "iso"
   datastore_id = "local"
-  node_name    = each.value.pve_node
+  node_name    = each.key
 
   file_name               = "talos-nocloud-amd64.img"
-  url                     = each.value.image
+  url                     = each.value
   decompression_algorithm = "zst"
   overwrite               = false
 }
