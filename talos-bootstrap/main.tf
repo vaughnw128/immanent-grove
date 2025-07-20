@@ -1,22 +1,6 @@
 locals {
   name            = "immanent-grove"
   default_gateway = "10.0.0.1"
-
-  ### TALOS IMAGES ###
-  # Super super important, these have:
-  #   - qemu-guest agent
-  #   - iscsi-tools
-  #   - nfsd
-  # No CLI options. This image here just needs to be used for the first install, images later will
-  # need to be updated with the talosctl command after generating a new image from factory.talos.dev
-
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
-  talos_image     = "https://factory.talos.dev/image/58e4656b31857557c8bad0585e1b2ee53f7446f4218f3fae486aa26d4f6470d8/v1.9.2/nocloud-amd64.raw.zst"
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
-  ### PLEASE FOR THE LOVE OF GOD DO NOT CHANGE THIS ###
 }
 
 # #### Proxmox VM base setup ####
