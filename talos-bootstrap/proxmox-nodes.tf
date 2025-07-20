@@ -1,7 +1,15 @@
+ ### TALOS IMAGES ###
+# Super super important, these have:
+#   - qemu-guest agent
+#   - iscsi-tools
+#   - nfsd
+# No CLI options. This image here just needs to be used for the first install, images later will
+# need to be updated with the talosctl command after generating a new image from factory.talos.dev
+
 locals {
   nodes = [
       {
-        name         = "controlplane"
+        name         = "controlplane-1"
         pve_node     = "havnor"
         controlplane = true
         ip           = "10.0.0.50"
