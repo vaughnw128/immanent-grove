@@ -1,4 +1,4 @@
 projects:
   - name: talos-bootstrap
     dir: talos-bootstrap
-auto_merge: true
+auto_merge: false
