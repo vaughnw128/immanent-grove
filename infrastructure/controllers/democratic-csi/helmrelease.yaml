@@ -38,6 +38,8 @@ spec:
       mountOptions:
       - noatime
       - nfsvers=4
+      - timeo=600
+      - retrans=2
       secrets:
         provisioner-secret:
         controller-publish-secret:
