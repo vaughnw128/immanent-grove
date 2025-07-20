@@ -8,17 +8,17 @@
 
 locals {
   nodes = [
-      # {
-      #   name         = "controlplane-1"
-      #   pve_node     = "havnor"
-      #   controlplane = true
-      #   ip           = "10.0.0.50"
-      #   cpu          = 4
-      #   memory       = 16
-      #   disk         = 100
-      #   arch         = "amd64"
-      #   image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.10.5/nocloud-amd64.raw.zst"
-      # },
+      {
+        name         = "controlplane-1"
+        pve_node     = "havnor"
+        controlplane = true
+        ip           = "10.0.0.50"
+        cpu          = 4
+        memory       = 16
+        disk         = 100
+        arch         = "amd64"
+        image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.10.5/nocloud-amd64.raw.zst"
+      },
       {
         name         = "controlplane-2"
         pve_node     = "selidor"
