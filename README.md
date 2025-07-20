@@ -20,6 +20,7 @@ This makes for an easily IaC controlled environment, and the bootstrap process i
 
 My k8s hardware is dead simple and 'cheap':
  - 1x UN100L Amd64 16gb memory
+ - 1x UN150p Amd64 16gb memory
  - 1x UN1290 Amd64 32gb memory
 
 I love these stupid Mini PCs, and they keep my power bill quite low. This is supplemented by a TrueNAS Scale 
@@ -93,4 +94,32 @@ $ talosctl upgrade --nodes 10.0.0.51 -e 10.0.0.50 --image factory.talos.dev/nocl
 $ talosctl upgrade --nodes 10.0.0.50 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5 
 ```
 
-## Upgrading with Terraform
+## Upgrading Controlplanes with Terraform
+
+Upgrading via terraform can be a bit nerve-wracking and annoying, but is sometimes needed in order to get the images all set up properly.
+
+> NOTE!!!! DO NOT DO THIS IF YOU ONLY HAVE ONE CONTROLPLANE NODE!! THIS WILL BREAK EVERYTHING!!
+> 
+> THIS UPDATE PROCEDURE REQUIRES AT LEAST THREE CONTROLPLANE NODES FOR HA!!
+
+1. Generate a new Talos factory image at [factory.talos.dev](https://factory.talos.dev)
+   1. The image must be: amd64, Nocloud, and have the addons iscsi-tools, qemu-guest-agent, and nfsd.
+2. Replace the node image in proxmox-nodes.tf
+3. Plan and apply the Terraform, ensuring that there are only the talos machine config, proxmox node, and talos image modified.
+4. If the node fails to join etcd, delete the member from etcd to ensure it can reach quorum
+
+```bash
+talosctl --endpoints 10.0.0.53 -n 10.0.0.53,10.0.0.54 etcd remove-member <id>
+```
+
+6. Check etcd to ensure quorum. This should show learners as well. Do not proceed to upgrade another controlplane unless there are no learners.
+
+```bash
+talosctl --endpoints 10.0.0.53 etcd status
+```
+
+7. Check that the node is started
+
+```bash
+k get nodes
+```
