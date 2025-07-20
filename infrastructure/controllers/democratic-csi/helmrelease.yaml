@@ -38,6 +38,8 @@ spec:
       mountOptions:
       - noatime
       - nfsvers=4
+      - timeo=600
+      - retrans=2
       secrets:
         provisioner-secret:
         controller-publish-secret:
@@ -62,7 +64,7 @@ spec:
           protocol: https
           port: 443
           allowInsecure: true
-          host: "roke.internal.vw-ops.net"
+          host: "roke.apicius.local"
           apiKey: "${TRUENAS_API_TOKEN}"
         zfs:
           datasetParentName: pool/k8s/nfs/v
@@ -73,7 +75,7 @@ spec:
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
-          shareHost: "roke.internal.vw-ops.net"
+          shareHost: "roke.apicius.local"
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
