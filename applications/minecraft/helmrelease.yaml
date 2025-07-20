@@ -1,170 +1,170 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: minecraft
-  namespace: applications
-spec:
-  interval: 5m0s
-  url: https://itzg.github.io/minecraft-server-charts
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: minecraft
-  namespace: applications
-spec:
-  interval: 5m
-  releaseName: minecraft
-  chart:
-    spec:
-      reconcileStrategy: Revision
-      chart: minecraft
-      version: 4.26.3
-      sourceRef:
-        kind: HelmRepository
-        name: minecraft
-      interval: 5m
-  values:
-    nameOverride: sexybabeycraft
+# apiVersion: source.toolkit.fluxcd.io/v1
+# kind: HelmRepository
+# metadata:
+#   name: minecraft
+#   namespace: applications
+# spec:
+#   interval: 5m0s
+#   url: https://itzg.github.io/minecraft-server-charts
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: minecraft
+#   namespace: applications
+# spec:
+#   interval: 5m
+#   releaseName: minecraft
+#   chart:
+#     spec:
+#       reconcileStrategy: Revision
+#       chart: minecraft
+#       version: 4.26.3
+#       sourceRef:
+#         kind: HelmRepository
+#         name: minecraft
+#       interval: 5m
+#   values:
+#     nameOverride: sexybabeycraft
 
-    image:
-      repository: itzg/minecraft-server
-      tag: latest
-      pullPolicy: Always
+#     image:
+#       repository: itzg/minecraft-server
+#       tag: latest
+#       pullPolicy: Always
 
-    resources:
-      requests:
-        memory: 8192Mi
-        cpu: 1500m
+#     resources:
+#       requests:
+#         memory: 8192Mi
+#         cpu: 1500m
 
-    # Define whether the server is run as a statefulset
-    workloadAsStatefulSet: false
-    podAnnotations:
-      server: sexybabeycraft
+#     # Define whether the server is run as a statefulset
+#     workloadAsStatefulSet: false
+#     podAnnotations:
+#       server: sexybabeycraft
 
-    minecraftServer:
-      eula: "TRUE"
-      version: "1.21.5"
-      type: FABRIC
-      difficulty: hard
-      whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
-      ops: "wauhn"
-      icon: https://s3.vaughn.sh/cdn/server-icon.png
-      maxPlayers: 10
-      spawnProtection: 0
-      gameMode: survival
-      motd: "Every adventure is better with a friend!"
-      worldSaveName: world
-#      downloadWorldUrl: https://s3.vaughn.sh/cdn/world-new.zip
-      memory: 8192M
-      serviceType: LoadBalancer
-      servicePort: 25565
+#     minecraftServer:
+#       eula: "TRUE"
+#       version: "1.21.5"
+#       type: FABRIC
+#       difficulty: hard
+#       whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
+#       ops: "wauhn"
+#       icon: https://s3.vaughn.sh/cdn/server-icon.png
+#       maxPlayers: 10
+#       spawnProtection: 0
+#       gameMode: survival
+#       motd: "Every adventure is better with a friend!"
+#       worldSaveName: world
+# #      downloadWorldUrl: https://s3.vaughn.sh/cdn/world-new.zip
+#       memory: 8192M
+#       serviceType: LoadBalancer
+#       servicePort: 25565
 
-      modrinth:
-        projects:
-          - ferrite-core
-          - krypton
-          - lithium
-          - spark
-          - configurable-despawn-timer
-          - bluemap
-          # - bmarker
-          - image2map
-          # - noisium
-          - audaki-cart-engine
-        downloadDependencies: required
-        allowedVersionType: default
+#       modrinth:
+#         projects:
+#           - ferrite-core
+#           - krypton
+#           - lithium
+#           - spark
+#           - configurable-despawn-timer
+#           - bluemap
+#           # - bmarker
+#           - image2map
+#           # - noisium
+#           - audaki-cart-engine
+#         downloadDependencies: required
+#         allowedVersionType: default
 
-      extraEnv:
-        ALLOW_FLIGHT: true
-        SYNC_CHUNK_WRITES: false
-        USE_AIKAR_FLAGS: true
+#       extraEnv:
+#         ALLOW_FLIGHT: true
+#         SYNC_CHUNK_WRITES: false
+#         USE_AIKAR_FLAGS: true
 
-      rcon:
-        enabled: true
-        withGeneratedPassword: false
-        port: 25575
-        existingSecret: minecraft-secrets
-        secretKey: rcon-password
-        serviceType: ClusterIP
+#       rcon:
+#         enabled: true
+#         withGeneratedPassword: false
+#         port: 25575
+#         existingSecret: minecraft-secrets
+#         secretKey: rcon-password
+#         serviceType: ClusterIP
 
-      tty: true
+#       tty: true
 
-      query:
-        enabled: false
-        port: 25565
+#       query:
+#         enabled: false
+#         port: 25565
 
-    persistence:
-      storageClass: "truenas-nfs"
-      dataDir:
-        enabled: true
-        Size: 64Gi
-        accessModes:
-          - ReadWriteMany
+#     persistence:
+#       storageClass: "truenas-nfs"
+#       dataDir:
+#         enabled: true
+#         Size: 64Gi
+#         accessModes:
+#           - ReadWriteMany
 
-    mcbackup:
-      enabled: true
+#     mcbackup:
+#       enabled: true
 
-      image:
-        repository: itzg/mc-backup
-        tag: latest
-        pullPolicy: IfNotPresent
+#       image:
+#         repository: itzg/mc-backup
+#         tag: latest
+#         pullPolicy: IfNotPresent
 
-      #  wait 2 minutes before starting
-      initialDelay: 2m
+#       #  wait 2 minutes before starting
+#       initialDelay: 2m
 
-      # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
-      # backupInterval="1.5d" -> backup every one and a half days (36 hours)
-      # backupInterval="2h 30m" -> backup every two and a half hours
-      backupInterval: 12h
+#       # ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
+#       # backupInterval="1.5d" -> backup every one and a half days (36 hours)
+#       # backupInterval="2h 30m" -> backup every two and a half hours
+#       backupInterval: 12h
 
-      # option lets you pause backups if no players are online.
-      pauseIfNoPlayers: "false"
+#       # option lets you pause backups if no players are online.
+#       pauseIfNoPlayers: "false"
 
-      # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
-      pruneBackupsDays: 7
+#       # is set to a positive number, it'll delete old .tgz backup files from DEST_DIR. By default deletes backups older than a week.
+#       pruneBackupsDays: 7
 
-      # Set to a negative value to retry indefinitely
-      rconRetries: 5
-      rconRetryInterval: 10s
+#       # Set to a negative value to retry indefinitely
+#       rconRetries: 5
+#       rconRetryInterval: 10s
 
-      # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
-      # logs folder and cache (used by i.e. PaperMC server).
-      excludes: "*.jar,cache,logs"
+#       # is a comma-separated list of glob(3) patterns to exclude from backups. By default excludes all jar files (plugins, server files),
+#       # logs folder and cache (used by i.e. PaperMC server).
+#       excludes: "*.jar,cache,logs"
 
-      # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
-      backupMethod: restic
-      destDir: /mc_backups
-      linkLatest: "false"
-      compressMethod: "gzip"
-      zstdParameters: "-3 --long=25 --single-thread"
-      resticAdditionalTags: "mc_backups"
-      pruneResticRetention: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75"
+#       # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
+#       backupMethod: restic
+#       destDir: /mc_backups
+#       linkLatest: "false"
+#       compressMethod: "gzip"
+#       zstdParameters: "-3 --long=25 --single-thread"
+#       resticAdditionalTags: "mc_backups"
+#       pruneResticRetention: "--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75"
 
-      extraEnv:
-        RESTIC_PASSWORD:
-          valueFrom:
-            secretKeyRef:
-              name: minecraft-secrets
-              key: restic-password
-        RESTIC_REPOSITORY:
-          valueFrom:
-            secretKeyRef:
-              name: minecraft-secrets
-              key: restic-repository
-        AWS_ACCESS_KEY_ID:
-          valueFrom:
-            secretKeyRef:
-              name: minecraft-secrets
-              key: aws-access-key-id
-        AWS_SECRET_ACCESS_KEY:
-          valueFrom:
-            secretKeyRef:
-              name: minecraft-secrets
-              key: aws-secret-access-key
+#       extraEnv:
+#         RESTIC_PASSWORD:
+#           valueFrom:
+#             secretKeyRef:
+#               name: minecraft-secrets
+#               key: restic-password
+#         RESTIC_REPOSITORY:
+#           valueFrom:
+#             secretKeyRef:
+#               name: minecraft-secrets
+#               key: restic-repository
+#         AWS_ACCESS_KEY_ID:
+#           valueFrom:
+#             secretKeyRef:
+#               name: minecraft-secrets
+#               key: aws-access-key-id
+#         AWS_SECRET_ACCESS_KEY:
+#           valueFrom:
+#             secretKeyRef:
+#               name: minecraft-secrets
+#               key: aws-secret-access-key
 
-      resources:
-        requests:
-          memory: 512Mi
-          cpu: 500m
+#       resources:
+#         requests:
+#           memory: 512Mi
+#           cpu: 500m
 
