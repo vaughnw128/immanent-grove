@@ -62,7 +62,7 @@ spec:
           protocol: https
           port: 443
           allowInsecure: true
-          host: "roke.apicius.local"
+          host: "roke.internal.vw-ops.net"
           apiKey: "${TRUENAS_API_TOKEN}"
         zfs:
           datasetParentName: pool/k8s/nfs/v
@@ -73,7 +73,7 @@ spec:
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
-          shareHost: "roke.apicius.local"
+          shareHost: "roke.internal.vw-ops.net"
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
