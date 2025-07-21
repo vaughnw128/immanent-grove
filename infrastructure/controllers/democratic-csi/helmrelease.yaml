@@ -73,7 +73,7 @@ spec:
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
-          shareHost: "roke.internal.vw-ops.net"
+          shareHost: "10.0.0.3"
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
