@@ -98,7 +98,7 @@ spec:
       storageClass: "truenas-nfs"
       dataDir:
         enabled: true
-        Size: 64Gi
+        size: 64Gi
         accessModes:
           - ReadWriteMany
 
