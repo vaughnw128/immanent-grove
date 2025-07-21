@@ -63,7 +63,7 @@ spec:
           protocol: https
           port: 443
           allowInsecure: true
-          host: "10.0.0.3"
+          host: 10.0.0.3
           apiKey: "${TRUENAS_API_TOKEN}"
         zfs:
           datasetParentName: pool/k8s/nfs/v
@@ -74,7 +74,7 @@ spec:
           datasetPermissionsUser: 0
           datasetPermissionsGroup: 0
         nfs:
-          shareHost: "10.0.0.3"
+          shareHost: 10.0.0.3
           shareAlldirs: false
           shareAllowedHosts: []
           shareAllowedNetworks: []
