@@ -45,7 +45,7 @@ system that runs some nice persistence services like Minio and is the backend fo
 | Infrastructure | Cert Manager              | TLS certificate management               | [infrastructure/controllers/cert-manager/helmrelease.yaml](infrastructure/controllers/cert-manager/helmrelease.yaml) |
 | Infrastructure | Cilium                    | Network policy and CNI                   | [infrastructure/controllers/cilium/helmrelease.yaml](infrastructure/controllers/cilium/helmrelease.yaml) |
 | Infrastructure | Cloudflare Tunnel         | External access via Cloudflare           | [infrastructure/controllers/cloudflare-tunnel/helmrelease.yaml](infrastructure/controllers/cloudflare-tunnel/helmrelease.yaml) |
-| Infrastructure | Democratic CSI            | Storage management w/ TrueNAS            | [infrastructure/controllers/democratic-csi/helmrelease.yaml](archive/democratic-csi/helmrelease.yaml) |
+| Infrastructure | Democratic CSI            | Storage management w/ TrueNAS            | [infrastructure/controllers/democratic-csi/helmrelease.yaml](infrastructure/controllers/democratic-csi/helmrelease.yaml) |
 | Infrastructure | External DNS              | DNS management w/ Unifi                  | [infrastructure/controllers/external-dns/helmrelease.yaml](infrastructure/controllers/external-dns/helmrelease.yaml) |
 | Infrastructure | 1Password Connect         | Secret management integration            | [infrastructure/operators/1password-connect/helmrelease.yaml](infrastructure/operators/1password-connect/helmrelease.yaml) |
 | Infrastructure | External Secrets Operator | External secrets management w/ 1Password | [infrastructure/operators/external-secrets/helmrelease.yaml](infrastructure/operators/external-secrets/helmrelease.yaml) |
