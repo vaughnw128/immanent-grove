@@ -49,6 +49,7 @@ spec:
         image:
           registry: docker.io/democraticcsi/democratic-csi
           tag: next
+          pullPolicy: Always
         extraEnv:
           - name: TRUENAS_API_TOKEN
             valueFrom:
