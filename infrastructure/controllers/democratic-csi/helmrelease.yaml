@@ -56,6 +56,12 @@ spec:
               secretKeyRef:
                 name: truenas-api-key
                 key: truenas-api-key
+    node:
+      driver:
+        image:
+          registry: docker.io/democraticcsi/democratic-csi
+          tag: next
+          pullPolicy: Always
     driver:
       config:
         driver: freenas-api-nfs
