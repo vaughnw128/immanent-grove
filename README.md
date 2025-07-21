@@ -53,7 +53,7 @@ system that runs some nice persistence services like Minio and is the backend fo
 | Applications | Uptime Kuma               | Uptime monitoring                        | [applications/uptime-kuma/helmrelease.yaml](applications/uptime-kuma/helmrelease.yaml) |
 | Applications | Crosstown Traffic         | Personal location tracker                | [applications/crosstown-traffic/crosstown-traffic.yaml](applications/crosstown-traffic/crosstown-traffic.yaml) |
 | Applications | Fission                   | Serverless framework deployment          | [applications/fission/helmrelease.yaml](applications/fission/helmrelease.yaml) |
-| Applications | Minecraft                 | It's Minecraft!!                         | [applications/minecraft/helmrelease.yaml](applications/minecraft/helmrelease.yaml) |
+| Applications | Minecraft                 | It's Minecraft!!                         | [applications/minecraft/helmrelease.yaml](archive/minecraft/helmrelease.yaml) |
 | Applications | Whoami                    | Simple test application                  | [applications/whoami/deployment.yaml](applications/whoami/deployment.yaml) |
 
 ## Terraform Deployment
