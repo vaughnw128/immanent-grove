@@ -5,7 +5,7 @@ metadata:
   namespace: applications
 spec:
   interval: 24h
-  url: https://projectnessie.org/helm/
+  url: https://charts.projectnessie.org
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
