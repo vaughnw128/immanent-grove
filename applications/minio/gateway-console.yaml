@@ -1,25 +1,25 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: minio
+  name: iceberg-console
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
 spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: iceberg.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: iceberg-console.internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: iceberg.internal.vw-ops.net
+    hostname: iceberg-console.internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: iceberg.internal.vw-ops.net
+    hostname: iceberg-console.internal.vw-ops.net
     port: 443
     name: https
     tls:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: secret-tls-minio-local
+        name: secret-tls-iceberg-console-local 
