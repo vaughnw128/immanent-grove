@@ -32,6 +32,8 @@ spec:
     service:
       type: ClusterIP
       port: 8080 
+    additionalConfigProperties:
+     - http-server.process-forwarded=true
     catalogs:
       lakehouse: |-
         connector.name=iceberg
