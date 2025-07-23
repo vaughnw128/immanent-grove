@@ -65,6 +65,16 @@ spec:
       ingress:
         enabled: false
     env:
+      - name: MINIO_ROOT_USER
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-root-user
+            key: username
+      - name: MINIO_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-root-user
+            key: password
       - name: MINIO_USER
         valueFrom:
           secretKeyRef:
