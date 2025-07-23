@@ -46,6 +46,3 @@ spec:
               name: iceberg-svc
               awsAccessKeyId: username
               awsSecretAccessKey: password
-          buckets:
-            - name: iceberg
-              authority: iceberg

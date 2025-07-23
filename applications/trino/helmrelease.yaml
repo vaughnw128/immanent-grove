@@ -35,6 +35,7 @@ spec:
     catalogs:
       lakehouse: |-
         connector.name=iceberg
+        iceberg.catalog.type=nessie
         iceberg.nessie-catalog.uri=nessie.internal.vw-ops.net/api/v2
         iceberg.nessie-catalog.ref=main
         iceberg.nessie-catalog.default-warehouse-dir=s3://iceberg
