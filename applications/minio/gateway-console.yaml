@@ -1,7 +1,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: iceberg-console
+  name: minio-console
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
 spec:
@@ -22,4 +22,4 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: secret-tls-iceberg-console-local 
+        name: secret-tls-minio-console-local 

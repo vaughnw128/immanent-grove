@@ -37,10 +37,10 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: iceberg-console-https
+  name: minio-console-https
 spec:
   parentRefs:
-  - name: iceberg-console
+  - name: minio-console
   hostnames:
     - iceberg-console.internal.vw-ops.net
   rules:
@@ -55,10 +55,10 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: iceberg-console-redirect
+  name: minio-console-redirect
 spec:
   parentRefs:
-  - name: iceberg-console
+  - name: minio-console
     sectionName: http
   hostnames:
   - iceberg-console.internal.vw-ops.net
