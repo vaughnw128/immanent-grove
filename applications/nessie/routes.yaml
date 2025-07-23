@@ -1,0 +1,35 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nessie-https
+spec:
+  parentRefs:
+  - name: nessie
+  hostnames:
+    - nessie.internal.vw-ops.net
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: nessie
+      port: 19120
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nessie-redirect
+spec:
+  parentRefs:
+  - name: nessie
+    sectionName: http
+  hostnames:
+  - nessie.internal.vw-ops.net
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301 

@@ -1,0 +1,50 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: nessie
+  namespace: applications
+spec:
+  interval: 24h
+  url: https://projectnessie.org/helm/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nessie
+  namespace: applications
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: nessie
+      version: "0.80.0"
+      sourceRef:
+        kind: HelmRepository
+        name: nessie
+        namespace: applications
+      interval: 12h
+  values:
+    service:
+      type: ClusterIP
+      port: 19120
+    config:
+      nessie:
+        versionStoreType: S3
+        s3:
+          bucket: "iceberg"
+          endpoint: "https://iceberg.internal.vw-ops.net"
+          accessKeyId: "${MINIO_USER}"
+          secretAccessKey: "${MINIO_PASSWORD}"
+          region: "us-east-1"
+    env:
+      - name: MINIO_USER
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-user
+            key: username
+      - name: MINIO_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-user
+            key: password

@@ -1,0 +1,75 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: minio
+  namespace: applications
+spec:
+  interval: 24h
+  url: https://charts.min.io/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: applications
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: minio
+      version: "5.0.15"
+      sourceRef:
+        kind: HelmRepository
+        name: minio
+        namespace: applications
+      interval: 12h
+  values:
+    mode: standalone
+    persistence:
+      enabled: true
+      size: 100Gi
+      storageClass: "truenas-nfs"
+    buckets:
+      - name: iceberg
+        policy: none
+        purge: false
+    users:
+      - accessKey: "${MINIO_USER}"
+        secretKey: "${MINIO_PASSWORD}"
+        policy: "iceberg-readwrite"
+    policies:
+      - name: iceberg-readwrite
+        statements:
+          - effect: Allow
+            actions:
+              - s3:GetBucketLocation
+              - s3:ListBucket
+              - s3:ListBucketMultipartUploads
+            resources:
+              - "arn:aws:s3:::iceberg"
+          - effect: Allow
+            actions:
+              - s3:AbortMultipartUpload
+              - s3:DeleteObject
+              - s3:GetObject
+              - s3:ListMultipartUploadParts
+              - s3:PutObject
+            resources:
+              - "arn:aws:s3:::iceberg/*"
+    env:
+      - name: MINIO_USER
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-user
+            key: username
+      - name: MINIO_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: iceberg-user
+            key: password
+    region: us-east-1
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 500m 
