@@ -39,24 +39,8 @@ spec:
       - accessKey: RWyPPR23cDIuJRdvkLqx
         existingSecret: "iceberg-user"
         existingSecretKey: "password"
-        policy:
-          statements:
-          - effect: Allow
-            actions:
-              - s3:GetBucketLocation
-              - s3:ListBucket
-              - s3:ListBucketMultipartUploads
-            resources:
-              - "arn:aws:s3:::iceberg"
-          - effect: Allow
-            actions:
-              - s3:AbortMultipartUpload
-              - s3:DeleteObject
-              - s3:GetObject
-              - s3:ListMultipartUploadParts
-              - s3:PutObject
-            resources:
-              - "arn:aws:s3:::iceberg/*"
+        policy: iceberg-readwrite
+        user: iceberg
     service:
       type: ClusterIP
       port: 9000

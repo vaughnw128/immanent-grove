@@ -49,7 +49,7 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: minio
+    - name: minio-console
       port: 9001
 ---
 apiVersion: gateway.networking.k8s.io/v1
