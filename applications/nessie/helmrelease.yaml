@@ -28,24 +28,24 @@ spec:
     service:
       type: ClusterIP
       port: 19120
-    versionStoreType: IN_MEMORY
     catalog:
-      enabled: false
+      enabled: true
       iceberg:
         defaultWarehouse: iceberg
         warehouses:
         - name: iceberg
+          location: s3://iceberg
         objectStoresHealthCheckEnabled: true
-      storage:
-        s3:
-          defaultOptions:
-            region: us-east-2
-            endpoint: https://iceberg.internal.vw-ops.net
-            pathStyleAccess: true
-          accessKeySecret:
-            name: iceberg-svc
-            awsAccessKeyId: username
-            awsSecretAccessKey: password
-          buckets:
-            - name: iceberg
-              authority: iceberg
+        storage:
+          s3:
+            defaultOptions:
+              region: us-east-2
+              endpoint: https://iceberg.internal.vw-ops.net
+              pathStyleAccess: "true"
+            accessKeySecret:
+              name: iceberg-svc
+              awsAccessKeyId: username
+              awsSecretAccessKey: password
+            # buckets:
+            #   - name: iceberg
+            #     authority: iceberg
