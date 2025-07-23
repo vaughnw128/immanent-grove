@@ -34,13 +34,13 @@ spec:
       - name: iceberg
         policy: none
         purge: false
-    users:
-      - accessKey: "${MINIO_USER}"
-        secretKey: "${MINIO_PASSWORD}"
-        policy: "iceberg-readwrite"
-    policies:
-      - name: iceberg-readwrite
-        statements:
+    existingSecret: "iceberg-root-user"
+    svcaccts:
+      - accessKey: RWyPPR23cDIuJRdvkLqx
+        existingSecret: "iceberg-user"
+        existingSecretKey: "password"
+        policy:
+          statements:
           - effect: Allow
             actions:
               - s3:GetBucketLocation
@@ -64,37 +64,6 @@ spec:
         port: 9001
       ingress:
         enabled: false
-    env:
-      - name: MINIO_ROOT_USER
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-root-user
-            key: username
-      - name: MINIO_ROOT_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-root-user
-            key: password
-      - name: MINIO_USER
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: username
-      - name: MINIO_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: password
-      - name: CONSOLE_ACCESS_KEY
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: username
-      - name: CONSOLE_SECRET_KEY
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: password
     region: us-east-1
     resources:
       requests:
