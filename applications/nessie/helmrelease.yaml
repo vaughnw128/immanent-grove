@@ -28,23 +28,24 @@ spec:
     service:
       type: ClusterIP
       port: 19120
-    config:
-      nessie:
-        versionStoreType: S3
+    versionStoreType: IN_MEMORY
+    catalog:
+      enabled: false
+      iceberg:
+        defaultWarehouse: iceberg
+        warehouses:
+        - name: iceberg
+        objectStoresHealthCheckEnabled: true
+      storage:
         s3:
-          bucket: "iceberg"
-          endpoint: "https://iceberg.internal.vw-ops.net"
-          accessKeyId: "${MINIO_USER}"
-          secretAccessKey: "${MINIO_PASSWORD}"
-          region: "us-east-1"
-    env:
-      - name: MINIO_USER
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: username
-      - name: MINIO_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: iceberg-user
-            key: password
+          defaultOptions:
+            region: us-east-2
+            endpoint: https://iceberg.internal.vw-ops.net
+            pathStyleAccess: true
+          accessKeySecret:
+            name: iceberg-svc
+            awsAccessKeyId: username
+            awsSecretAccessKey: password
+          buckets:
+            - name: iceberg
+              authority: iceberg
