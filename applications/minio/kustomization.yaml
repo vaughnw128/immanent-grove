@@ -6,3 +6,4 @@ resources:
   - helmrelease.yaml 
   - gateway.yaml
   - routes.yaml
+  - gateway-console.yaml
