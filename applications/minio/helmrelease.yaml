@@ -57,13 +57,12 @@ spec:
               - s3:PutObject
             resources:
               - "arn:aws:s3:::iceberg/*"
-    console:
-      enabled: true
-      service:
-        type: ClusterIP
-        port: 9001
-      ingress:
-        enabled: false
+    service:
+      type: ClusterIP
+      port: 9000
+    consoleService:
+      type: ClusterIP
+      port: 9001
     region: us-east-1
     resources:
       requests:
