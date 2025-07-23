@@ -42,7 +42,7 @@ spec:
         policy: iceberg-readwrite
     svcaccts:
       - accessKey: RWyPPR23cDIuJRdvkLqx
-        existingSecret: iceberg-user
+        existingSecret: iceberg-svc
         existingSecretKey: password
         user: iceberg-svc
     policies:
