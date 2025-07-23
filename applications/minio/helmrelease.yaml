@@ -35,11 +35,11 @@ spec:
         policy: none
         purge: false
     existingSecret: "iceberg-root-user"
-    # users:
-    #   - accessKey: iceberg-svc
-    #     existingSecret: "iceberg-user"
-    #     existingSecretKey: "password"
-    #     policy: iceberg-readwrite
+    users:
+      - accessKey: iceberg-svc
+        existingSecret: iceberg-user
+        existingSecretKey: password
+        policy: iceberg-readwrite
     # svcaccts:
     #   - accessKey: RWyPPR23cDIuJRdvkLqx
     #     existingSecret: "iceberg-user"
