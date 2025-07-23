@@ -40,11 +40,11 @@ spec:
         existingSecret: iceberg-user
         existingSecretKey: password
         policy: iceberg-readwrite
-    # svcaccts:
-    #   - accessKey: RWyPPR23cDIuJRdvkLqx
-    #     existingSecret: "iceberg-user"
-    #     existingSecretKey: "password"
-    #     user: iceberg-svc
+    svcaccts:
+      - accessKey: RWyPPR23cDIuJRdvkLqx
+        existingSecret: iceberg-user
+        existingSecretKey: password
+        user: iceberg-svc
     policies:
       - name: iceberg-readwrite
         statements:
