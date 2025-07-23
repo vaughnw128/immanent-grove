@@ -35,12 +35,17 @@ spec:
         policy: none
         purge: false
     existingSecret: "iceberg-root-user"
+    users:
+      - accessKey: iceberg-svc
+        existingSecret: "iceberg-user"
+        existingSecretKey: "password"
+        policy: iceberg-readwrite
     svcaccts:
       - accessKey: RWyPPR23cDIuJRdvkLqx
         existingSecret: "iceberg-user"
         existingSecretKey: "password"
         policy: iceberg-readwrite
-        user: iceberg
+        user: iceberg-svc
     service:
       type: ClusterIP
       port: 9000
