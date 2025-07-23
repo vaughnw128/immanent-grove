@@ -42,10 +42,10 @@ spec:
               region: us-east-2
               endpoint: https://iceberg.internal.vw-ops.net
               pathStyleAccess: "true"
-            accessKeySecret:
-              name: iceberg-svc
-              awsAccessKeyId: username
-              awsSecretAccessKey: password
+              accessKeySecret:
+                name: iceberg-svc
+                awsAccessKeyId: username
+                awsSecretAccessKey: password
             # buckets:
             #   - name: iceberg
             #     authority: iceberg
