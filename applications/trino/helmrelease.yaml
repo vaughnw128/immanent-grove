@@ -52,10 +52,10 @@ spec:
       - name: MINIO_USER
         valueFrom:
           secretKeyRef:
-            name: iceberg-user
+            name: iceberg-svc
             key: username
       - name: MINIO_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: iceberg-user
+            name: iceberg-svc
             key: password
