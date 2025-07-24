@@ -35,7 +35,7 @@ spec:
     additionalConfigProperties:
      - http-server.process-forwarded=true
     catalogs:
-      lakehouse: |-
+      iceberg: |-
         connector.name=iceberg
         iceberg.catalog.type=nessie
         iceberg.nessie-catalog.uri=https://nessie.internal.vw-ops.net/api/v2
