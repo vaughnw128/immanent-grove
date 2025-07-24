@@ -39,7 +39,7 @@ spec:
       storage:
         s3:
           defaultOptions:
-            region: us-east-2
+            region: us-east-1
             endpoint: https://iceberg.internal.vw-ops.net
             pathStyleAccess: "true"
             accessKeySecret:
