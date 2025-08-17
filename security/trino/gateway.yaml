@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: trino
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: trino.internal.vw-ops.net
+  listeners:
+  - protocol: HTTP
+    hostname: trino.internal.vw-ops.net
+    port: 80
+    name: http
+  - protocol: HTTPS
+    hostname: trino.internal.vw-ops.net
+    port: 443
+    name: https
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-trino-local 
