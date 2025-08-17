@@ -30,6 +30,8 @@ spec:
       existingSecret: siem-nessie-pg
       database: nessie
     primary:
+      service:
+        type: ClusterIP
       persistence:
         enabled: true
         size: 8Gi

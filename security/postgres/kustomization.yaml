@@ -4,4 +4,3 @@ namespace: security
 resources:
   - helmrelease.yaml
   - secret.yaml
-  - service.yaml
