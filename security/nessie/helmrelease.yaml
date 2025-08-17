@@ -28,7 +28,7 @@ spec:
     service:
       type: ClusterIP
       port: 19120
-    versionStoreType: jdbc2
+    versionStoreType: JDBC2
     jdbc:
       jdbcUrl: jdbc:postgresql://nessie-db.security.svc.cluster.local/nessie?currentSchema=nessie
       secret:
