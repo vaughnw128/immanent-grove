@@ -8,14 +8,14 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: nessie.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: nessie.siem.internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: nessie.internal.vw-ops.net
+    hostname: nessie.siem.internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: nessie.internal.vw-ops.net
+    hostname: nessie.siem.internal.vw-ops.net
     port: 443
     name: https
     tls:

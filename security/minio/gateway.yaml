@@ -8,14 +8,14 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: iceberg.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: data.siem.internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: iceberg.internal.vw-ops.net
+    hostname: data.siem.internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: iceberg.internal.vw-ops.net
+    hostname: data.siem.internal.vw-ops.net
     port: 443
     name: https
     tls:
@@ -34,14 +34,14 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: iceberg-console.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: data-console.internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: iceberg-console.internal.vw-ops.net
+    hostname: data-console.siem.internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: iceberg-console.internal.vw-ops.net
+    hostname: data-console.internal.vw-ops.net
     port: 443
     name: https
     tls:

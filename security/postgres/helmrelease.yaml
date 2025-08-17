@@ -27,5 +27,11 @@ spec:
       interval: 12h
   values:
     auth:
-      existingSecret: nessie-pg
+      existingSecret: siem-nessie-pg
       database: nessie
+    primary:
+      persistence:
+        enabled: true
+        size: 8Gi
+        accessModes:
+          - ReadWriteOnce

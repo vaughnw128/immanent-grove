@@ -8,18 +8,18 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: trino.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: trino.siem.internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: trino.internal.vw-ops.net
+    hostname: trino.siem.internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: trino.internal.vw-ops.net
+    hostname: trino.siem.internal.vw-ops.net
     port: 443
     name: https
     tls:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: secret-tls-trino-local 
+        name: secret-tls-trino-local

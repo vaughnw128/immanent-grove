@@ -47,7 +47,7 @@ spec:
         s3:
           defaultOptions:
             region: us-east-1
-            endpoint: https://iceberg.internal.vw-ops.net
+            endpoint: https://data.siem.internal.vw-ops.net
             pathStyleAccess: "true"
             accessKeySecret:
               name: iceberg-svc

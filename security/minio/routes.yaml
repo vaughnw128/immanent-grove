@@ -7,7 +7,7 @@ spec:
   parentRefs:
   - name: minio
   hostnames:
-    - iceberg.internal.vw-ops.net
+    - data.siem.internal.vw-ops.net
   rules:
   - matches:
     - path:
@@ -26,7 +26,7 @@ spec:
   - name: minio
     sectionName: http
   hostnames:
-  - iceberg.internal.vw-ops.net
+  - data.siem.internal.vw-ops.net
   rules:
   - filters:
     - type: RequestRedirect
@@ -42,7 +42,7 @@ spec:
   parentRefs:
   - name: minio-console
   hostnames:
-    - iceberg-console.internal.vw-ops.net
+    - data-console.siem.internal.vw-ops.net
   rules:
   - matches:
     - path:
@@ -61,7 +61,7 @@ spec:
   - name: minio-console
     sectionName: http
   hostnames:
-  - iceberg-console.internal.vw-ops.net
+  - data-console.siem.internal.vw-ops.net
   rules:
   - filters:
     - type: RequestRedirect

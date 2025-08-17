@@ -31,22 +31,22 @@ spec:
       size: 100Gi
       storageClass: "truenas-nfs"
     buckets:
-      - name: iceberg
+      - name: siem
         policy: none
         purge: false
-    existingSecret: "iceberg-root-user"
+    existingSecret: siem-data-root-user
     users:
-      - accessKey: iceberg-svc
-        existingSecret: iceberg-user
+      - accessKey: siem-data-svc
+        existingSecret: siem-data-user
         existingSecretKey: password
-        policy: iceberg-readwrite
+        policy: siem-readwrite
     svcaccts:
       - accessKey: RWyPPR23cDIuJRdvkLqx
-        existingSecret: iceberg-svc
+        existingSecret: siem-data-svc
         existingSecretKey: password
-        user: iceberg-svc
+        user: siem-data-svc
     policies:
-      - name: iceberg-readwrite
+      - name: siem-readwrite
         statements:
           - effect: Allow
             actions:
@@ -54,7 +54,7 @@ spec:
               - s3:ListBucket
               - s3:ListBucketMultipartUploads
             resources:
-              - "arn:aws:s3:::iceberg"
+              - "arn:aws:s3:::siem"
           - effect: Allow
             actions:
               - s3:AbortMultipartUpload
@@ -63,7 +63,7 @@ spec:
               - s3:ListMultipartUploadParts
               - s3:PutObject
             resources:
-              - "arn:aws:s3:::iceberg/*"
+              - "arn:aws:s3:::siem/*"
     service:
       type: ClusterIP
       port: 9000
