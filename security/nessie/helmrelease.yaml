@@ -32,7 +32,7 @@ spec:
     jdbc:
       jdbcUrl: jdbc:postgresql://nessie-db.security.svc.cluster.local/nessie?currentSchema=nessie
       secret:
-        name: nessie-pg
+        name: siem-nessie-pg
         username: username
         password: password
     catalog:
@@ -50,6 +50,6 @@ spec:
             endpoint: https://data.siem.internal.vw-ops.net
             pathStyleAccess: "true"
             accessKeySecret:
-              name: iceberg-svc
+              name: siem-data-svc
               awsAccessKeyId: username
               awsSecretAccessKey: password
