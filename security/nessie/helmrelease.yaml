@@ -30,7 +30,7 @@ spec:
       port: 19120
     versionStoreType: JDBC2
     jdbc:
-      jdbcUrl: jdbc:postgresql://nessie-db.security.svc.cluster.local/nessie?currentSchema=nessie
+      jdbcUrl: jdbc:postgresql://postgres-postgresql.security.svc.cluster.local/nessie?currentSchema=nessie
       secret:
         name: siem-nessie-pg
         username: username
