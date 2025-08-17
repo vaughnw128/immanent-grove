@@ -26,6 +26,8 @@ spec:
         namespace: security
       interval: 12h
   values:
+    passwordUpdateJob:
+      enabled: true
     auth:
       existingSecret: siem-nessie-pg
       database: nessie
