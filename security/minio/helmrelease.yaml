@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: minio
-  namespace: applications
+  namespace: security
 spec:
   interval: 24h
   url: https://charts.min.io/
@@ -11,7 +11,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: minio
-  namespace: applications
+  namespace: security
 spec:
   interval: 30m
   chart:
@@ -22,7 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: minio
-        namespace: applications
+        namespace: security
       interval: 12h
   values:
     mode: standalone

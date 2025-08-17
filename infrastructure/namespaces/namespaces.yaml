@@ -27,3 +27,10 @@ metadata:
   name: monitoring
   labels:
     pod-security.kubernetes.io/enforce: privileged
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: security
+  labels:
+    pod-security.kubernetes.io/enforce: privileged

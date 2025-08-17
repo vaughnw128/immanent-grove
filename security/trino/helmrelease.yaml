@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: trino
-  namespace: applications
+  namespace: security
 spec:
   interval: 24h
   url: https://trinodb.github.io/charts/
@@ -11,7 +11,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: trino
-  namespace: applications
+  namespace: security
 spec:
   interval: 30m
   chart:
@@ -22,7 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: trino
-        namespace: applications
+        namespace: security
       interval: 12h
   values:
     server:
