@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shlink
+  namespace: applications
+  labels:
+    app: shlink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shlink
+  template:
+    metadata:
+      labels:
+        app: shlink
+    spec:
+      containers:
+        - name: shlink
+          image: shlinkio/shlink:stable
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DEFAULT_DOMAIN
+              value: s.vw-ops.net
+            - name: IS_HTTPS_ENABLED
+              value: "true"
+            - name: INITIAL_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: shlink-secret
+                  key: shlink-api
+          ports:
+            - containerPort: 8080
+              name: http
