@@ -20,7 +20,7 @@ metadata:
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
-  - host: shlink.vaughn.sh
+  - host: s.vaughn.sh
     http:
       paths:
       - path: /
