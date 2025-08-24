@@ -21,9 +21,9 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: DEFAULT_DOMAIN
-              value: s.vw-ops.net
+              value: s.vaughn.sh
             - name: IS_HTTPS_ENABLED
-              value: "false"
+              value: "true"
             - name: INITIAL_API_KEY
               valueFrom:
                 secretKeyRef:
