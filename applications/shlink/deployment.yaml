@@ -23,7 +23,7 @@ spec:
             - name: DEFAULT_DOMAIN
               value: s.vw-ops.net
             - name: IS_HTTPS_ENABLED
-              value: "true"
+              value: "false"
             - name: INITIAL_API_KEY
               valueFrom:
                 secretKeyRef:
