@@ -27,7 +27,7 @@ spec:
             - name: INITIAL_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: shlink-secret
+                  name: shlink-secrets
                   key: shlink-api
           ports:
             - containerPort: 8080
