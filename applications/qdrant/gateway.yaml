@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: qdrant
+  namespace: applications
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: qdrant.internal.vw-ops.net,grpc.qdrant.internal.vw-ops.net
+  listeners:
+  - protocol: HTTP
+    hostname: qdrant.internal.vw-ops.net
+    port: 80
+    name: http
+  - protocol: HTTPS
+    hostname: qdrant.internal.vw-ops.net
+    port: 443
+    name: https
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-qdrant-local
+  - protocol: HTTPS
+    hostname: grpc.qdrant.internal.vw-ops.net
+    port: 443
+    name: https-grpc
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: secret-tls-qdrant-local
+
