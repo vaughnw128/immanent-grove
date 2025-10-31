@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grove-cluster-rw-lb
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: grove-cluster.internal.vw-ops.net
+spec:
+  type: LoadBalancer
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+    protocol: TCP
+  selector:
+    cnpg.io/cluster: grove-cluster
+    role: primary
+
