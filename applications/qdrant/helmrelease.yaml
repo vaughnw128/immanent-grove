@@ -25,4 +25,3 @@ spec:
         name: qdrant
         namespace: applications
       interval: 12h
-

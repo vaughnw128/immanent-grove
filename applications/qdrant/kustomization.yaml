@@ -5,4 +5,5 @@ resources:
   - helmrelease.yaml
   - gateway.yaml
   - routes.yaml
+  - certificate.yaml
 

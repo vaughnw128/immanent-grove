@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: qdrant-tls
+  namespace: applications
+spec:
+  secretName: secret-tls-qdrant-local
+  dnsNames:
+    - qdrant.internal.vw-ops.net
+    - grpc.qdrant.internal.vw-ops.net
+  issuerRef:
+    kind: ClusterIssuer
+    name: cloudflare-issuer
+
