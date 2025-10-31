@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: applications
 resources:
   - helmrelease.yaml
-  - certificate.yaml
   - gateway.yaml
   - routes.yaml
 
