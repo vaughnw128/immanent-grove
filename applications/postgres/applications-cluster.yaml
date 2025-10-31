@@ -1,0 +1,28 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: applications-pg
+  namespace: applications
+spec:
+  instances: 3
+  storage:
+    size: 16Gi
+  enableSuperuserAccess: true
+  managed:
+    roles:
+      - name: pg-owner
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+      - name: pg-migrator
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+        passwordSecret:
+          name: pg-migrator
