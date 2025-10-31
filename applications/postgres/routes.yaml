@@ -1,13 +1,11 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TLSRoute
+kind: TCPRoute
 metadata:
-  name: grove-cluster-tls
+  name: grove-cluster-tcp
 spec:
   parentRefs:
   - name: grove-cluster
     sectionName: postgres
-  hostnames:
-  - grove-cluster.internal.vw-ops.net
   rules:
   - backendRefs:
     - name: grove-cluster-rw

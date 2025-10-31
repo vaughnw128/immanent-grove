@@ -10,9 +10,6 @@ spec:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: grove-cluster.internal.vw-ops.net
   listeners:
-  - protocol: TLS
-    hostname: grove-cluster.internal.vw-ops.net
+  - protocol: TCP
     port: 5432
     name: postgres
-    tls:
-      mode: Passthrough
