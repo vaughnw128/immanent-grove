@@ -24,6 +24,26 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: discsync
-      valuesFiles:
-        - "values.yaml"
       interval: 5m
+  values:
+    secretVars:
+      DISCORD_TOKEN: "discsync-discord-token/credential"
+
+    envVars:
+      DATABASE_URL: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@grove-cluster-rw.applications.svc.cluster.local:5432/sbux-oracle"
+
+    db:
+      enabled: true
+      name: "sbux-oracle"
+      cluster: "grove-cluster"
+
+      migrator:
+        secretName: "pg-migrator"
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 2048Mi
+        cpu: 1024m
