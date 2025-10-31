@@ -5,3 +5,5 @@ resources:
   - grove-cluster.yaml
   - sbux-oracle-db.yaml
   - pg-migrator-secret.yaml
+  - gateway.yaml
+  - routes.yaml
