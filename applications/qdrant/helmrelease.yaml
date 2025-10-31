@@ -25,16 +25,4 @@ spec:
         name: qdrant
         namespace: applications
       interval: 12h
-  values:
-    replicaCount: 1
-    persistence:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 20Gi
-    service:
-      type: ClusterIP
-      ports:
-        http: 6333
-        grpc: 6334
 
