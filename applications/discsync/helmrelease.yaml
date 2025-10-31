@@ -1,0 +1,29 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: discsync
+  namespace: applications
+spec:
+  interval: 5m0s
+  type: "oci"
+  url: oci://ghcr.io/vaughnw128/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: discsync
+  namespace: applications
+spec:
+  interval: 5m
+  releaseName: discsync
+  chart:
+    spec:
+      reconcileStrategy: ChartVersion
+      chart: discsync
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: discsync
+      valuesFiles:
+        - "values.yaml"
+      interval: 5m
