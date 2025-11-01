@@ -26,7 +26,7 @@ spec:
         name: secret-tls-qdrant-local
   - protocol: HTTPS
     hostname: grpc.qdrant.internal.vw-ops.net
-    port: 443
+    port: 6334
     name: https-grpc
     tls:
       mode: Terminate
