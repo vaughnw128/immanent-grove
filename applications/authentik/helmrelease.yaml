@@ -30,8 +30,8 @@ spec:
         - name: AUTHENTIK_SECRET_KEY
           valueFrom:
             secretKeyRef:
-            name: authentik-secrets
-            key: secret
+              name: authentik-secrets
+              key: secret
 
     authentik:
       log_level: info
