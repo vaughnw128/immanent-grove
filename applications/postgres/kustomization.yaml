@@ -7,4 +7,4 @@ resources:
   - pg-migrator-secret.yaml
   - service-lb.yaml
   - authentik-app.yaml
-  - authentik-db.yaml
+#  - authentik-db.yaml
