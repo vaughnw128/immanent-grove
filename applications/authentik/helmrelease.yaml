@@ -53,7 +53,3 @@ spec:
     # lazy
     redis:
       enabled: true
-
-    # we use gateway
-    ingress:
-      enabled: false
