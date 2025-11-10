@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authentik
+  namespace: applications
+spec:
+  name: sbux-oracle
+  owner: authentik-app
+  cluster:
+    name: grove-cluster

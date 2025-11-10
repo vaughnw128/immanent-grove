@@ -26,3 +26,12 @@ spec:
           - pg_signal_backend
         passwordSecret:
           name: pg-migrator
+      - name: authentik-app
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+        passwordSecret:
+          name: authentik-pg-app

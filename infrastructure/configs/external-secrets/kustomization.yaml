@@ -4,3 +4,4 @@ namespace: operators
 resources:
   - 1password-secret-store.yaml
   - secret.yaml
+  - generators.yaml
