@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: benbot
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: benbot
+  template:
+    metadata:
+      labels:
+        app: benbot
+    spec:
+      containers:
+      - name: benbot
+        image: "ghcr.io/benlepsch/benbot-rs:latest"
+        imagePullPolicy: Always
+        env:
+        - name: BENBOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: benbot-secrets
+              key: benbot-token
+        - name: PINS_CHANNEL
+          value: "855127902416273468"
