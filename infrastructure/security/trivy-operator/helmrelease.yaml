@@ -25,7 +25,7 @@ spec:
         namespace: security
       interval: 12h
   values:
-    trivy:
+    nodeCollector:
       volumeMounts:
         - name: var-lib-etcd
           mountPath: /var/lib/etcd
