@@ -44,7 +44,7 @@ spec:
 
     minecraftServer:
       eula: "TRUE"
-      version: "1.21.5"
+      version: "1.21.10"
       type: FABRIC
       difficulty: hard
       whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
@@ -68,9 +68,8 @@ spec:
           - spark
           - configurable-despawn-timer
           - bluemap
-          # - bmarker
+          - bmarker
           - image2map
-          # - noisium
           - audaki-cart-engine
         downloadDependencies: required
         allowedVersionType: default
