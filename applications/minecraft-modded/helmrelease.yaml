@@ -30,7 +30,6 @@ spec:
       limits:
         memory: 16384Mi
 
-    # Define whether the server is run as a statefulset
     workloadAsStatefulSet: false
     podAnnotations:
       server: moddedbabey
@@ -38,7 +37,7 @@ spec:
     livenessProbe:
       command:
         - mc-health
-      initialDelaySeconds: 360
+      initialDelaySeconds: 900
       periodSeconds: 5
       failureThreshold: 100
       successThreshold: 1
@@ -46,7 +45,7 @@ spec:
     readinessProbe:
       command:
         - mc-health
-      initialDelaySeconds: 360
+      initialDelaySeconds: 900
       periodSeconds: 5
       failureThreshold: 20
       successThreshold: 1
@@ -71,7 +70,7 @@ spec:
       gameMode: survival
       motd: "Every shitventure is better with mods!"
       worldSaveName: world
-      memory: 8192M
+      memory: 16384M
       serviceType: LoadBalancer
       servicePort: 25565
 
