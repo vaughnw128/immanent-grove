@@ -27,6 +27,8 @@ spec:
       requests:
         memory: 8192Mi
         cpu: 2000m
+      limits:
+        memory: 16384Mi
 
     # Define whether the server is run as a statefulset
     workloadAsStatefulSet: false
