@@ -33,9 +33,28 @@ spec:
     podAnnotations:
       server: moddedbabey
 
-    livenessProbe: {}
-    readinessProbe: {}
-    startupProbe: {}
+    livenessProbe:
+      command:
+        - mc-health
+      initialDelaySeconds: 360
+      periodSeconds: 5
+      failureThreshold: 100
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      command:
+        - mc-health
+      initialDelaySeconds: 360
+      periodSeconds: 5
+      failureThreshold: 20
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      command:
+        - mc-health
+      enabled: false
+      failureThreshold: 30
+      periodSeconds: 10
 
     minecraftServer:
       eula: "TRUE"
