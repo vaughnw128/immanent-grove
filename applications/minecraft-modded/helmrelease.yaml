@@ -1,0 +1,87 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-modded
+  namespace: applications
+spec:
+  interval: 5m
+  releaseName: minecraft-modded
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: minecraft
+      version: 5.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft
+      interval: 5m
+  values:
+    nameOverride: moddedbabey
+
+    image:
+      repository: itzg/minecraft-server
+      tag: latest
+      pullPolicy: Always
+
+    resources:
+      requests:
+        memory: 8192Mi
+        cpu: 2000m
+
+    # Define whether the server is run as a statefulset
+    workloadAsStatefulSet: false
+    podAnnotations:
+      server: moddedbabey
+
+    minecraftServer:
+      eula: "TRUE"
+      version: "1.21.1"
+      type: AUTO_CURSEFORGE
+      difficulty: hard
+      whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
+      ops: "wauhn, ZinkIThink"
+      icon: https://s3.vaughn.sh/cdn/server-icon.png
+      maxPlayers: 10
+      spawnProtection: 0
+      gameMode: survival
+      motd: "Every shitventure is better with mods!"
+      worldSaveName: world
+      memory: 8192M
+      serviceType: LoadBalancer
+      servicePort: 25566
+
+      autoCurseForge:
+        pageUrl: "https://www.curseforge.com/minecraft/modpacks/all-the-mods-10"
+        apiKey:
+          existingSecret: "minecraft-modded-secrets"
+          secretKey: cf-api-key
+
+      extraEnv:
+        ALLOW_FLIGHT: true
+        SYNC_CHUNK_WRITES: false
+        USE_AIKAR_FLAGS: true
+
+      rcon:
+        enabled: false
+        withGeneratedPassword: false
+        port: 25576
+        existingSecret: minecraft-secrets
+        secretKey: rcon-password
+        serviceType: ClusterIP
+
+      tty: true
+
+      query:
+        enabled: false
+        port: 25566
+
+    persistence:
+      storageClass: "truenas-nfs"
+      dataDir:
+        enabled: true
+        Size: 64Gi
+        accessModes:
+          - ReadWriteMany
+
+    mcbackup:
+      enabled: false
