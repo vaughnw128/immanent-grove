@@ -33,6 +33,10 @@ spec:
     podAnnotations:
       server: moddedbabey
 
+    livenessProbe: {}
+    readinessProbe: {}
+    startupProbe: {}
+
     minecraftServer:
       eula: "TRUE"
       version: "1.21.1"
