@@ -135,6 +135,7 @@ spec:
       # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
       backupMethod: restic
       destDir: /mc_backups
+      resticHostname: "s3.vaughn.sh"
       linkLatest: "false"
       compressMethod: "gzip"
       zstdParameters: "-3 --long=25 --single-thread"
