@@ -68,8 +68,8 @@ spec:
           - spark
           - fabric-api
           - configurable-despawn-timer
-#          - bluemap
-#          - bmarker
+          - bluemap
+          - bmarker
           - image2map
           - audaki-cart-engine
         downloadDependencies: required
