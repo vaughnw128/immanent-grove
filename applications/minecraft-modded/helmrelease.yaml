@@ -28,7 +28,7 @@ spec:
         memory: 8192Mi
         cpu: 2000m
       limits:
-        memory: 16384Mi
+        memory: 18000Mi
 
     workloadAsStatefulSet: false
     podAnnotations:
