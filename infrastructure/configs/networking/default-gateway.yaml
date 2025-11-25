@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: default-gateway
+  namespace: default # this makes the most sense honestly
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+  - name: https
+    protocol: HTTPS
+    port: 443
+    hostname: "*.internal.vw-ops.net"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: wildcard-tls-vw-internal
+    allowedRoutes:
+      namespaces:
+        from: All
