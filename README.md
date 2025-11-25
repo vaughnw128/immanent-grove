@@ -18,9 +18,9 @@ This makes for an easily IaC controlled environment, and the bootstrap process i
 
 ## Hardware
 
-My k8s hardware is dead simple and 'cheap':
+My k8s hardware is quite simple and 'cheap':
  - 1x UN100L Amd64 16gb memory
- - 1x UN150p Amd64 16gb memory
+ - 2x UN150p Amd64 16gb memory
  - 1x UN1290 Amd64 32gb memory
 
 I love these stupid Mini PCs, and they keep my power bill quite low. This is supplemented by a TrueNAS Scale 
