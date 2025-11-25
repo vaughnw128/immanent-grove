@@ -4,5 +4,4 @@ namespace: applications
 resources:
   - secrets.yaml
   - helmrelease.yaml
-  - gateway.yaml
   - routes.yaml
