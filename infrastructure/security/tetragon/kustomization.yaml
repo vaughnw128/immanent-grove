@@ -3,3 +3,10 @@ kind: Kustomization
 namespace: security
 resources:
   - helmrelease.yaml
+  - policies/privileges/privileges-setuid-root.yaml
+  - policies/privileges/privileges-raise.yaml
+  - policies/sshd.yaml
+  - policies/modules.yaml
+  - policies/library.yaml
+  - policies/egress.yaml
+  - policies/bpf.yaml
