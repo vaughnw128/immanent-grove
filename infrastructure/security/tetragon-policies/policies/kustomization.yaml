@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - bpf.yaml
+  - egress.yaml
+  - library.yaml
+  - modules.yaml
+  - sshd.yaml
+  - privileges/privileges-raise.yaml
+  - privileges/privileges-setuid-root.yaml
+
