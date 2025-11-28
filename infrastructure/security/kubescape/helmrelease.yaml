@@ -24,3 +24,7 @@ spec:
         name: kubescape
         namespace: security
       interval: 12h
+  values:
+    clusterName: "immanent-grove"
+    capabilities:
+      continuousScan: "enabled"
