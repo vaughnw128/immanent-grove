@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 5m0s
   type: "oci"
-  url: ghcr.io/berriai
+  url: oci://ghcr.io/berriai
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
