@@ -14,7 +14,7 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: litellm-helm
+    - name: litellm
       port: 4000
 ---
 apiVersion: gateway.networking.k8s.io/v1
