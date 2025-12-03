@@ -23,7 +23,7 @@ spec:
       version: "0.1.825"
       sourceRef:
         kind: HelmRepository
-        name: litellm-helm
+        name: litellm
       interval: 5m
   values:
     masterkeySecretName: "litellm-secrets"
