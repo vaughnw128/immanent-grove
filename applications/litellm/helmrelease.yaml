@@ -20,7 +20,7 @@ spec:
     spec:
       reconcileStrategy: ChartVersion
       chart: litellm-helm
-      version: "0.1.825"
+      version: "0.1.832"
       sourceRef:
         kind: HelmRepository
         name: litellm
