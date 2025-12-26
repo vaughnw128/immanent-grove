@@ -33,10 +33,10 @@ spec:
 
     envSecrets:
       dbCredentials:
-        existingSecret: db-secret
+        existingSecret: homarr-db-secret
         dbUrlKey: db-url
       dbEncryption:
-        existingSecret: db-encryption
+        existingSecret: homarr-db-encryption
         key: db-encryption-key
 
     service:
