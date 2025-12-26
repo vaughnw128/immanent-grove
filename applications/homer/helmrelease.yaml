@@ -37,7 +37,7 @@ spec:
         dbUrlKey: uri
       dbEncryption:
         existingSecret: homarr-db-encryption
-        key: db-encryption-key
+        key: encryption-key
 
     service:
       enabled: true
