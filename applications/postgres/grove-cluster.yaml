@@ -35,3 +35,12 @@ spec:
           - pg_signal_backend
         passwordSecret:
           name: authentik-pg-app
+      - name: homarr-app
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+        passwordSecret:
+          name: homarr-pg-app

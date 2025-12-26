@@ -8,3 +8,5 @@ resources:
   - service-lb.yaml
   - authentik-app.yaml
   - authentik-db.yaml
+  - homarr-app.yaml
+  - homarr-db.yaml

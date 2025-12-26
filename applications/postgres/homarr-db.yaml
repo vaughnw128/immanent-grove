@@ -1,0 +1,10 @@
+﻿apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: homarr
+  namespace: applications
+spec:
+  name: homarr
+  owner: homarr-app
+  cluster:
+    name: grove-cluster
