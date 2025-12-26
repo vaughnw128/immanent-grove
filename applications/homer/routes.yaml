@@ -9,7 +9,7 @@ spec:
   rules:
   - backendRefs:
     - name: homarr
-      port: 3000
+      port: 7575
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -22,4 +22,4 @@ spec:
   rules:
   - backendRefs:
     - name: homarr
-      port: 3000
+      port: 7575
