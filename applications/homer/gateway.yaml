@@ -8,14 +8,14 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: homarr.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: internal.vw-ops.net
   listeners:
   - protocol: HTTP
-    hostname: homarr.internal.vw-ops.net
+    hostname: internal.vw-ops.net
     port: 80
     name: http
   - protocol: HTTPS
-    hostname: homarr.internal.vw-ops.net
+    hostname: internal.vw-ops.net
     port: 443
     name: https
     tls:
