@@ -17,6 +17,7 @@ spec:
       data:
         username: "homarr-app"
         password: "{{`{{ .password }}`}}"
+        uri: "postgresql://homarr-app:{{`{{ .password }}`}}@grove-cluster-rw.applications.svc.cluster.local:5432/homarr"
   dataFrom:
     - sourceRef:
         generatorRef:

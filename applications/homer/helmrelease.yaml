@@ -33,8 +33,8 @@ spec:
 
     envSecrets:
       dbCredentials:
-        existingSecret: homarr-db-secret
-        dbUrlKey: db-url
+        existingSecret: homarr-pg-app
+        dbUrlKey: uri
       dbEncryption:
         existingSecret: homarr-db-encryption
         key: db-encryption-key
