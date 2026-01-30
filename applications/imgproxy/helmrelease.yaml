@@ -1,0 +1,36 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: imgproxy
+  namespace: applications
+spec:
+  interval: 24h
+  url: https://helm.imgproxy.net
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: imgproxy
+  namespace: applications
+spec:
+  interval: 30m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: imgproxy
+      version: "1.1.0"
+      sourceRef:
+        kind: HelmRepository
+        name: imgproxy
+        namespace: applications
+      interval: 12h
+  values:
+    resources:
+      addSecrets:
+        - imgproxy-secrets
+      service:
+        type: ClusterIP
+        port: 80
+    env:
+      IMGPROXY_ALLOWED_SOURCES: "https://s3.vaughn.sh/cdn/"

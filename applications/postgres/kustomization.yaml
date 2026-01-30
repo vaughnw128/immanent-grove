@@ -6,7 +6,5 @@ resources:
   - sbux-oracle-db.yaml
   - pg-migrator-secret.yaml
   - service-lb.yaml
-  - authentik-app.yaml
-  - authentik-db.yaml
   - homarr-app.yaml
   - homarr-db.yaml
