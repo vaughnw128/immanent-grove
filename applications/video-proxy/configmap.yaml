@@ -20,6 +20,13 @@ data:
         file_server
       }
 
+      @redirect_page path /r/*
+      handle @redirect_page {
+        rewrite * /redirect.html
+        root * /srv
+        file_server
+      }
+
       # Proxy video files from the public CDN (pass-through).
       handle_path /videos/* {
         rewrite * /cdn{path}
@@ -62,6 +69,8 @@ data:
       <meta name="twitter:card" content="player">
       <meta name="twitter:title" content="{{$videoName}}">
       <meta name="twitter:player" content="https://{{.Host}}{{.OriginalReq.URL.Path}}">
+      <meta name="twitter:player:width" content="1280">
+      <meta name="twitter:player:height" content="720">
       <meta name="twitter:player:stream" content="{{$videoUrl}}">
       <meta name="twitter:player:stream:content_type" content="video/mp4">
 
@@ -78,5 +87,42 @@ data:
           <source src="{{$videoUrl}}" type="video/mp4">
         </video>
       </div>
+    </body>
+    </html>
+
+  redirect.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      {{$path := .OriginalReq.URL.Path}}
+      {{if not $path}}
+        {{$path = .Req.URL.Path}}
+      {{end}}
+
+      {{$videoName := trimPrefix "/r/" $path}}
+      {{$videoUrl := printf "https://%s/videos/%s" .Host $videoName}}
+
+      <meta name="twitter:card" content="player">
+      <meta name="twitter:player:stream" content="{{$videoUrl}}">
+      <meta name="twitter:player:stream:content_type" content="video/mp4">
+      <meta name="twitter:player:width" content="1280">
+      <meta name="twitter:player:height" content="720">
+
+      <meta property="og:url" content="{{$videoUrl}}">
+      <meta property="og:video" content="{{$videoUrl}}">
+      <meta property="og:video:url" content="{{$videoUrl}}">
+      <meta property="og:video:secure_url" content="{{$videoUrl}}">
+      <meta property="og:video:type" content="video/mp4">
+      <meta property="og:video:width" content="1280">
+      <meta property="og:video:height" content="720">
+
+      <meta http-equiv="refresh" content="0; url={{$videoUrl}}">
+      <title>{{$videoName}}</title>
+    </head>
+    <body>
+      Redirecting you to the video. <a href="{{$videoUrl}}">Click here</a>.
     </body>
     </html>
