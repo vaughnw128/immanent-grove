@@ -20,17 +20,9 @@ data:
         file_server
       }
 
-      # Proxy MP4 files from the public CDN.
+      # Proxy video files from the public CDN (pass-through).
       handle_path /videos/* {
-        rewrite * /cdn/videos{path}
-        reverse_proxy https://s3.vaughn.sh {
-          header_up Host s3.vaughn.sh
-        }
-      }
-
-      # Proxy thumbnails from the public CDN.
-      handle_path /thumbnails/* {
-        rewrite * /cdn/thumbnails{path}
+        rewrite * /cdn{path}
         reverse_proxy https://s3.vaughn.sh {
           header_up Host s3.vaughn.sh
         }
@@ -52,8 +44,7 @@ data:
       {{end}}
 
       {{$videoName := trimPrefix "/v/" $path}}
-      {{$videoUrl := printf "https://%s/videos/%s.mp4" .Host $videoName}}
-      {{$thumbUrl := printf "https://%s/thumbnails/%s.jpg" .Host $videoName}}
+      {{$videoUrl := printf "https://%s/videos/%s" .Host $videoName}}
 
       <title>{{$videoName}}</title>
       <meta property="og:type" content="video.other">
@@ -64,8 +55,6 @@ data:
       <meta property="og:video" content="{{$videoUrl}}">
       <meta property="og:video:secure_url" content="{{$videoUrl}}">
       <meta property="og:video:type" content="video/mp4">
-
-      <meta property="og:image" content="{{$thumbUrl}}">
 
       <meta name="twitter:card" content="player">
       <meta name="twitter:title" content="{{$videoName}}">
