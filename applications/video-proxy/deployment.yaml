@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-proxy
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: video-proxy
+  template:
+    metadata:
+      labels:
+        app: video-proxy
+    spec:
+      containers:
+      - name: caddy
+        image: caddy:2.8.4
+        ports:
+        - name: http
+          containerPort: 8080
+        volumeMounts:
+        - name: config
+          mountPath: /etc/caddy/Caddyfile
+          subPath: Caddyfile
+        - name: config
+          mountPath: /srv/video.html
+          subPath: video.html
+      volumes:
+      - name: config
+        configMap:
+          name: video-proxy

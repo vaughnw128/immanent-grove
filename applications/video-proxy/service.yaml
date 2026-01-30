@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-proxy
+spec:
+  selector:
+    app: video-proxy
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
