@@ -12,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: imgproxy-service
+            name: imgproxy-imgproxy
             port:
               number: 80
