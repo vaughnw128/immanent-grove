@@ -1,15 +1,17 @@
-apiVersion: networking.cfargotunnel.com/v1alpha1
-kind: TunnelBinding
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: imgproxy-tunnel
-  labels:
-    cfargotunnel.com/kind: TunnelBinding
-    cfargotunnel.com/name: cluster-tunnel
-subjects:
-  - name: imgproxy
-    spec:
-      fqdn: imgproxy.vaughn.sh
-      protocol: http
-tunnelRef:
-  kind: ClusterTunnel
-  name: cluster-tunnel
+  name: imgproxy-cloudflare
+spec:
+  ingressClassName: cloudflare-tunnel
+  rules:
+  - host: imgproxy.vaughn.sh
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: imgproxy-service
+            port:
+              number: 80
