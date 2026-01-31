@@ -34,3 +34,4 @@ spec:
         port: 80
     env:
       IMGPROXY_ALLOWED_SOURCES: "https://s3.vaughn.sh/cdn/"
+      IMGPROXY_MAX_ANIMATION_FRAMES: "999"

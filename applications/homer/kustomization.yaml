@@ -6,3 +6,4 @@ resources:
   - secrets.yaml
   - gateway.yaml
   - routes.yaml
+
