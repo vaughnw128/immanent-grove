@@ -37,5 +37,6 @@ spec:
             model: openai/text-embedding-qwen3-embedding-0.6b
             api_key: "n/a"
             api_base: http://localai-local-ai.applications.svc.cluster.local:80/v1
+            drop_params: true
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
