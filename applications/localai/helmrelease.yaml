@@ -60,21 +60,10 @@ spec:
       - name: download-model
         image: busybox:1.36
         imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            MODEL_PATH="/models/Qwen3-Embedding-0.6B-Q8_0.gguf"
-            if [ -f "$MODEL_PATH" ]; then
-              echo "Model already exists, skipping download."
-            else
-              echo "Downloading Qwen3-Embedding-0.6B Q8_0 GGUF..."
-              wget -O "$MODEL_PATH" \
-                "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf"
-              echo "Download complete."
-            fi
-        volumeMounts:
-          - name: models
-            mountPath: /models
+        command:
+          - /bin/sh
+          - -c
+          - 'MODEL_PATH="/models/Qwen3-Embedding-0.6B-Q8_0.gguf"; if [ -f "$MODEL_PATH" ]; then echo "Model exists, skipping."; else echo "Downloading model..."; wget -O "$MODEL_PATH" "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf" && echo "Done."; fi'
 
     persistence:
       models:
