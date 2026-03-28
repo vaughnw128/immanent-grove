@@ -1,0 +1,91 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: go-skynet
+  namespace: applications
+spec:
+  interval: 24h
+  url: https://go-skynet.github.io/helm-charts/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: localai
+  namespace: applications
+spec:
+  interval: 30m
+  releaseName: localai
+  chart:
+    spec:
+      reconcileStrategy: ChartVersion
+      chart: local-ai
+      version: "3.4.2"
+      sourceRef:
+        kind: HelmRepository
+        name: go-skynet
+        namespace: applications
+      interval: 12h
+  values:
+    replicaCount: 1
+
+    deployment:
+      image:
+        repository: quay.io/go-skynet/local-ai
+        tag: latest-cpu
+      pullPolicy: IfNotPresent
+      env:
+        threads: 4
+        context_size: 512
+      modelsPath: "/models"
+
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "8Gi"
+
+    # Model config for Qwen3-Embedding-0.6B via llama-cpp backend
+    modelsConfigs:
+      qwen3-embedding:
+        name: text-embedding-qwen3-embedding-0.6b
+        backend: llama-cpp
+        embeddings: true
+        parameters:
+          model: Qwen3-Embedding-0.6B-Q8_0.gguf
+
+    # Download the GGUF at startup
+    initContainers:
+      - name: download-model
+        image: busybox:1.36
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            MODEL_PATH="/models/Qwen3-Embedding-0.6B-Q8_0.gguf"
+            if [ -f "$MODEL_PATH" ]; then
+              echo "Model already exists, skipping download."
+            else
+              echo "Downloading Qwen3-Embedding-0.6B Q8_0 GGUF..."
+              wget -O "$MODEL_PATH" \
+                "https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-Q8_0.gguf"
+              echo "Download complete."
+            fi
+        volumeMounts:
+          - name: models
+            mountPath: /models
+
+    persistence:
+      models:
+        enabled: true
+        accessModes:
+          - ReadWriteOnce
+        size: 5Gi
+        globalMount: /models
+      output:
+        enabled: false
+
+    service:
+      type: ClusterIP
+      port: 80

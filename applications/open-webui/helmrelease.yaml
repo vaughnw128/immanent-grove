@@ -1,0 +1,59 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: open-webui
+  namespace: applications
+spec:
+  interval: 24h
+  url: https://helm.openwebui.com/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: open-webui
+  namespace: applications
+spec:
+  interval: 30m
+  releaseName: open-webui
+  chart:
+    spec:
+      reconcileStrategy: ChartVersion
+      chart: open-webui
+      version: "12.13.0"
+      sourceRef:
+        kind: HelmRepository
+        name: open-webui
+        namespace: applications
+      interval: 12h
+  values:
+    # Disable bundled Ollama -- we use LocalAI + LiteLLM
+    ollama:
+      enabled: false
+
+    # Disable bundled pipelines
+    pipelines:
+      enabled: false
+
+    # Point at LiteLLM as the OpenAI-compatible backend
+    # LiteLLM can proxy to LocalAI and any other models you add
+    enableOpenaiApi: true
+    openaiBaseApiUrls:
+      - "http://litellm:4000/v1"
+      - "http://localai-local-ai:80/v1"
+
+    # Use DATABASE_URL from the secret instead of bundled SQLite
+    extraEnvVars:
+      - name: DATABASE_URL
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-pg-app
+            key: uri
+
+    persistence:
+      enabled: true
+      size: 2Gi
+
+    service:
+      type: ClusterIP
+      port: 80
+      containerPort: 8080

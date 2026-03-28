@@ -1,0 +1,35 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: open-webui-https
+spec:
+  parentRefs:
+  - name: open-webui
+  hostnames:
+    - chat.internal.vw-ops.net
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: open-webui
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: open-webui-redirect
+spec:
+  parentRefs:
+  - name: open-webui
+    sectionName: http
+  hostnames:
+  - chat.internal.vw-ops.net
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301

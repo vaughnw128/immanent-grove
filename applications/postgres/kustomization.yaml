@@ -8,3 +8,7 @@ resources:
   - service-lb.yaml
   - homarr-app.yaml
   - homarr-db.yaml
+  - homarr-app-pushsecret.yaml
+  - open-webui-app.yaml
+  - open-webui-db.yaml
+  - open-webui-app-pushsecret.yaml

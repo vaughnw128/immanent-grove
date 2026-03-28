@@ -28,3 +28,14 @@ spec:
   values:
     masterkeySecretName: "litellm-secrets"
     masterkeySecretKey: "master-key"
+    proxyConfigMap:
+      create: true
+    proxy_config:
+      model_list:
+        - model_name: text-embedding-qwen3-embedding-0.6b
+          litellm_params:
+            model: openai/text-embedding-qwen3-embedding-0.6b
+            api_key: "n/a"
+            api_base: http://localai-local-ai.applications.svc.cluster.local:80/v1
+      general_settings:
+        master_key: os.environ/PROXY_MASTER_KEY
