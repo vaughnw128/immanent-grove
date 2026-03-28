@@ -17,7 +17,7 @@ spec:
       data:
         username: "homarr-app"
         password: "{{ .password }}"
-        uri: "postgresql://homarr-app:{{ .password }}@grove-cluster-rw.applications.svc.cluster.local:5432/homarr"
+        uri: "postgresql://homarr-app:{{ .password | urlquery }}@grove-cluster-rw.applications.svc.cluster.local:5432/homarr"
   data:
     - secretKey: password
       remoteRef:
