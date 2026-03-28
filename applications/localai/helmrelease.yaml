@@ -48,7 +48,7 @@ spec:
 
     # Model config for Qwen3-Embedding-0.6B via llama-cpp backend
     modelsConfigs:
-      qwen3-embedding:
+      qwen3-embedding: |
         name: text-embedding-qwen3-embedding-0.6b
         backend: llama-cpp
         embeddings: true
