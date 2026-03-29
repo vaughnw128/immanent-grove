@@ -27,7 +27,7 @@ spec:
       EMBEDDING_DIMENSIONS: "1024"
       EMBEDDING_API_KEY: "n/a"
       QDRANT_HOSTNAME: "http://qdrant.applications.svc.cluster.local"
-      QDRANT_PORT: "443"
+      QDRANT_PORT: "6333"
       QDRANT_COLLECTION: "discsync-embeddings"
 
     db:
