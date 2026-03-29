@@ -46,7 +46,9 @@ spec:
         - world
         - kube-apiserver
 ---
-# Allow Gateway API envoy proxies (kube-system) to reach application backends
+# Allow Cilium Gateway API / Envoy to reach application backends.
+# Cilium's envoy runs as part of the agent on the host network, so traffic
+# from the gateway proxy appears as the 'host' entity, not a kube-system pod.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -55,6 +57,9 @@ metadata:
 spec:
   endpointSelector: {}
   ingress:
+    - fromEntities:
+        - host
+        - remote-node
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system

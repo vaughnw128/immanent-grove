@@ -59,7 +59,8 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: applications
 ---
-# Allow gateway proxies to reach operators (1password-connect gateway)
+# Allow Cilium Gateway API / Envoy to reach operator backends (1password-connect).
+# Cilium's envoy runs on the host network, so traffic appears as 'host' entity.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -68,6 +69,9 @@ metadata:
 spec:
   endpointSelector: {}
   ingress:
+    - fromEntities:
+        - host
+        - remote-node
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system

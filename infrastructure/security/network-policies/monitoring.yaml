@@ -71,7 +71,8 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: security
 ---
-# Allow gateway proxies to reach Grafana
+# Allow Cilium Gateway API / Envoy to reach Grafana.
+# Cilium's envoy runs on the host network, so traffic appears as 'host' entity.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -80,6 +81,9 @@ metadata:
 spec:
   endpointSelector: {}
   ingress:
+    - fromEntities:
+        - host
+        - remote-node
     - fromEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
