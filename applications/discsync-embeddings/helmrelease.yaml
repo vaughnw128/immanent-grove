@@ -14,31 +14,3 @@ spec:
         kind: HelmRepository
         name: discsync-embeddings
       interval: 5m
-  values:
-    gateway:
-      enabled: false
-
-    certManager:
-      enabled: false
-
-    envVars:
-      EMBEDDING_MODEL: "text-embedding-qwen3-embedding-0.6b"
-      EMBEDDING_BASE_URL: "http://localai-local-ai.applications.svc.cluster.local:80/v1"
-      EMBEDDING_DIMENSIONS: "1024"
-      EMBEDDING_API_KEY: "n/a"
-      QDRANT_HOSTNAME: "http://qdrant.applications.svc.cluster.local"
-      QDRANT_PORT: "6333"
-      QDRANT_COLLECTION: "discsync-embeddings"
-
-    db:
-      enabled: true
-      name: "sbux-oracle"
-      cluster: "grove-cluster"
-
-    resources:
-      requests:
-        memory: 1024Mi
-        cpu: 500m
-      limits:
-        memory: 4096Mi
-        cpu: 4000m
