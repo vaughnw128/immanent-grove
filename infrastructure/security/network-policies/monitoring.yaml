@@ -44,6 +44,7 @@ spec:
               protocol: TCP
     - toEntities:
         - world
+        - kube-apiserver
 ---
 # Prometheus needs to scrape all namespaces
 apiVersion: cilium.io/v2

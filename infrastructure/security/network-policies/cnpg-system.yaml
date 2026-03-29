@@ -44,6 +44,7 @@ spec:
               protocol: TCP
     - toEntities:
         - world
+        - kube-apiserver
 ---
 # Allow applications to connect to postgres
 apiVersion: cilium.io/v2
