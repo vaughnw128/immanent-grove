@@ -1,6 +1,12 @@
 # Network policies for the applications namespace.
 # Default-deny ingress from outside the cluster, then explicit allows for
 # intra-namespace, gateway proxies, and monitoring scrapes.
+#
+# Default-deny is achieved via the idiomatic Cilium pattern: applying a policy
+# with an ingress section selects endpoints into policy enforcement, causing all
+# ingress not explicitly allowed by any policy to be dropped. This avoids
+# ingressDeny rules which take precedence over allow rules and would block
+# legitimate traffic like API server webhook calls.
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -9,9 +15,7 @@ metadata:
   namespace: applications
 spec:
   endpointSelector: {}
-  ingressDeny:
-    - fromEntities:
-        - world
+  ingress: []
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
