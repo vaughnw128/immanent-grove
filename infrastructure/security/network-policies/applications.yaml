@@ -72,6 +72,33 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: cnpg-system
 ---
+# Allow external traffic to reach LoadBalancer services (e.g. Minecraft, Postgres).
+# LAN clients hitting a LoadBalancer IP are classified as 'world' by Cilium.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-loadbalancer-ingress
+  namespace: applications
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - world
+---
+# Allow the Cloudflare Tunnel controller (controllers namespace) to reach
+# application backends (e.g. BlueMap via maps.vaughn.sh)
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-cloudflare-tunnel
+  namespace: applications
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: controllers
+---
 # Allow Prometheus to scrape application pods
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
