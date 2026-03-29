@@ -54,6 +54,25 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: applications
 ---
+# Allow the Kubernetes API server to reach CNPG webhooks.
+# On Talos Linux the API server runs on the host network so it appears as
+# the 'host' entity or from kube-system.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-apiserver-webhooks
+  namespace: cnpg-system
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - host
+        - remote-node
+        - kube-apiserver
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+---
 # Allow Prometheus to scrape CNPG metrics
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

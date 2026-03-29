@@ -67,6 +67,25 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
 ---
+# Allow the Kubernetes API server to reach operator webhooks
+# (external-secrets validating/mutating webhooks).
+# On Talos the API server runs on the host network.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-apiserver-webhooks
+  namespace: operators
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - host
+        - remote-node
+        - kube-apiserver
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+---
 # Allow Prometheus to scrape operator pods
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
