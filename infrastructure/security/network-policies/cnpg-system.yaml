@@ -45,6 +45,9 @@ spec:
     - toEntities:
         - world
         - kube-apiserver
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: applications
 ---
 # Allow applications to connect to postgres
 apiVersion: cilium.io/v2

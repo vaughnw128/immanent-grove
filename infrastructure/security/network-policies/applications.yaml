@@ -59,6 +59,19 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
 ---
+# Allow the CNPG operator to reach instance pods for status checks and management
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-cnpg-operator
+  namespace: applications
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: cnpg-system
+---
 # Allow Prometheus to scrape application pods
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
