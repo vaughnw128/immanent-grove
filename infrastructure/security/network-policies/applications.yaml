@@ -2,20 +2,10 @@
 # Default-deny ingress from outside the cluster, then explicit allows for
 # intra-namespace, gateway proxies, and monitoring scrapes.
 #
-# Default-deny is achieved via the idiomatic Cilium pattern: applying a policy
-# with an ingress section selects endpoints into policy enforcement, causing all
-# ingress not explicitly allowed by any policy to be dropped. This avoids
-# ingressDeny rules which take precedence over allow rules and would block
-# legitimate traffic like API server webhook calls.
----
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: default-deny-ingress
-  namespace: applications
-spec:
-  endpointSelector: {}
-  ingress: []
+# Cilium enters policy enforcement mode for an endpoint as soon as any
+# CiliumNetworkPolicy selects it. Since all policies below use
+# endpointSelector: {} (match all), every pod in the namespace is enrolled
+# automatically — no explicit default-deny policy is needed.
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
@@ -79,7 +69,11 @@ spec:
             io.kubernetes.pod.namespace: cnpg-system
 ---
 # Allow external traffic to reach LoadBalancer services (e.g. Minecraft, Postgres).
-# LAN clients hitting a LoadBalancer IP are classified as 'world' by Cilium.
+# L2 LB traffic from LAN clients can be classified differently depending on
+# the packet path through Cilium's eBPF datapath:
+#   - world: standard external client
+#   - cluster: traffic NATed through a node
+#   - host: traffic arriving via the node's host network stack (L2 announcement)
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -90,6 +84,8 @@ spec:
   ingress:
     - fromEntities:
         - world
+        - cluster
+        - host
 ---
 # Allow the Cloudflare Tunnel controller (controllers namespace) to reach
 # application backends (e.g. BlueMap via maps.vaughn.sh)
