@@ -25,6 +25,6 @@ spec:
         memory: 512Mi
     image:
       repository: louislam/uptime-kuma
-      tag: 2.0.0-beta.3
+      tag: 2.1.0-beta.3
     mariadb:
       enabled: true
