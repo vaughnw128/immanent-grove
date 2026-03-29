@@ -1,12 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: democratic-csi
-  namespace: controllers
-spec:
-  interval: 24h
-  url: https://democratic-csi.github.io/charts/
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

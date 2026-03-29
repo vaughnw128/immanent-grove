@@ -5,7 +5,8 @@ metadata:
   name: grafana-https
 spec:
   parentRefs:
-  - name: grafana
+  - name: default-gateway
+    namespace: default
   hostnames:
     - grafana.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: grafana-redirect
 spec:
   parentRefs:
-  - name: grafana
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - grafana.internal.vw-ops.net

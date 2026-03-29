@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crosstown-traffic
+spec:
+  interval: 5m
+  releaseName: crosstown-traffic
+  chart:
+    spec:
+      chart: crosstown-traffic
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: crosstown-traffic
+      interval: 5m

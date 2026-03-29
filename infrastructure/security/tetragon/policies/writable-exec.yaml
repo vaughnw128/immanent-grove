@@ -1,0 +1,26 @@
+# Detect execution of binaries from writable/temporary directories
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "detect-writable-dir-execution"
+  annotations:
+    description: "Detects execution of binaries from /tmp, /dev/shm, /var/tmp, and /run"
+spec:
+  tracepoints:
+  - subsystem: "sched"
+    event: "sched_process_exec"
+    args:
+    - index: 0
+      type: "string"
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: "Prefix"
+        values:
+        - "/tmp/"
+        - "/dev/shm/"
+        - "/var/tmp/"
+        - "/run/user/"
+      matchActions:
+      - action: Post
+        rateLimit: "1m"

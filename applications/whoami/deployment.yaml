@@ -16,8 +16,11 @@ spec:
         - name: whoami
           image: traefik/whoami
           resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              cpu: 500m
+              memory: 128Mi
           ports:
             - containerPort: 80

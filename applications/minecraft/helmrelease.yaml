@@ -1,12 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: minecraft
-  namespace: applications
-spec:
-  interval: 5m0s
-  url: https://itzg.github.io/minecraft-server-charts
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -36,6 +27,8 @@ spec:
       requests:
         memory: 8192Mi
         cpu: 1500m
+      limits:
+        memory: 12Gi
 
     # Define whether the server is run as a statefulset
     workloadAsStatefulSet: false

@@ -1,17 +1,8 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: uptime-kuma
-  namespace: applicaitons
-spec:
-  interval: 24h
-  url: https://helm.irsigler.cloud
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: uptime-kuma
-  namespace: applicaitons
+  namespace: applications
 spec:
   interval: 30m
   chart:
@@ -25,6 +16,13 @@ spec:
         namespace: applications
       interval: 12h
   values:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
     image:
       repository: louislam/uptime-kuma
       tag: 2.0.0-beta.3

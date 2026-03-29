@@ -1,0 +1,51 @@
+# Detect execution of common reconnaissance and attack tools
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "detect-suspicious-binaries"
+  annotations:
+    description: "Detects execution of common recon and attack tools inside containers"
+spec:
+  tracepoints:
+  - subsystem: "sched"
+    event: "sched_process_exec"
+    args:
+    - index: 0
+      type: "string"
+    selectors:
+    - matchBinaries:
+      - operator: "In"
+        values:
+        # Network reconnaissance
+        - "/usr/bin/nmap"
+        - "/usr/bin/nc"
+        - "/usr/bin/ncat"
+        - "/usr/bin/netcat"
+        - "/usr/bin/socat"
+        - "/usr/bin/tcpdump"
+        - "/usr/sbin/tcpdump"
+        # Download tools (potential C2 / payload fetch)
+        - "/usr/bin/curl"
+        - "/usr/bin/wget"
+        # Kubernetes tools (should not run inside app containers)
+        - "/usr/bin/kubectl"
+        - "/usr/local/bin/kubectl"
+        - "/usr/bin/crictl"
+        - "/usr/local/bin/crictl"
+        # Debuggers / injection tools
+        - "/usr/bin/gdb"
+        - "/usr/bin/strace"
+        - "/usr/bin/ltrace"
+        # Compilers (building exploits in-container)
+        - "/usr/bin/gcc"
+        - "/usr/bin/cc"
+        - "/usr/bin/g++"
+        - "/usr/bin/make"
+        # Scripting engines commonly abused
+        - "/usr/bin/python"
+        - "/usr/bin/python3"
+        - "/usr/bin/perl"
+        - "/usr/bin/ruby"
+      matchActions:
+      - action: Post
+        rateLimit: "1m"

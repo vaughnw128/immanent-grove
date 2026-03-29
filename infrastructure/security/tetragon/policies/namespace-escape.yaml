@@ -1,0 +1,34 @@
+# Detect container namespace escape attempts via setns/unshare
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "detect-namespace-escape"
+  annotations:
+    description: "Detects setns and unshare syscalls used in container escape attempts"
+spec:
+  kprobes:
+  - call: "__x64_sys_setns"
+    message: "Process attempted to switch namespaces via setns"
+    syscall: true
+    args:
+    - index: 0
+      type: "int"
+      label: "fd"
+    - index: 1
+      type: "int"
+      label: "nstype"
+    selectors:
+    - matchActions:
+      - action: Post
+        rateLimit: "1m"
+  - call: "__x64_sys_unshare"
+    message: "Process attempted to create new namespaces via unshare"
+    syscall: true
+    args:
+    - index: 0
+      type: "int"
+      label: "flags"
+    selectors:
+    - matchActions:
+      - action: Post
+        rateLimit: "1m"

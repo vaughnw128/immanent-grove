@@ -1,13 +1,3 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: imgproxy
-  namespace: applications
-spec:
-  interval: 24h
-  url: https://helm.imgproxy.net
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

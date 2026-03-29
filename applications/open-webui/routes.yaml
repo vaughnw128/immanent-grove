@@ -5,7 +5,8 @@ metadata:
   name: open-webui-https
 spec:
   parentRefs:
-  - name: open-webui
+  - name: default-gateway
+    namespace: default
   hostnames:
     - chat.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: open-webui-redirect
 spec:
   parentRefs:
-  - name: open-webui
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - chat.internal.vw-ops.net

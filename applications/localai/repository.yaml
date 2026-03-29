@@ -1,0 +1,7 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: go-skynet
+spec:
+  interval: 24h
+  url: https://go-skynet.github.io/helm-charts/

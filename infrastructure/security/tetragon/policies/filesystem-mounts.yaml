@@ -1,0 +1,37 @@
+# Detect mount/umount syscalls - containers should not mount filesystems at runtime
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "detect-filesystem-mounts"
+  annotations:
+    description: "Detects mount and umount syscalls which may indicate container escape attempts"
+spec:
+  kprobes:
+  - call: "__x64_sys_mount"
+    message: "Process attempted to mount a filesystem"
+    syscall: true
+    args:
+    - index: 0
+      type: "string"
+      label: "source"
+    - index: 1
+      type: "string"
+      label: "target"
+    - index: 2
+      type: "string"
+      label: "fstype"
+    selectors:
+    - matchActions:
+      - action: Post
+        rateLimit: "1m"
+  - call: "__x64_sys_umount2"
+    message: "Process attempted to unmount a filesystem"
+    syscall: true
+    args:
+    - index: 0
+      type: "string"
+      label: "target"
+    selectors:
+    - matchActions:
+      - action: Post
+        rateLimit: "1m"

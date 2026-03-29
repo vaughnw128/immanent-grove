@@ -10,3 +10,9 @@ resources:
   - policies/library.yaml
   - policies/egress.yaml
   - policies/bpf.yaml
+  - policies/sensitive-files.yaml
+  - policies/writable-exec.yaml
+  - policies/namespace-escape.yaml
+  - policies/filesystem-mounts.yaml
+  - policies/suspicious-binaries.yaml
+  - policies/kernel-tampering.yaml

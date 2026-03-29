@@ -1,0 +1,67 @@
+# Monitor access to sensitive files: credentials, tokens, SSH keys, shadow/passwd
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "monitor-sensitive-file-access"
+  annotations:
+    description: "Detects reads and writes to sensitive files such as credentials, tokens, and SSH keys"
+spec:
+  kprobes:
+  - call: "security_file_permission"
+    message: "Sensitive file accessed"
+    syscall: false
+    return: true
+    args:
+    - index: 0
+      type: "file"
+    - index: 1
+      type: "int"
+    returnArg:
+      index: 0
+      type: "int"
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: "Prefix"
+        values:
+        - "/etc/shadow"
+        - "/etc/passwd"
+        - "/etc/gshadow"
+        - "/root/.ssh"
+        - "/home"
+      - index: 1
+        operator: "Mask"
+        values:
+        - "4"   # MAY_READ
+      matchActions:
+      - action: Post
+        rateLimit: "1m"
+    - matchArgs:
+      - index: 0
+        operator: "Prefix"
+        values:
+        - "/etc/shadow"
+        - "/etc/passwd"
+        - "/etc/gshadow"
+        - "/root/.ssh"
+        - "/home"
+      - index: 1
+        operator: "Mask"
+        values:
+        - "2"   # MAY_WRITE
+      matchActions:
+      - action: Post
+        rateLimit: "1m"
+    - matchArgs:
+      - index: 0
+        operator: "Prefix"
+        values:
+        - "/var/run/secrets/kubernetes.io/serviceaccount"
+        - "/etc/kubernetes"
+      - index: 1
+        operator: "Mask"
+        values:
+        - "4"   # MAY_READ
+      matchActions:
+      - action: Post
+        rateLimit: "1m"

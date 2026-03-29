@@ -5,7 +5,8 @@ metadata:
   name: localai-https
 spec:
   parentRefs:
-  - name: localai
+  - name: default-gateway
+    namespace: default
   hostnames:
     - localai.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: localai-redirect
 spec:
   parentRefs:
-  - name: localai
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - localai.internal.vw-ops.net

@@ -4,6 +4,10 @@ metadata:
   name: applications
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infra-configs
+    - name: infra-controllers
+    - name: infra-operators
   interval: 5m
   retryInterval: 1m
   timeout: 5m

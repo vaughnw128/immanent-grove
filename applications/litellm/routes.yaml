@@ -5,7 +5,8 @@ metadata:
   name: litellm-https
 spec:
   parentRefs:
-  - name: litellm
+  - name: default-gateway
+    namespace: default
   hostnames:
     - litellm.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: litellm-redirect
 spec:
   parentRefs:
-  - name: litellm
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - litellm.internal.vw-ops.net

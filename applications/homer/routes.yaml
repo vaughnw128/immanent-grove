@@ -1,15 +1,20 @@
-﻿apiVersion: gateway.networking.k8s.io/v1
+apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: homarr-http
 spec:
   parentRefs:
-  - name: homarr
+  - name: default-gateway
+    namespace: default
     sectionName: http
+  hostnames:
+  - internal.vw-ops.net
   rules:
-  - backendRefs:
-    - name: homarr
-      port: 7575
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -17,8 +22,11 @@ metadata:
   name: homarr-https
 spec:
   parentRefs:
-  - name: homarr
-    sectionName: https
+  - name: default-gateway
+    namespace: default
+    sectionName: https-bare
+  hostnames:
+  - internal.vw-ops.net
   rules:
   - backendRefs:
     - name: homarr

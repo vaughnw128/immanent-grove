@@ -1,0 +1,55 @@
+# Detect kernel parameter tampering and process injection via ptrace
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "detect-kernel-tampering"
+  annotations:
+    description: "Detects writes to /proc/sys and /sys/kernel, and ptrace attach for process injection"
+spec:
+  kprobes:
+  - call: "security_file_permission"
+    message: "Write to kernel parameters detected"
+    syscall: false
+    return: true
+    args:
+    - index: 0
+      type: "file"
+    - index: 1
+      type: "int"
+    returnArg:
+      index: 0
+      type: "int"
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: "Prefix"
+        values:
+        - "/proc/sys/"
+        - "/sys/kernel/"
+      - index: 1
+        operator: "Equal"
+        values:
+        - "2"   # MAY_WRITE
+      matchActions:
+      - action: Post
+        rateLimit: "1m"
+  - call: "__x64_sys_ptrace"
+    message: "Process attempted ptrace attach"
+    syscall: true
+    args:
+    - index: 0
+      type: "int"
+      label: "request"
+    - index: 1
+      type: "int"
+      label: "pid"
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: "Equal"
+        values:
+        - "16"   # PTRACE_ATTACH
+        - "17"   # PTRACE_SEIZE
+      matchActions:
+      - action: Post
+        rateLimit: "1m"

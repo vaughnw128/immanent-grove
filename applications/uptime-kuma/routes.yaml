@@ -5,7 +5,8 @@ metadata:
   name: uptime-kuma-https
 spec:
   parentRefs:
-  - name: uptime-kuma
+  - name: default-gateway
+    namespace: default
   hostnames:
     - kuma.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: uptime-kuma-redirect
 spec:
   parentRefs:
-  - name: uptime-kuma
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - kuma.internal.vw-ops.net

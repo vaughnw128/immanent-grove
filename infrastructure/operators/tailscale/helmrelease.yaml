@@ -1,12 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: tailscale-operator
-  namespace: operators
-spec:
-  interval: 24h
-  url: https://pkgs.tailscale.com/helmcharts
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

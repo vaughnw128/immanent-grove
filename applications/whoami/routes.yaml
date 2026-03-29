@@ -5,7 +5,8 @@ metadata:
   name: whoami-https
 spec:
   parentRefs:
-  - name: whoami
+  - name: default-gateway
+    namespace: default
   hostnames:
     - whoami.internal.vw-ops.net
   rules:
@@ -23,7 +24,8 @@ metadata:
   name: whoami-redirect
 spec:
   parentRefs:
-  - name: whoami
+  - name: default-gateway
+    namespace: default
     sectionName: http
   hostnames:
   - whoami.internal.vw-ops.net

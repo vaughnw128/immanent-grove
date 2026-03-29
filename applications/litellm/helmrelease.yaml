@@ -1,13 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: litellm
-  namespace: applications
-spec:
-  interval: 5m0s
-  type: "oci"
-  url: oci://ghcr.io/berriai
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,6 +16,13 @@ spec:
         name: litellm
       interval: 5m
   values:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: "1"
+        memory: 512Mi
     masterkeySecretName: "litellm-secrets"
     masterkeySecretKey: "master-key"
     proxyConfigMap:

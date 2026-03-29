@@ -1,0 +1,37 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: connect-https-route
+spec:
+  parentRefs:
+  - name: default-gateway
+    namespace: default
+  hostnames:
+    - connect.internal.vw-ops.net
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: onepassword-connect
+      port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: connect-http-route-redirect
+spec:
+  parentRefs:
+  - name: default-gateway
+    namespace: default
+    sectionName: http
+  hostnames:
+  - connect.internal.vw-ops.net
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301

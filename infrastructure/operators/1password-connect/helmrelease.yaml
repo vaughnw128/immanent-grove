@@ -1,12 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: 1password-connect
-  namespace: operators
-spec:
-  interval: 24h
-  url: https://1password.github.io/connect-helm-charts/
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

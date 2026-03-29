@@ -1,18 +1,7 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: mc-status-rs
-  namespace: applications
-spec:
-  interval: 5m0s
-  type: "oci"
-  url: oci://ghcr.io/vaughnw128/charts
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: mc-status-rs
-  namespace: applications
 spec:
   interval: 5m
   releaseName: mc-status-rs

@@ -1,0 +1,80 @@
+# Network policies for the monitoring namespace.
+# Prometheus needs egress to all namespaces for scraping, and Grafana needs
+# ingress from gateway proxies.
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: monitoring
+spec:
+  endpointSelector: {}
+  ingressDeny:
+    - fromEntities:
+        - world
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-intra-namespace
+  namespace: monitoring
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    - toEntities:
+        - world
+---
+# Prometheus needs to scrape all namespaces
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-scrape-targets
+  namespace: monitoring
+spec:
+  endpointSelector: {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: applications
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: operators
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: controllers
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: cnpg-system
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: security
+---
+# Allow gateway proxies to reach Grafana
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-gateway-ingress
+  namespace: monitoring
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system

@@ -1,12 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: open-webui
-  namespace: applications
-spec:
-  interval: 24h
-  url: https://helm.openwebui.com/
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,22 +17,25 @@ spec:
         namespace: applications
       interval: 12h
   values:
-    # Disable bundled Ollama -- we use LocalAI + LiteLLM
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: "1"
+        memory: 1Gi
+
     ollama:
       enabled: false
 
-    # Disable bundled pipelines
     pipelines:
       enabled: false
 
-    # Point at LiteLLM as the OpenAI-compatible backend
-    # LiteLLM can proxy to LocalAI and any other models you add
     enableOpenaiApi: true
     openaiBaseApiUrls:
       - "http://litellm:4000/v1"
       - "http://localai-local-ai:80/v1"
 
-    # Use DATABASE_URL from the secret instead of bundled SQLite
     extraEnvVars:
       - name: DATABASE_URL
         valueFrom:
