@@ -58,6 +58,7 @@ spec:
   endpointSelector: {}
   ingress:
     - fromEntities:
+        - ingress
         - host
         - remote-node
     - fromEndpoints:
