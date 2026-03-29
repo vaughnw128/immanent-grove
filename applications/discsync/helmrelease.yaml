@@ -26,9 +26,6 @@ spec:
       name: "sbux-oracle"
       cluster: "grove-cluster"
 
-      migrator:
-        secretName: "pg-migrator"
-
     resources:
       requests:
         memory: 256Mi

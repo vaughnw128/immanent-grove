@@ -5,6 +5,6 @@ metadata:
   namespace: applications
 spec:
   name: sbux-oracle
-  owner: pg-owner
+  owner: sbux-oracle-app
   cluster:
     name: grove-cluster

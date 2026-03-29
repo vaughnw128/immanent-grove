@@ -14,4 +14,3 @@ spec:
   selector:
     cnpg.io/cluster: grove-cluster
     role: primary
-

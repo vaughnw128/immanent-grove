@@ -13,35 +13,10 @@ spec:
       cpu: "2"
       memory: 2Gi
   storage:
-    size: 16Gi
+    size: 32Gi
   enableSuperuserAccess: true
   managed:
     roles:
-      - name: pg-owner
-        ensure: present
-        login: true
-        superuser: false
-        inRoles:
-          - pg_monitor
-          - pg_signal_backend
-      - name: pg-migrator
-        ensure: present
-        login: true
-        superuser: false
-        inRoles:
-          - pg_monitor
-          - pg_signal_backend
-        passwordSecret:
-          name: pg-migrator
-      - name: authentik-app
-        ensure: present
-        login: true
-        superuser: false
-        inRoles:
-          - pg_monitor
-          - pg_signal_backend
-        passwordSecret:
-          name: authentik-pg-app
       - name: homarr-app
         ensure: present
         login: true
@@ -60,3 +35,12 @@ spec:
           - pg_signal_backend
         passwordSecret:
           name: open-webui-pg-app
+      - name: sbux-oracle-app
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+        passwordSecret:
+          name: sbux-oracle-pg-app

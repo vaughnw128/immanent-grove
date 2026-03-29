@@ -1,0 +1,49 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: grove-cluster-pooler-rw
+  namespace: applications
+spec:
+  cluster:
+    name: grove-cluster
+  instances: 3
+  type: rw
+  serviceTemplate:
+    metadata:
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: grove-cluster-pooler-rw.internal.vw-ops.net
+    spec:
+      type: LoadBalancer
+  pgbouncer:
+    poolMode: transaction
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
+      client_idle_timeout: "60"
+      server_idle_timeout: "60"
+      server_lifetime: "120"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: grove-cluster-pooler-ro
+  namespace: applications
+spec:
+  cluster:
+    name: grove-cluster
+  instances: 3
+  type: ro
+  serviceTemplate:
+    metadata:
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: grove-cluster-pooler-ro.internal.vw-ops.net
+    spec:
+      type: LoadBalancer
+  pgbouncer:
+    poolMode: transaction
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
+      client_idle_timeout: "60"
+      server_idle_timeout: "60"
+      server_lifetime: "120"

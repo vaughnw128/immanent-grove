@@ -34,8 +34,6 @@ spec:
       enabled: true
       name: "sbux-oracle"
       cluster: "grove-cluster"
-      migrator:
-        secretName: "pg-migrator"
 
     resources:
       requests:

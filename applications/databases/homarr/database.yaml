@@ -1,4 +1,4 @@
-﻿apiVersion: postgresql.cnpg.io/v1
+apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: homarr
@@ -8,4 +8,3 @@ spec:
   owner: homarr-app
   cluster:
     name: grove-cluster
-
