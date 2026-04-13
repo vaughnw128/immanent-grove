@@ -40,6 +40,13 @@ spec:
         ANKICONNECT_BIND_PORT: "8765"
         ANKICONNECT_CORS_ORIGIN: "https://connect.anki.internal.vw-ops.net"
         ANKICONNECT_CORS_ORIGIN_LIST: "https://connect.anki.internal.vw-ops.net"
+      securityContext:
+        runAsNonRoot: false
+        fsGroup: 1000
+      containerSecurityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        readOnlyRootFilesystem: false
       gateway:
         type: gateway-api-shared
         hostname: connect.anki.internal.vw-ops.net
