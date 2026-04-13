@@ -87,7 +87,7 @@ spec:
         - cluster
         - host
 ---
-# Allow the Cloudflare Tunnel controller (controllers namespace) to reach
+# Allow the Cloudflare Tunnel controller to reach
 # application backends (e.g. BlueMap via maps.vaughn.sh)
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: anki-stack
+  namespace: applications
+spec:
+  interval: 5m
+  releaseName: anki-stack
+  chart:
+    spec:
+      reconcileStrategy: ChartVersion
+      chart: anki-stack
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: anki-stack
+        namespace: applications
+      interval: 5m
+  values:
+    anki-sync:
+      secretVars:
+        SYNC_USER1: "anki-sync/credential"
+      gateway:
+        type: gateway-api-shared
+        hostname: sync.anki.internal.vw-ops.net
+        parentGatewayName: default-gateway
+        parentGatewayNamespace: default
+        sectionName: https
+        httpsRedirect: true
+
+    anki-connect:
+      secretVars:
+        ANKICONNECT_API_KEY: "anki-connect/api-key"
+      envVars:
+        PUID: "1000"
+        PGID: "1000"
+        TZ: "America/New_York"
+        ANKI_SYNC_BASE_URL: "http://anki-sync/"
+        ANKICONNECT_BIND_ADDRESS: "0.0.0.0"
+        ANKICONNECT_BIND_PORT: "8765"
+        ANKICONNECT_CORS_ORIGIN: "https://connect.anki.internal.vw-ops.net"
+        ANKICONNECT_CORS_ORIGIN_LIST: "https://connect.anki.internal.vw-ops.net"
+      gateway:
+        type: gateway-api-shared
+        hostname: connect.anki.internal.vw-ops.net
+        parentGatewayName: default-gateway
+        parentGatewayNamespace: default
+        sectionName: https
+        httpsRedirect: true

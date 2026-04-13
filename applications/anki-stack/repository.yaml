@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: anki-stack
+  namespace: applications
+spec:
+  interval: 5m0s
+  type: oci
+  url: oci://ghcr.io/vaughnw128/charts
+
