@@ -31,6 +31,7 @@ spec:
     anki-connect:
       secretVars:
         ANKICONNECT_API_KEY: "anki-connect/api-key"
+      imagePullPolicy: Always
       envVars:
         PUID: "1000"
         PGID: "1000"
