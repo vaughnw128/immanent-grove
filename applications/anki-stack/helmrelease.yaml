@@ -83,22 +83,3 @@ spec:
         parentGatewayNamespace: default
         sectionName: https
         httpsRedirect: true
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: anki-connect
-            patch: |
-              - op: replace
-                path: /spec/template/spec/containers/0/volumeMounts/1/readOnly
-                value: false
-              - op: replace
-                path: /spec/template/spec/containers/0/volumeMounts/2/readOnly
-                value: false
-              - op: replace
-                path: /spec/template/spec/containers/0/volumeMounts/3/readOnly
-                value: false
-              - op: replace
-                path: /spec/template/spec/containers/0/volumeMounts/4/readOnly
-                value: false
