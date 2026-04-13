@@ -40,6 +40,27 @@ spec:
         ANKICONNECT_BIND_PORT: "8765"
         ANKICONNECT_CORS_ORIGIN: "https://connect.anki.internal.vw-ops.net"
         ANKICONNECT_CORS_ORIGIN_LIST: "https://connect.anki.internal.vw-ops.net"
+      volumeMounts:
+      - name: nginx-log
+        mountPath: /var/log/nginx
+        readOnly: false
+        source:
+          emptyDir: {}
+      - name: nginx-cache
+        mountPath: /var/lib/nginx
+        readOnly: false
+        source:
+          emptyDir: {}
+      - name: run-dir
+        mountPath: /run
+        readOnly: false
+        source:
+          emptyDir: {}
+      - name: tmp-dir
+        mountPath: /tmp
+        readOnly: false
+        source:
+          emptyDir: {}
       securityContext:
         runAsNonRoot: false
         fsGroup: 1000
@@ -62,3 +83,22 @@ spec:
         parentGatewayNamespace: default
         sectionName: https
         httpsRedirect: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: anki-connect
+            patch: |
+              - op: replace
+                path: /spec/template/spec/containers/0/volumeMounts/1/readOnly
+                value: false
+              - op: replace
+                path: /spec/template/spec/containers/0/volumeMounts/2/readOnly
+                value: false
+              - op: replace
+                path: /spec/template/spec/containers/0/volumeMounts/3/readOnly
+                value: false
+              - op: replace
+                path: /spec/template/spec/containers/0/volumeMounts/4/readOnly
+                value: false
