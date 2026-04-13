@@ -44,9 +44,17 @@ spec:
         runAsNonRoot: false
         fsGroup: 1000
       containerSecurityContext:
+        allowPrivilegeEscalation: true
         runAsUser: 0
         runAsGroup: 0
         readOnlyRootFilesystem: false
+        capabilities:
+          drop: []
+          add:
+            - CHOWN
+            - FOWNER
+            - SETGID
+            - SETUID
       gateway:
         type: gateway-api-shared
         hostname: connect.anki.internal.vw-ops.net
