@@ -75,7 +75,12 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
 # #### Talos Cluster Setup ####
 
-resource "talos_machine_secrets" "machine_secrets" {}
+resource "talos_machine_secrets" "machine_secrets" {
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
+}
 
 locals {
   cluster_endpoint_ip      = "cluster.internal.vw-ops.net"
