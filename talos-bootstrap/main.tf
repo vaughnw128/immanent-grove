@@ -7,7 +7,7 @@ locals {
 
 # Nocloud image must exist on all nodes of the proxmox cluster
 
-resource "proxmox_download_file" "talos_nocloud_image" {
+resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   for_each     = { for node in local.nodes : node.pve_node => node }
   content_type = "iso"
   datastore_id = "local"
@@ -46,7 +46,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_download_file.talos_nocloud_image[each.value.pve_node].id
+    file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.pve_node].id
     file_format  = "raw"
     interface    = "virtio0"
     size         = each.value.disk
@@ -76,10 +76,12 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 # #### Talos Cluster Setup ####
 
 resource "talos_machine_secrets" "machine_secrets" {
+
   lifecycle {
     prevent_destroy = true
     ignore_changes  = all
   }
+
 }
 
 locals {
