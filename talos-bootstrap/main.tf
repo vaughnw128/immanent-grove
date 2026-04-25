@@ -78,10 +78,10 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
 resource "talos_machine_secrets" "machine_secrets" {
 
-  # lifecycle {
-  #   prevent_destroy = true
-  #   ignore_changes  = all
-  # }
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 
 }
 
