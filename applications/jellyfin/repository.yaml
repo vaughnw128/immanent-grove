@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: homarr
+  name: jellyfin
 spec:
   interval: 24h
-  url: https://homarr-labs.github.io/charts
+  url: https://jellyfin.github.io/jellyfin-helm

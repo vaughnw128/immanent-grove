@@ -4,5 +4,4 @@ namespace: applications
 resources:
   - cluster
   - sbux-oracle
-  - homarr
   - open-webui
