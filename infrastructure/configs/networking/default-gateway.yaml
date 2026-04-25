@@ -15,6 +15,7 @@ spec:
         localai.internal.vw-ops.net,
         litellm.internal.vw-ops.net,
         kuma.internal.vw-ops.net,
+        jellytwo.internal.vw-ops.net,
         whoami.internal.vw-ops.net,
         grafana.internal.vw-ops.net,
         connect.internal.vw-ops.net
