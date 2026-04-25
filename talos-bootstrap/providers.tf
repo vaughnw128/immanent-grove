@@ -18,15 +18,15 @@ terraform {
   required_providers {
     onepassword = {
       source  = "1Password/onepassword"
-      version = "2.1.2"
+      version = "3.3.1"
     }
     proxmox = {
       source  = "bpg/proxmox"
-      version = "0.87.0"
+      version = "0.103.0"
     }
     talos = {
       source  = "siderolabs/talos"
-      version = "0.8.1"
+      version = "0.10.1"
     }
   }
 }

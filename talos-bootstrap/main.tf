@@ -67,6 +67,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
   }
 
   lifecycle {
+    prevent_destroy = true
     ignore_changes  = [
       network_device
     ]
@@ -75,7 +76,14 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
 # #### Talos Cluster Setup ####
 
-resource "talos_machine_secrets" "machine_secrets" {}
+resource "talos_machine_secrets" "machine_secrets" {
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
+
+}
 
 locals {
   cluster_endpoint_ip      = "cluster.internal.vw-ops.net"
@@ -121,5 +129,22 @@ resource "talos_cluster_kubeconfig" "kubeconfig" {
 
 output "kubeconfig" {
   value = talos_cluster_kubeconfig.kubeconfig
+  sensitive = true
+}
+
+output "talosconfig" {
+  value = data.talos_client_configuration.talosconfig
+  sensitive = true
+}
+
+output "machine_config_inputs" {
+  value = {
+    for name, config in talos_machine_configuration_apply.config_apply :
+    name => {
+      node    = config.node
+      config  = config.machine_configuration_input
+      patches = config.config_patches
+    }
+  }
   sensitive = true
 }
