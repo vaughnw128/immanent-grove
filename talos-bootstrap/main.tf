@@ -67,6 +67,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
   }
 
   lifecycle {
+    prevent_destroy = true
     ignore_changes  = [
       network_device
     ]
@@ -136,3 +137,14 @@ output "talosconfig" {
   sensitive = true
 }
 
+output "machine_config_inputs" {
+  value = {
+    for name, config in talos_machine_configuration_apply.config_apply :
+    name => {
+      node    = config.node
+      config  = config.machine_configuration_input
+      patches = config.config_patches
+    }
+  }
+  sensitive = true
+}
