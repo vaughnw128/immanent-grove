@@ -42,7 +42,7 @@ locals {
         memory       = 16
         disk         = 100
         arch         = "amd64"
-        image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.10.5/nocloud-amd64.raw.zst"
+        image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.12.7/nocloud-amd64.raw.zst"
       },
       {
         name         = "worker-1"
