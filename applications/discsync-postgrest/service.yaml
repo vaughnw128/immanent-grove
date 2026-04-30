@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discsync-postgrest
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: discsync-postgrest
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http

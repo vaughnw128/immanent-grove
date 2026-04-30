@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discsync-postgrest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: discsync-postgrest
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: discsync-postgrest
+    spec:
+      containers:
+        - name: postgrest
+          image: postgrest/postgrest:v14.10
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+            - name: admin
+              containerPort: 3001
+          env:
+            - name: PGRST_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: discsync-pg-app
+                  key: uri-pooler-ro
+            - name: PGRST_DB_SCHEMAS
+              value: api
+            - name: PGRST_DB_ANON_ROLE
+              value: discsync_api
+            - name: PGRST_DB_PRE_REQUEST
+              value: api.check_api_secret
+            - name: PGRST_DB_PREPARED_STATEMENTS
+              value: "false"
+            - name: PGRST_DB_MAX_ROWS
+              value: "1000"
+            - name: PGRST_ADMIN_SERVER_PORT
+              value: "3001"
+            - name: PGRST_OPENAPI_SECURITY_ACTIVE
+              value: "true"
+            - name: PGRST_OPENAPI_SERVER_PROXY_URI
+              value: https://discsync.internal.vw-ops.net/api
+            - name: PGRST_APP_SETTINGS_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: discsync-postgrest-api
+                  key: api-key
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: admin
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: admin
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: 512Mi
+            limits:
+              memory: 4096Mi

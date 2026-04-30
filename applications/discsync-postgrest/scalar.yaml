@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discsync-postgrest-docs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: discsync-postgrest-docs
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: discsync-postgrest-docs
+    spec:
+      containers:
+        - name: scalar
+          image: scalarapi/api-reference:0.5.22
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: API_REFERENCE_CONFIG
+              value: >-
+                {"sources":[{"title":"Discsync API","url":"https://discsync.internal.vw-ops.net/api"}],"theme":"default","layout":"modern","showSidebar":true}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discsync-postgrest-docs
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: discsync-postgrest-docs
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

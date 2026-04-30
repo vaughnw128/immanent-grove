@@ -1,0 +1,91 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: discsync-postgrest-docs-https
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+  hostnames:
+    - discsync.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /docs
+        - path:
+            type: Exact
+            value: /docs
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: discsync-postgrest-docs
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: discsync-postgrest-docs-redirect
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: http
+  hostnames:
+    - discsync.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: discsync-postgrest-https
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+  hostnames:
+    - discsync.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+        - path:
+            type: Exact
+            value: /api
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: discsync-postgrest
+          port: 3000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: discsync-postgrest-redirect
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: http
+  hostnames:
+    - discsync.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
