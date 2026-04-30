@@ -26,5 +26,6 @@ spec:
     image:
       repository: louislam/uptime-kuma
       tag: 2.1.1
-    mariadb:
-      enabled: true
+    externalDatabase:
+      type: "sqlite"
+      enabled: false
