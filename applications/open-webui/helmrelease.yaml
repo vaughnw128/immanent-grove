@@ -33,7 +33,6 @@ spec:
 
     enableOpenaiApi: true
     openaiBaseApiUrls:
-      - "http://litellm:4000/v1"
       - "http://localai-local-ai:80/v1"
 
     extraEnvVars:

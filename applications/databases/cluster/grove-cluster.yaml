@@ -11,7 +11,7 @@ spec:
       memory: 1Gi
     limits:
       cpu: "2"
-      memory: 2Gi
+      memory: 4Gi
   storage:
     size: 32Gi
   enableSuperuserAccess: true
@@ -35,3 +35,12 @@ spec:
           - pg_signal_backend
         passwordSecret:
           name: sbux-oracle-pg-app
+      - name: discsync-app
+        ensure: present
+        login: true
+        superuser: false
+        inRoles:
+          - pg_monitor
+          - pg_signal_backend
+        passwordSecret:
+          name: discsync-pg-app
