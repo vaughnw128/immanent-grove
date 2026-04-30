@@ -79,6 +79,11 @@ spec:
             type: PathPrefix
             value: /api
       filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: Accept
+                value: application/json
         - type: URLRewrite
           urlRewrite:
             path:
