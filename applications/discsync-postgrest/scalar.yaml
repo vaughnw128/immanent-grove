@@ -22,7 +22,7 @@ spec:
           env:
             - name: API_REFERENCE_CONFIG
               value: >-
-                {"sources":[{"title":"Discsync API","url":"http://discsync-postgrest.applications.svc.cluser.local:3000"}],"theme":"default","layout":"modern","showSidebar":true}
+                {"sources":[{"title":"Discsync API","url":"https://discsync.internal.vw-ops.net/api"}],"theme":"default","layout":"modern","showSidebar":true,"pathRouting":{"basePath":"/docs"}}
           readinessProbe:
             httpGet:
               path: /health

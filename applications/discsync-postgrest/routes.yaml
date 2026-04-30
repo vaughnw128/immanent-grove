@@ -11,8 +11,19 @@ spec:
   rules:
     - matches:
         - path:
-            type: PathPrefix
+            type: Exact
             value: /docs
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /docs/
+            statusCode: 301
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /docs/
       filters:
         - type: URLRewrite
           urlRewrite:
