@@ -5,3 +5,4 @@ resources:
   - cluster
   - sbux-oracle
   - open-webui
+  - discsync
