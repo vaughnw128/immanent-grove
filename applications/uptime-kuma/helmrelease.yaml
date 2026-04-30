@@ -29,3 +29,9 @@ spec:
     externalDatabase:
       type: "sqlite"
       enabled: false
+    volume:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    strategy:
+      type: Recreate
