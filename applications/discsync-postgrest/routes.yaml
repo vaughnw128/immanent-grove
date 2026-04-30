@@ -23,6 +23,17 @@ spec:
     - matches:
         - path:
             type: PathPrefix
+            value: /docs/tag
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /docs/
+            statusCode: 302
+    - matches:
+        - path:
+            type: PathPrefix
             value: /docs/
       filters:
         - type: URLRewrite

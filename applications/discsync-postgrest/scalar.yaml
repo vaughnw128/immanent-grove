@@ -22,7 +22,7 @@ spec:
           env:
             - name: API_REFERENCE_CONFIG
               value: >-
-                {"sources":[{"title":"Discsync API","url":"https://discsync.internal.vw-ops.net/api"}],"theme":"default","layout":"modern","showSidebar":true,"pathRouting":{"basePath":"/docs"}}
+                {"sources":[{"title":"Discsync API","url":"/api"}],"theme":"default","layout":"modern","showSidebar":true,"pathRouting":{"basePath":"/docs"}}
           readinessProbe:
             httpGet:
               path: /health
