@@ -23,7 +23,7 @@ spec:
           rootDomain: ".console.garage.internal.vw-ops.net"
 
     deployment:
-      replicaCount: 3
+      replicaCount: 2
 
     environment:
       - name: GARAGE_DEFAULT_ACCESS_KEY
