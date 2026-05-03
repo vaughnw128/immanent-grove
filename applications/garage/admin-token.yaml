@@ -1,0 +1,18 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: garage-admin-token
+spec:
+  refreshPolicy: OnChange
+  target:
+    name: garage-admin-token
+    creationPolicy: Owner
+    template:
+      data:
+        admin-token: "{{ .password | sha256sum }}"
+  dataFrom:
+    - sourceRef:
+        generatorRef:
+          apiVersion: generators.external-secrets.io/v1alpha1
+          kind: ClusterGenerator
+          name: cluster-generator

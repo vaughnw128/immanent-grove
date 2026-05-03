@@ -3,7 +3,7 @@ set -euo pipefail
 
 namespace="${NAMESPACE:-applications}"
 garage_pod="${GARAGE_POD:-garage-0}"
-expected_nodes="${EXPECTED_NODES:-2}"
+expected_nodes="${EXPECTED_NODES:-3}"
 garage_zone="${GARAGE_ZONE:-grove}"
 garage_capacity="${GARAGE_CAPACITY:-250G}"
 apply_version="${APPLY_VERSION:-1}"

@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage-ui
+spec:
+  interval: 30m
+  releaseName: garage-ui
+  chart:
+    spec:
+      reconcileStrategy: ChartVersion
+      chart: garage-ui
+      version: "0.2.5"
+      sourceRef:
+        kind: HelmRepository
+        name: garage-ui
+      interval: 12h
+  values:
+    replicaCount: 1
+
+    config:
+      garage:
+        endpoint: http://garage:3900
+        admin_endpoint: http://garage:3903
+        admin_token: ""
+        existingSecret:
+          name: garage-admin-token
+          key: admin-token
+        region: garage
+
+      server:
+        domain: console.garage.internal.vw-ops.net
+        environment: production
+        protocol: https
+        root_url: https://console.garage.internal.vw-ops.net
+
+      cors:
+        enabled: true
+        allowed_origins:
+          - https://console.garage.internal.vw-ops.net
+
+      logging:
+        level: info
+        format: json
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    ingress:
+      enabled: false
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 512Mi

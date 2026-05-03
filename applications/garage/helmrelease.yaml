@@ -15,7 +15,7 @@ spec:
       interval: 12h
   values:
     garage:
-      replicationFactor: "2"
+      replicationFactor: "3"
       s3:
         api:
           rootDomain: ".garage.internal.vw-ops.net"
@@ -24,6 +24,13 @@ spec:
 
     deployment:
       replicaCount: 3
+
+    environment:
+      - name: GARAGE_ADMIN_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: garage-admin-token
+            key: admin-token
 
     persistence:
       meta:

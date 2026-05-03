@@ -8,6 +8,7 @@ resources:
   - discsync-embeddings
   - discsync-postgrest
   - garage
+  - garage-ui
   - jellyfin
   - localai
   - mc-status-rs
