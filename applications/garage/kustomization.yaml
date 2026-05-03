@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: applications
 resources:
   - admin-token.yaml
+  - admin-service.yaml
   - credentials.yaml
   - pushsecret.yaml
   - repository.yaml
