@@ -15,12 +15,10 @@ spec:
       interval: 12h
   values:
     garage:
-      replicationFactor: "3"
+      replicationFactor: "2"
       s3:
         api:
           rootDomain: ".garage.internal.vw-ops.net"
-        web:
-          rootDomain: ".console.garage.internal.vw-ops.net"
 
     deployment:
       replicaCount: 3
