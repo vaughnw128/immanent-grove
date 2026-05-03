@@ -1,0 +1,70 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: garage-api
+  namespace: applications
+spec:
+  parentRefs:
+    - kind: Gateway
+      name: garage
+      sectionName: https-api
+  hostnames:
+    - garage.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: garage
+          namespace: applications
+          port: 3900
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: garage-console
+  namespace: applications
+spec:
+  parentRefs:
+    - kind: Gateway
+      name: garage
+      sectionName: https-console
+  hostnames:
+    - console.garage.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: garage
+          namespace: applications
+          port: 3902
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: garage-redirect
+  namespace: applications
+spec:
+  parentRefs:
+    - kind: Gateway
+      name: garage
+      sectionName: http-api
+    - kind: Gateway
+      name: garage
+      sectionName: http-console
+  hostnames:
+    - garage.internal.vw-ops.net
+    - console.garage.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

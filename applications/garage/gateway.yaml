@@ -1,0 +1,39 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: garage
+  namespace: applications
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: garage.internal.vw-ops.net,console.garage.internal.vw-ops.net
+  listeners:
+    - protocol: HTTP
+      hostname: garage.internal.vw-ops.net
+      port: 80
+      name: http-api
+    - protocol: HTTP
+      hostname: console.garage.internal.vw-ops.net
+      port: 80
+      name: http-console
+    - protocol: HTTPS
+      hostname: garage.internal.vw-ops.net
+      port: 443
+      name: https-api
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: garage-tls
+    - protocol: HTTPS
+      hostname: console.garage.internal.vw-ops.net
+      port: 443
+      name: https-console
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: garage-tls

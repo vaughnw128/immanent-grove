@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: garage
+spec:
+  interval: 30m
+  releaseName: garage
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: ./script/helm/garage
+      sourceRef:
+        kind: GitRepository
+        name: garage
+      interval: 12h
+  values:
+    garage:
+      replicationFactor: "3"
+      s3:
+        api:
+          rootDomain: ".garage.internal.vw-ops.net"
+        web:
+          rootDomain: ".console.garage.internal.vw-ops.net"
+
+    deployment:
+      replicaCount: 3
+
+    persistence:
+      meta:
+        storageClass: truenas-nfs
+        size: 5Gi
+      data:
+        storageClass: truenas-nfs
+        size: 250Gi
+
+    service:
+      type: ClusterIP
+
+    ingress:
+      s3:
+        api:
+          enabled: false
+      web:
+        enabled: false
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+
+    monitoring:
+      metrics:
+        enabled: true
