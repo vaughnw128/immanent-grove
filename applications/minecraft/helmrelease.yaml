@@ -42,7 +42,7 @@ spec:
       difficulty: hard
       whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
       ops: "wauhn"
-      icon: https://s3.vaughn.sh/cdn/server-icon.png
+      icon: https://garage.internal.vw-ops.net/cdn/server-icon.png
       maxPlayers: 10
       spawnProtection: 0
       gameMode: survival
@@ -128,7 +128,7 @@ spec:
       # backup methods, see https://github.com/itzg/docker-mc-backup e.g. tar, rclone, restic, rsync
       backupMethod: restic
       destDir: /mc_backups
-      resticHostname: "s3.vaughn.sh"
+      resticHostname: "garage.internal.vw-ops.net"
       linkLatest: "false"
       compressMethod: "gzip"
       zstdParameters: "-3 --long=25 --single-thread"

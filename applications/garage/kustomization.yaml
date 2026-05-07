@@ -10,3 +10,4 @@ resources:
   - helmrelease.yaml
   - gateway.yaml
   - routes.yaml
+#  - public-ingress.yaml
