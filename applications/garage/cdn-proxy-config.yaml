@@ -24,7 +24,10 @@ data:
         path_regexp legacy_cdn ^/cdn/(.+)$
       }
       handle @legacy_cdn {
-        redir https://cdn.vaughn.sh/{re.legacy_cdn.1} 308
+        uri strip_prefix /cdn
+        reverse_proxy garage-web:3902 {
+          header_up Host cdn.web.garage.internal.vw-ops.net
+        }
       }
 
       @legacy_root {
