@@ -9,7 +9,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: garage.internal.vw-ops.net,console.garage.internal.vw-ops.net
+      external-dns.alpha.kubernetes.io/hostname: garage.internal.vw-ops.net,console.garage.internal.vw-ops.net,cdn.web.garage.internal.vw-ops.net
   listeners:
     - protocol: HTTP
       hostname: garage.internal.vw-ops.net
@@ -19,6 +19,10 @@ spec:
       hostname: console.garage.internal.vw-ops.net
       port: 80
       name: http-console
+    - protocol: HTTP
+      hostname: cdn.web.garage.internal.vw-ops.net
+      port: 80
+      name: http-cdn-web
     - protocol: HTTPS
       hostname: garage.internal.vw-ops.net
       port: 443
@@ -32,6 +36,15 @@ spec:
       hostname: console.garage.internal.vw-ops.net
       port: 443
       name: https-console
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: garage-tls
+    - protocol: HTTPS
+      hostname: cdn.web.garage.internal.vw-ops.net
+      port: 443
+      name: https-cdn-web
       tls:
         mode: Terminate
         certificateRefs:
