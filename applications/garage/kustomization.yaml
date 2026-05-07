@@ -8,6 +8,8 @@ resources:
   - pushsecret.yaml
   - repository.yaml
   - helmrelease.yaml
+  - cdn-proxy-config.yaml
+  - cdn-proxy.yaml
   - gateway.yaml
   - routes.yaml
-#  - public-ingress.yaml
+  - public-ingress.yaml

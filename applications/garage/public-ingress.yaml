@@ -6,13 +6,23 @@ metadata:
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
-    - host: s3.vaughn.sh
+    - host: cdn.vaughn.sh
       http:
         paths:
-          - path: /cdn
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: garage
+                name: garage-cdn-proxy
                 port:
-                  number: 3900
+                  number: 80
+    - host: s3.vaughn.sh
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: garage-cdn-proxy
+                port:
+                  number: 80

@@ -19,6 +19,8 @@ spec:
       s3:
         api:
           rootDomain: ".garage.internal.vw-ops.net"
+        web:
+          rootDomain: ".web.garage.internal.vw-ops.net"
 
     deployment:
       replicaCount: 3
