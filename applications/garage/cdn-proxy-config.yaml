@@ -11,6 +11,26 @@ data:
     :8080 {
       encode zstd gzip
 
+      @gif path *.gif
+      header @gif Content-Type "image/gif"
+      header @gif Content-Disposition "inline"
+
+      @png path *.png
+      header @png Content-Type "image/png"
+      header @png Content-Disposition "inline"
+
+      @jpg path *.jpg *.jpeg
+      header @jpg Content-Type "image/jpeg"
+      header @jpg Content-Disposition "inline"
+
+      @webp path *.webp
+      header @webp Content-Type "image/webp"
+      header @webp Content-Disposition "inline"
+
+      @svg path *.svg
+      header @svg Content-Type "image/svg+xml"
+      header @svg Content-Disposition "inline"
+
       @legacy_cdn_embed {
         host s3.vaughn.sh
         path_regexp legacy_cdn_embed ^/cdn/embed/(.+)$
