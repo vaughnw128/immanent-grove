@@ -13,6 +13,20 @@
     redir https://cdn.vaughn.sh/embed/{re.legacy_cdn_embed.1} 308
   }
 
+  @legacy_cdn_mp4 {
+    host s3.vaughn.sh
+    path_regexp legacy_cdn_mp4 (?i)^/cdn/(.+\.mp4)$
+  }
+  handle @legacy_cdn_mp4 {
+    uri strip_prefix /cdn
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+      header_down Content-Type "video/mp4"
+    }
+  }
+
   @legacy_cdn_gif {
     host s3.vaughn.sh
     path_regexp legacy_cdn_gif (?i)^/cdn/(.+\.gif)$
@@ -48,10 +62,29 @@
     redir https://cdn.vaughn.sh/{re.legacy_root.1} 308
   }
 
+  @mp4_embed path_regexp mp4_embed (?i)^/embed/(.+\.mp4)$
+  handle @mp4_embed {
+    header Content-Type "text/html; charset=utf-8"
+    respond "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta property=\"og:type\" content=\"video.other\"><meta property=\"og:title\" content=\"{re.mp4_embed.1}\"><meta property=\"og:video\" content=\"https://cdn.vaughn.sh/{re.mp4_embed.1}\"><meta property=\"og:video:secure_url\" content=\"https://cdn.vaughn.sh/{re.mp4_embed.1}\"><meta property=\"og:video:type\" content=\"video/mp4\"><meta name=\"twitter:card\" content=\"player\"><meta name=\"twitter:player\" content=\"https://cdn.vaughn.sh/{re.mp4_embed.1}\"><meta name=\"twitter:player:stream\" content=\"https://cdn.vaughn.sh/{re.mp4_embed.1}\"><meta name=\"twitter:player:stream:content_type\" content=\"video/mp4\"><meta http-equiv=\"refresh\" content=\"0; url=/{re.mp4_embed.1}\"></head><body><video controls autoplay muted loop src=\"/{re.mp4_embed.1}\"></video><p><a href=\"/{re.mp4_embed.1}\">{re.mp4_embed.1}</a></p></body></html>" 200
+  }
+
   @discord_embed path_regexp discord_embed ^/embed/(.+)$
   handle @discord_embed {
     header Content-Type "text/html; charset=utf-8"
     respond "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta property=\"og:type\" content=\"website\"><meta property=\"og:title\" content=\"{re.discord_embed.1}\"><meta property=\"og:image\" content=\"https://cdn.vaughn.sh/{re.discord_embed.1}\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:image\" content=\"https://cdn.vaughn.sh/{re.discord_embed.1}\"><meta http-equiv=\"refresh\" content=\"0; url=/{re.discord_embed.1}\"></head><body><a href=\"/{re.discord_embed.1}\">{re.discord_embed.1}</a></body></html>" 200
+  }
+
+  @cdn_mp4 {
+    host cdn.vaughn.sh
+    path_regexp cdn_mp4 (?i)^/(.+\.mp4)$
+  }
+  handle @cdn_mp4 {
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+      header_down Content-Type "video/mp4"
+    }
   }
 
   @cdn_gif {
