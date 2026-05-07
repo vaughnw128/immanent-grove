@@ -1,0 +1,80 @@
+{
+  auto_https off
+}
+
+:8080 {
+  encode zstd gzip
+
+  @legacy_cdn_embed {
+    host s3.vaughn.sh
+    path_regexp legacy_cdn_embed ^/cdn/embed/(.+)$
+  }
+  handle @legacy_cdn_embed {
+    redir https://cdn.vaughn.sh/embed/{re.legacy_cdn_embed.1} 308
+  }
+
+  @legacy_cdn_gif {
+    host s3.vaughn.sh
+    path_regexp legacy_cdn_gif (?i)^/cdn/(.+\.gif)$
+  }
+  handle @legacy_cdn_gif {
+    uri strip_prefix /cdn
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+      header_down Content-Type "image/gif"
+    }
+  }
+
+  @legacy_cdn {
+    host s3.vaughn.sh
+    path_regexp legacy_cdn ^/cdn/(.+)$
+  }
+  handle @legacy_cdn {
+    uri strip_prefix /cdn
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+    }
+  }
+
+  @legacy_root {
+    host s3.vaughn.sh
+    path_regexp legacy_root ^/(.+)$
+  }
+  handle @legacy_root {
+    redir https://cdn.vaughn.sh/{re.legacy_root.1} 308
+  }
+
+  @discord_embed path_regexp discord_embed ^/embed/(.+)$
+  handle @discord_embed {
+    header Content-Type "text/html; charset=utf-8"
+    respond "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><meta property=\"og:type\" content=\"website\"><meta property=\"og:title\" content=\"{re.discord_embed.1}\"><meta property=\"og:image\" content=\"https://cdn.vaughn.sh/{re.discord_embed.1}\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:image\" content=\"https://cdn.vaughn.sh/{re.discord_embed.1}\"><meta http-equiv=\"refresh\" content=\"0; url=/{re.discord_embed.1}\"></head><body><a href=\"/{re.discord_embed.1}\">{re.discord_embed.1}</a></body></html>" 200
+  }
+
+  @cdn_gif {
+    host cdn.vaughn.sh
+    path_regexp cdn_gif (?i)^/(.+\.gif)$
+  }
+  handle @cdn_gif {
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+      header_down Content-Type "image/gif"
+    }
+  }
+
+  @cdn_host host cdn.vaughn.sh
+  handle @cdn_host {
+    reverse_proxy garage-web:3902 {
+      header_up Host cdn.web.garage.internal.vw-ops.net
+      header_down -Content-Disposition
+      header_down Content-Disposition "inline"
+    }
+  }
+
+  respond 404
+}
