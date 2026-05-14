@@ -142,10 +142,7 @@ spec:
               name: minecraft-secrets
               key: restic-password
         RESTIC_REPOSITORY:
-          valueFrom:
-            secretKeyRef:
-              name: minecraft-secrets
-              key: restic-repository
+          value: s3:http://garage.applications.svc.cluster.local:3900/mc-backup
         AWS_ACCESS_KEY_ID:
           valueFrom:
             secretKeyRef:
@@ -161,4 +158,3 @@ spec:
         requests:
           memory: 512Mi
           cpu: 500m
-
