@@ -8,7 +8,6 @@ spec:
     passwordSpec:
       length: 32
       digits: 5
-      symbols: 5
-      symbolCharacters: "-_@"
+      symbols: 0
       noUpper: false
       allowRepeat: true
