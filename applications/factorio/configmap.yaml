@@ -17,7 +17,7 @@ data:
       "password": "",
       "token": "",
       "game_password": "",
-      "require_user_verification": true,
+      "require_user_verification": false,
       "max_upload_in_kilobytes_per_second": 0,
       "max_upload_slots": 5,
       "minimum_latency_in_ticks": 0,
