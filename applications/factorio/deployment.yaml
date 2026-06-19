@@ -25,6 +25,8 @@ spec:
             - |
               set -eu
               mkdir -p /factorio/config /factorio/saves /factorio/mods
+              game_password="$(tr -d '\r\n' < /secrets/game-password | sed 's/\\/\\\\/g; s/"/\\"/g; s/[\/&]/\\&/g')"
+              sed "s/\"game_password\": \"\"/\"game_password\": \"$game_password\"/" /config/server-settings.json > /factorio/config/server-settings.json
               cp /secrets/rcon-password /factorio/config/rconpw
               chmod 600 /factorio/config/rconpw
               chown -R 845:845 /factorio
@@ -33,6 +35,9 @@ spec:
               mountPath: /factorio
             - name: secrets
               mountPath: /secrets
+              readOnly: true
+            - name: config
+              mountPath: /config
               readOnly: true
       containers:
         - name: factorio
@@ -72,3 +77,6 @@ spec:
         - name: secrets
           secret:
             secretName: factorio-secrets
+        - name: config
+          configMap:
+            name: factorio-config
