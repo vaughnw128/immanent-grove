@@ -9,7 +9,7 @@ spec:
     spec:
       reconcileStrategy: ChartVersion
       chart: sexybabeycord
-      version: "*"
+      version: "0.0.0-pr.55.64"
       sourceRef:
         kind: HelmRepository
         name: sexybabeycord
