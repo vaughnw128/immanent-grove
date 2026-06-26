@@ -41,7 +41,7 @@ spec:
               readOnly: true
       containers:
         - name: factorio
-          image: factoriotools/factorio:stable
+          image: factoriotools/factorio:2.1.8
           imagePullPolicy: Always
           env:
             - name: PUID
