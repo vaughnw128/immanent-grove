@@ -37,7 +37,7 @@ spec:
 
     minecraftServer:
       eula: "TRUE"
-      version: "1.21.10"
+      version: "26.2"
       type: FABRIC
       difficulty: hard
       whitelist: "Poopoopepe7, TestSubjectMoo, wauhn, ZinkIThink, facetiousfandago, papermustache, ncc_a, wpw_, SilverGorillaz, BenIsTheEpicest, Ragablaze, SWbullen6, dotori037"
