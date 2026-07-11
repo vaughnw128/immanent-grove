@@ -56,7 +56,7 @@ spec:
       modrinth:
         projects:
           - ferrite-core
-          - krypton
+#          - krypton
           - lithium
           - spark
           - fabric-api
