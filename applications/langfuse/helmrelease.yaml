@@ -59,7 +59,7 @@ spec:
           limits:
             memory: 2Gi
         livenessProbe:
-          initialDelaySeconds: 120
+          initialDelaySeconds: 600
       worker:
         resources:
           requests:
