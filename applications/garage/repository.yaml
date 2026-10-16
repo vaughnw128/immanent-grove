@@ -6,4 +6,4 @@ spec:
   interval: 24h
   url: https://github.com/deuxfleurs-org/garage
   ref:
-    tag: v2.3.0
+    tag: v2.4.1

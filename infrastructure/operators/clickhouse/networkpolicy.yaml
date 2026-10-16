@@ -1,0 +1,27 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: clickhouse-operator-management
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: clickhouse-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: applications
+            app.kubernetes.io/name: clickhouse-server
+      toPorts:
+        - ports:
+            # Operator-native management port, distinct from client port 9000.
+            - port: "9001"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: applications
+            app.kubernetes.io/name: clickhouse-keeper
+      toPorts:
+        - ports:
+            # ClickHouse Keeper's native coordination protocol.
+            - port: "2181"
+              protocol: TCP

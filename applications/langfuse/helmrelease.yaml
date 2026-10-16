@@ -1,0 +1,159 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: langfuse
+  namespace: applications
+spec:
+  interval: 30m
+  timeout: 15m
+  dependsOn:
+    - name: clickhouse-operator
+      namespace: operators
+    - name: garage
+      namespace: applications
+  install:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: langfuse
+      version: "2.1.5"
+      sourceRef:
+        kind: HelmRepository
+        name: langfuse
+        namespace: applications
+      interval: 12h
+  valuesFrom:
+    - kind: Secret
+      name: langfuse-pg-app
+      valuesKey: revision
+      targetPath: langfuse.pod.annotations.postgresql-secret-revision
+  values:
+    langfuse:
+      salt:
+        secretKeyRef:
+          name: langfuse
+          key: salt
+      encryptionKey:
+        secretKeyRef:
+          name: langfuse
+          key: encryption-key
+      nextauth:
+        url: https://langfuse.internal.vw-ops.net
+        secret:
+          secretKeyRef:
+            name: langfuse
+            key: nextauth-secret
+      features:
+        telemetryEnabled: false
+      serviceAccount:
+        automountServiceAccountToken: false
+      image:
+        pullPolicy: IfNotPresent
+      revisionHistoryLimit: 2
+      web:
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            memory: 2Gi
+        livenessProbe:
+          initialDelaySeconds: 120
+      worker:
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            memory: 4Gi
+        livenessProbe:
+          initialDelaySeconds: 120
+
+    postgresql:
+      deploy: false
+      host: grove-cluster-rw.applications.svc.cluster.local
+      port: 5432
+      auth:
+        username: langfuse-app
+        database: langfuse
+        existingSecret: langfuse-pg-app
+        secretKeys:
+          userPasswordKey: password
+
+    clickhouse:
+      deploy: true
+      # The HelmRelease dependency installs CRDs first; allow offline CI renders.
+      crdCheck: false
+      auth:
+        existingSecret: langfuse
+        existingSecretKey: clickhouse-password
+      cluster:
+        enabled: true
+        replicas: 1
+        storage:
+          className: truenas-nfs
+          size: 50Gi
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2Gi
+          limits:
+            memory: 4Gi
+      keeper:
+        enabled: true
+        replicas: 1
+        storage:
+          className: truenas-nfs
+          size: 5Gi
+
+    redis:
+      deploy: true
+      auth:
+        enabled: true
+        username: default
+        existingSecret: langfuse
+        existingSecretPasswordKey: redis-password
+        usersExistingSecret: langfuse
+        aclUsers:
+          default:
+            passwordKey: redis-password
+            permissions: "~* &* +@all"
+      dataStorage:
+        enabled: true
+        requestedSize: 8Gi
+        className: truenas-nfs
+        keepPvc: true
+      valkeyConfig: |
+        maxmemory-policy noeviction
+        maxmemory 256mb
+        appendonly yes
+        appendfsync everysec
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 1Gi
+
+    s3:
+      deploy: false
+      bucket: langfuse
+      region: garage
+      endpoint: https://garage.internal.vw-ops.net
+      forcePathStyle: true
+      accessKeyId:
+        secretKeyRef:
+          name: langfuse-s3
+          key: access-key-id
+      secretAccessKey:
+        secretKeyRef:
+          name: langfuse-s3
+          key: secret-access-key
+      eventUpload:
+        endpoint: http://garage.applications.svc.cluster.local:3900
+        prefix: langfuse/events/
+      mediaUpload:
+        prefix: langfuse/media/
+      batchExport:
+        prefix: langfuse/exports/

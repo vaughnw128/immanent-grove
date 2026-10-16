@@ -17,6 +17,12 @@ spec:
   enableSuperuserAccess: true
   managed:
     roles:
+      - name: langfuse-app
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: langfuse-pg-app
       - name: sbux-oracle-app
         ensure: present
         login: true

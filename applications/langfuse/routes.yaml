@@ -1,0 +1,37 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: langfuse-https
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: https-wildcard
+  hostnames:
+    - langfuse.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: langfuse-web
+          port: 3000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: langfuse-redirect
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: http
+  hostnames:
+    - langfuse.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: langfuse
+  namespace: applications
+spec:
+  name: langfuse
+  owner: langfuse-app
+  databaseReclaimPolicy: retain
+  cluster:
+    name: grove-cluster
