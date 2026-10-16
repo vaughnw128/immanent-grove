@@ -83,7 +83,6 @@ spec:
 
     clickhouse:
       deploy: true
-      # The HelmRelease dependency installs CRDs first; allow offline CI renders.
       crdCheck: false
       auth:
         existingSecret: langfuse
