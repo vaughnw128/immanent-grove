@@ -17,15 +17,6 @@ spec:
   enableSuperuserAccess: true
   managed:
     roles:
-      - name: open-webui-app
-        ensure: present
-        login: true
-        superuser: false
-        inRoles:
-          - pg_monitor
-          - pg_signal_backend
-        passwordSecret:
-          name: open-webui-pg-app
       - name: sbux-oracle-app
         ensure: present
         login: true
