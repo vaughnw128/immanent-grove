@@ -1,0 +1,48 @@
+name: Security Scans
+
+"on":
+  pull_request:
+  push:
+    branches: ["main"]
+  schedule:
+    # Weekly: pick up new zizmor audits and Trivy check definitions
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  zizmor:
+    name: zizmor (CI/CD security)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install zizmor
+        run: pip install --quiet zizmor
+      - name: Audit workflows
+        # Report-only for now. Remove `continue-on-error` (or set it to false) to
+        # make findings block CI once the baseline is cleaned up.
+        run: zizmor .
+        continue-on-error: true
+
+  trivy:
+    name: Trivy (IaC misconfiguration)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Scan configs
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: HIGH,CRITICAL
+          # Report-only for now. Change to "1" once the KSV-0118 (default security
+          # context) baseline is cleaned up.
+          exit-code: "0"
+          timeout: 10m0s
