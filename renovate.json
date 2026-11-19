@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    "helpers:pinGitHubActionDigests",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":timezone(America/New_York)"
+  ],
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
+  ],
+  "ignorePaths": [
+    "**/*.sops.*"
+  ],
+  "flux": {
+    "managerFilePatterns": [
+      "/applications/.+\\.ya?ml$",
+      "/cluster/.+\\.ya?ml$",
+      "/infrastructure/.+\\.ya?ml$"
+    ]
+  }
+}
