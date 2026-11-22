@@ -92,8 +92,6 @@ locals {
   cluster_controlplane_ips = [for node in local.nodes : node.ip if node.controlplane == true]
 }
 
-# Bootstrap talos cluster with custom configs from talos-configs.tf
-
 data "talos_client_configuration" "talosconfig" {
   cluster_name         = local.name
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
@@ -101,33 +99,132 @@ data "talos_client_configuration" "talosconfig" {
 }
 
 data "talos_machine_configuration" "machineconfig" {
-  for_each         = { for node in local.nodes : node.name => node }
-  cluster_name     = local.name
-  cluster_endpoint = "https://${local.cluster_endpoint_ip}:6443"
-  machine_type     = each.value.controlplane == true ? "controlplane" : "worker"
-  machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+  for_each           = { for node in local.nodes : node.name => node }
+  cluster_name       = local.name
+  cluster_endpoint   = "https://${local.cluster_endpoint_ip}:6443"
+  machine_type       = each.value.controlplane == true ? "controlplane" : "worker"
+  machine_secrets    = talos_machine_secrets.machine_secrets.machine_secrets
+  talos_version      = local.talos_config_version
+  kubernetes_version = local.kubernetes_version
+  config_patches = concat(local.shared_machine_config, [
+    yamlencode({
+      machine = {
+        install = {
+          image = local.talos_installer
+        }
+      }
+    })
+  ])
 }
 
-resource "talos_machine_configuration_apply" "config_apply" {
-  for_each                    = { for node in local.nodes : node.name => node }
-  depends_on                  = [proxmox_virtual_environment_vm.talos_vm]
-  client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
-  machine_configuration_input = data.talos_machine_configuration.machineconfig[each.key].machine_configuration
-  node                        = each.value.ip
-  config_patches              = local.shared_machine_config
+# The cluster was created with talos_machine_configuration_apply and talos_machine_bootstrap.
+# Forget them without touching the nodes; talos_machine and talos_cluster take over.
+removed {
+  from = talos_machine_configuration_apply.config_apply
+
+  lifecycle {
+    destroy = false
+  }
 }
 
-resource "talos_machine_bootstrap" "bootstrap" {
-  depends_on           = [talos_machine_configuration_apply.config_apply]
+removed {
+  from = talos_machine_bootstrap.bootstrap
+
+  lifecycle {
+    destroy = false
+  }
+}
+
+locals {
+  talos_nodes = { for node in local.nodes : node.name => node }
+}
+
+# Chained talos machines such that upgrades reboot one at a time, with the controlplanes first and then the workers.
+resource "talos_machine" "controlplane_1" {
+  depends_on                      = [proxmox_virtual_environment_vm.talos_vm]
+  node                            = local.talos_nodes["controlplane-1"].ip
+  client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-1"].machine_configuration
+  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  image                           = local.talos_installer
+  drain_on_upgrade                = true
+  ignore_kubernetes_upgrade_drift = true
+
+  timeouts = {
+    create = "30m"
+    update = "30m"
+  }
+}
+
+resource "talos_machine" "controlplane_2" {
+  depends_on                      = [talos_machine.controlplane_1]
+  node                            = local.talos_nodes["controlplane-2"].ip
+  client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-2"].machine_configuration
+  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  image                           = local.talos_installer
+  drain_on_upgrade                = true
+  ignore_kubernetes_upgrade_drift = true
+
+  timeouts = {
+    create = "30m"
+    update = "30m"
+  }
+}
+
+resource "talos_machine" "controlplane_3" {
+  depends_on                      = [talos_machine.controlplane_2]
+  node                            = local.talos_nodes["controlplane-3"].ip
+  client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-3"].machine_configuration
+  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  image                           = local.talos_installer
+  drain_on_upgrade                = true
+  ignore_kubernetes_upgrade_drift = true
+
+  timeouts = {
+    create = "30m"
+    update = "30m"
+  }
+}
+
+resource "talos_machine" "worker_1" {
+  depends_on                      = [talos_machine.controlplane_3]
+  node                            = local.talos_nodes["worker-1"].ip
+  client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration           = data.talos_machine_configuration.machineconfig["worker-1"].machine_configuration
+  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  image                           = local.talos_installer
+  drain_on_upgrade                = true
+  ignore_kubernetes_upgrade_drift = true
+
+  timeouts = {
+    create = "30m"
+    update = "30m"
+  }
+}
+
+# Bootstraps etcd (a no-op on this already-bootstrapped cluster)
+resource "talos_cluster" "cluster" {
+  depends_on = [
+    talos_machine.controlplane_1,
+    talos_machine.controlplane_2,
+    talos_machine.controlplane_3,
+    talos_machine.worker_1,
+  ]
+  node                 = local.cluster_controlplane_ips[0]
+  control_plane_nodes  = local.cluster_controlplane_ips
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = local.cluster_endpoint_ip
+  kubernetes_version   = local.kubernetes_version
+
+  timeouts = {
+    create = "30m"
+    update = "60m"
+  }
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.bootstrap]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  # Talk to one control plane by IP. cluster.internal.vw-ops.net is round-robin
-  # DNS across all three, and a node's Talos API certificate is not valid for it.
   node = local.cluster_controlplane_ips[0]
 }
 
@@ -143,11 +240,10 @@ output "talosconfig" {
 
 output "machine_config_inputs" {
   value = {
-    for name, config in talos_machine_configuration_apply.config_apply :
+    for name, node in local.talos_nodes :
     name => {
-      node    = config.node
-      config  = config.machine_configuration_input
-      patches = config.config_patches
+      node   = node.ip
+      config = data.talos_machine_configuration.machineconfig[name].machine_configuration
     }
   }
   sensitive = true

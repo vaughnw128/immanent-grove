@@ -55,43 +55,32 @@ Tests can be run by applying manifests in `/examples` and verifying their output
 
 ## Talos Upgrades
 
-```bash
-# First upgrade the worker nodes
-$ talosctl upgrade --nodes 10.0.0.52 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5
-$ talosctl upgrade --nodes 10.0.0.51 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5
+Upgrades run through Terraform (Digger) by editing `terraform/talos-bootstrap/talos-versions.tf`. Nodes upgrade one at a time (controlplane-1, 2, 3, then worker-1), each drained before reboot.
 
-# Then finally the control plane node
-$ talosctl upgrade --nodes 10.0.0.50 -e 10.0.0.50 --image factory.talos.dev/nocloud-installer/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6:v1.10.5 
+1. Bump `talos_os_version` one minor at a time (e.g. `v1.12.7` -> `v1.13.12`). Leave `talos_config_version` alone.
+   1. To change extensions, build a new schematic at [factory.talos.dev](https://factory.talos.dev) (amd64, nocloud, iscsi-tools, qemu-guest-agent, nfsd) and update `talos_schematic`.
+2. Open a PR. The plan should only update the four `talos_machine` resources.
+3. Run `digger apply`, and after application, check etcd has no nodes still joining:
+
+```bash
+talosctl -n 10.0.0.50 etcd status
 ```
 
-## Upgrading Controlplanes with Terraform
-
-Upgrading via terraform can be a bit nerve-wracking and annoying, but is sometimes needed in order to get the images all set up properly.
-
-> NOTE!!!! DO NOT DO THIS IF YOU ONLY HAVE ONE CONTROLPLANE NODE!! THIS WILL BREAK EVERYTHING!!
-> 
-> THIS UPDATE PROCEDURE REQUIRES AT LEAST THREE CONTROLPLANE NODES FOR HA!!
-
-1. Generate a new Talos factory image at [factory.talos.dev](https://factory.talos.dev)
-   1. The image must be: amd64, Nocloud, and have the addons iscsi-tools, qemu-guest-agent, and nfsd.
-2. Replace the node image in proxmox-nodes.tf
-3. Plan and apply the Terraform, ensuring that there are only the talos machine config, proxmox node, and talos image modified.
-4. If the node fails to join etcd, delete the member from etcd to ensure it can reach quorum
+4. If a control plane fails to rejoin etcd, remove its stale member and re-run the apply:
 
 ```bash
-talosctl --endpoints 10.0.0.53 -n 10.0.0.53,10.0.0.54 etcd remove-member <id>
+talosctl -n 10.0.0.50 etcd remove-member <id>
 ```
 
-6. Check etcd to ensure quorum. This should show learners as well. Do not proceed to upgrade another controlplane unless there are no learners.
+## Kubernetes Upgrades
+
+1. Check for component and Talos support. The current Talos minor must support the target (Talos 1.12 -> 1.35, 1.13 -> 1.36, 1.14 -> 1.37), and so must Cilium.
+2. Bump `kubernetes_version` in `terraform/talos-bootstrap/talos-versions.tf`, one minor at a time.
+3. Open a PR. The plan should only update `talos_cluster` (and the generated machine configs).
+4. Run `digger apply`, and the Talos provider will run through a progressive upgrade over all the nodes.
 
 ```bash
-talosctl --endpoints 10.0.0.53 etcd status
-```
-
-7. Check that the node is started
-
-```bash
-k get nodes
+kubectl get nodes
 ```
 
 ## Grabbing kubeconfig
