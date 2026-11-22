@@ -22,12 +22,45 @@ jobs:
       statuses: write
 
     steps:
+      - name: Skip Digger when no Terraform file changed
+        id: gate
+        env:
+          SPEC: ${{ inputs.spec }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Only gate plain "digger plan" runs. Anything else (apply, unlock, lock)
+          # always runs, and any doubt fails open so a lock is never left behind.
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          pr=$(printf '%s' "$SPEC" | jq -r '[.. | objects | to_entries[] | select(.key | test("^(pr_?number|pull_?request_?number)$"; "i")) | .value | select(. != null and . != 0)][0] // empty' || true)
+          cmds=$(printf '%s' "$SPEC" | jq -r '[.. | objects | select(has("commands")) | .commands[]?] | .[]' || true)
+          if [ -z "$pr" ] || [ -z "$cmds" ]; then
+            echo "No pull request or commands found in the spec; running Digger."
+            exit 0
+          fi
+          if printf '%s\n' "$cmds" | grep -qvi 'plan'; then
+            echo "Not a plan-only run; running Digger."
+            exit 0
+          fi
+          if ! files=$(gh api --paginate "repos/$REPO/pulls/$pr/files" --jq '.[] | .filename, (.previous_filename // empty)'); then
+            echo "Could not list files for PR $pr; running Digger."
+            exit 0
+          fi
+          if printf '%s\n' "$files" | grep -qE '\.(tf|tfvars)(\.json)?$|(^|/)\.terraform\.lock\.hcl$'; then
+            echo "PR $pr changes Terraform files; running Digger."
+          else
+            echo "PR $pr changes no Terraform files; skipping Digger."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
 
       - name: Install 1Password CLI
+        if: steps.gate.outputs.skip != 'true'
         uses: 1password/install-cli-action@v1
 
       - name: Tailscale
+        if: steps.gate.outputs.skip != 'true'
         uses: tailscale/github-action@v3
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
@@ -35,6 +68,7 @@ jobs:
           tags: tag:ci
 
       - uses: diggerhq/digger@vLatest
+        if: steps.gate.outputs.skip != 'true'
         with:
           setup-terraform: true
           digger-spec: ${{ inputs.spec }}
