@@ -24,5 +24,10 @@
       "/cluster/.+\\.ya?ml$",
       "/infrastructure/.+\\.ya?ml$"
     ]
+  },
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/applications/.+\\.ya?ml$"
+    ]
   }
 }
