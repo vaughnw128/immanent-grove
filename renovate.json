@@ -1,15 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
-    "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
-    ":semanticCommits",
-    ":timezone(America/New_York)"
+    "github>vaughnw128/hakoniwa",
+    "github>vaughnw128/hakoniwa:flux"
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard",
   "suppressNotifications": [
     "prEditedNotification",
     "prIgnoreNotification"
@@ -28,46 +22,5 @@
     "managerFilePatterns": [
       "/applications/.+\\.ya?ml$/"
     ]
-  },
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Flux distribution version in the FluxInstance",
-      "managerFilePatterns": [
-        "/^cluster/flux\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "distribution:\\s*\\n\\s*version:\\s*\"(?<currentValue>[^\"]+)\""
-      ],
-      "depNameTemplate": "fluxcd/flux2",
-      "datasourceTemplate": "github-releases"
-    }
-  ],
-  "packageRules": [
-    {
-      "description": "Automerge patch updates for Helm, GitHub Actions and Docker after a 7 day soak",
-      "matchManagers": [
-        "flux",
-        "kubernetes",
-        "github-actions",
-        "dockerfile",
-        "docker-compose",
-        "helm-values",
-        "helmv3"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "minimumReleaseAge": "7 days",
-      "automerge": true,
-      "automergeType": "pr"
-    },
-    {
-      "description": "Flux itself is the control plane: review its upgrades, do not automerge",
-      "matchDepNames": [
-        "fluxcd/flux2"
-      ],
-      "automerge": false
-    }
-  ]
+  }
 }
