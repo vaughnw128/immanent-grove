@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgrest
-          image: postgrest/postgrest:v14.10
+          image: postgrest/postgrest:v14.18
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
