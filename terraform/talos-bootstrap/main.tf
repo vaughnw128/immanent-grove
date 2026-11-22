@@ -68,7 +68,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes  = [
+    ignore_changes = [
       network_device
     ]
   }
@@ -124,16 +124,18 @@ resource "talos_machine_bootstrap" "bootstrap" {
 resource "talos_cluster_kubeconfig" "kubeconfig" {
   depends_on           = [talos_machine_bootstrap.bootstrap]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = local.cluster_endpoint_ip
+  # Talk to one control plane by IP. cluster.internal.vw-ops.net is round-robin
+  # DNS across all three, and a node's Talos API certificate is not valid for it.
+  node = local.cluster_controlplane_ips[0]
 }
 
 output "kubeconfig" {
-  value = talos_cluster_kubeconfig.kubeconfig
+  value     = talos_cluster_kubeconfig.kubeconfig
   sensitive = true
 }
 
 output "talosconfig" {
-  value = data.talos_client_configuration.talosconfig
+  value     = data.talos_client_configuration.talosconfig
   sensitive = true
 }
 

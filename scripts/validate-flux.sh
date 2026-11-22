@@ -33,7 +33,10 @@ kustomize_config="kustomization.yaml"
 
 # skip Kubernetes Secrets due to SOPS fields failing validation
 kubeconform_flags=("-skip=Secret")
-kubeconform_config=("-strict" "-ignore-missing-schemas" "-schema-location" "default" "-schema-location" "/tmp/flux-crd-schemas" "-verbose")
+# Flux schemas are downloaded below. The community CRDs catalog covers the other
+# CRDs in this repo (Gateway API, cert-manager, Cilium, External Secrets, ...).
+# Kinds missing from both are skipped, not failed.
+kubeconform_config=("-strict" "-ignore-missing-schemas" "-schema-location" "default" "-schema-location" "/tmp/flux-crd-schemas" "-schema-location" "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json" "-verbose")
 
 echo "INFO - Downloading Flux OpenAPI schemas"
 mkdir -p /tmp/flux-crd-schemas/master-standalone-strict
