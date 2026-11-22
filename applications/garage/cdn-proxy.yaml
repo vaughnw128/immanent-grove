@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: caddy
-          image: caddy:2.10.2-alpine
+          image: caddy:2.11.9-alpine
           imagePullPolicy: IfNotPresent
           args:
             - caddy
