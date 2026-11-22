@@ -1,0 +1,83 @@
+# Mirrors the NPM proxy host for jelly.vaughn.sh: force HTTPS, HSTS on, public.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellyfin-https
+spec:
+  parentRefs:
+  - name: public-gateway
+    namespace: default
+    sectionName: https-jelly
+  hostnames:
+  - jelly.vaughn.sh
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        set:
+        - name: Strict-Transport-Security
+          value: max-age=63072000
+    backendRefs:
+    - name: jellyfin
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellyfin-redirect
+spec:
+  parentRefs:
+  - name: public-gateway
+    namespace: default
+    sectionName: http
+  hostnames:
+  - jelly.vaughn.sh
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
+---
+# NPM did not force HTTPS for this host; the redirect below is a deliberate tightening.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellyfin-request-https
+spec:
+  parentRefs:
+  - name: public-gateway
+    namespace: default
+    sectionName: https-jelly-request
+  hostnames:
+  - request.jelly.vaughn.sh
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: jellyfin-request
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellyfin-request-redirect
+spec:
+  parentRefs:
+  - name: public-gateway
+    namespace: default
+    sectionName: http
+  hostnames:
+  - request.jelly.vaughn.sh
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301

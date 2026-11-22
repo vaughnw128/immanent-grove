@@ -1,4 +1,6 @@
 projects:
   - name: talos-bootstrap
-    dir: talos-bootstrap
+    dir: terraform/talos-bootstrap
+  - name: unifi
+    dir: terraform/unifi
 auto_merge: false

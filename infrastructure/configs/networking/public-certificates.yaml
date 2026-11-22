@@ -1,0 +1,41 @@
+# One Certificate per secret referenced by public-gateway listeners.
+# vaughn.sh hosts use vaughn-sh-issuer; zinkithink.com uses zinkithink-issuer.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jelly-vaughn-sh-tls
+spec:
+  secretName: jelly-vaughn-sh-tls
+  dnsNames:
+  - jelly.vaughn.sh
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: vaughn-sh-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: request-jelly-vaughn-sh-tls
+spec:
+  secretName: request-jelly-vaughn-sh-tls
+  dnsNames:
+  - request.jelly.vaughn.sh
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: vaughn-sh-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zinkithink-com-tls
+spec:
+  secretName: zinkithink-com-tls
+  dnsNames:
+  - "*.zinkithink.com"
+  - zinkithink.com
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: zinkithink-issuer

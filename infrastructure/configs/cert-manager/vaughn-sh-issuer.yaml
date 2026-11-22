@@ -1,0 +1,36 @@
+# Issues certificates for vaughn.sh using a Cloudflare token scoped to that zone.
+# The token lives in 1Password and is synced by External Secrets; nothing static in git.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflare-token-vaughn-sh
+spec:
+  refreshPolicy: OnChange
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: 1password-sdk
+  data:
+  - secretKey: cloudflare-api-token
+    remoteRef:
+      key: cloudflare-vaughn-sh
+      property: credential
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: vaughn-sh-issuer
+spec:
+  acme:
+    email: vaughnwoerpel@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: vaughn-sh-issuer-account-key
+    solvers:
+    - selector:
+        dnsZones:
+        - vaughn.sh
+      dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-token-vaughn-sh
+            key: cloudflare-api-token

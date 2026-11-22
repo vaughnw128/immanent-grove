@@ -4,3 +4,5 @@ namespace: controllers
 resources:
   - secret.yaml
   - cloudflare-issuer.yaml
+  - vaughn-sh-issuer.yaml
+  - zinkithink-issuer.yaml

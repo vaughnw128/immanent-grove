@@ -3,3 +3,5 @@ kind: Kustomization
 namespace: default
 resources:
   - default-gateway.yaml
+  - public-gateway.yaml
+  - public-certificates.yaml
