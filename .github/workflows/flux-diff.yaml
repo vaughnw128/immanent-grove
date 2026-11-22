@@ -23,10 +23,23 @@ jobs:
       - name: Diff
         id: diff
         env:
+          RAW_FILE: ${{ runner.temp }}/flate-diff.txt
           DIFF_FILE: ${{ runner.temp }}/flate-diff.md
         run: |
-          flate diff --base origin/main --path cluster -o github > "$DIFF_FILE"
-          if [ -s "$DIFF_FILE" ]; then
+          flate diff --base origin/main --path cluster -o github > "$RAW_FILE"
+          if [ -s "$RAW_FILE" ]; then
+            # flate's github output is plain diff text, not Markdown. Fence it so
+            # GitHub renders it as a diff, and stay under the 65,536 character
+            # comment limit.
+            {
+              echo '```diff'
+              head -c 60000 "$RAW_FILE"
+              echo
+              echo '```'
+              if [ "$(wc -c < "$RAW_FILE")" -gt 60000 ]; then
+                echo '_Diff truncated to fit the comment size limit. Run `flate diff` locally for the full output._'
+              fi
+            } > "$DIFF_FILE"
             echo "has-diff=true" >> "$GITHUB_OUTPUT"
           fi
       - name: PR Comments
