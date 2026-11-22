@@ -17,6 +17,7 @@ locals {
       controlplane = true
       ip           = "10.0.0.50"
       cpu          = 4
+      cpu_type     = "x86-64-v2-AES"
       memory       = 16
       disk         = 100
       arch         = "amd64"
@@ -28,6 +29,7 @@ locals {
       controlplane = true
       ip           = "10.0.0.51"
       cpu          = 4
+      cpu_type     = "x86-64-v2-AES"
       memory       = 16
       disk         = 100
       arch         = "amd64"
@@ -39,6 +41,7 @@ locals {
       controlplane = true
       ip           = "10.0.0.52"
       cpu          = 4
+      cpu_type     = "x86-64-v2-AES"
       memory       = 16
       disk         = 100
       arch         = "amd64"
@@ -50,6 +53,7 @@ locals {
       controlplane = false
       ip           = "10.0.0.53"
       cpu          = 12
+      cpu_type     = "x86-64-v3"
       memory       = 32
       disk         = 100
       arch         = "amd64"
