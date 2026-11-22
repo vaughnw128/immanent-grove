@@ -20,14 +20,14 @@
   ],
   "flux": {
     "managerFilePatterns": [
-      "/applications/.+\\.ya?ml$",
-      "/cluster/.+\\.ya?ml$",
-      "/infrastructure/.+\\.ya?ml$"
+      "/applications/.+\\.ya?ml$/",
+      "/cluster/.+\\.ya?ml$/",
+      "/infrastructure/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/applications/.+\\.ya?ml$"
+      "/applications/.+\\.ya?ml$/"
     ]
   }
 }
