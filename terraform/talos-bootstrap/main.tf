@@ -27,9 +27,11 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
   node_name   = each.value.pve_node
   on_boot     = true
 
+  reboot_after_update = true
+
   cpu {
     cores = each.value.cpu
-    type  = "x86-64-v2-AES"
+    type  = each.value.cpu_type
   }
 
   memory {
