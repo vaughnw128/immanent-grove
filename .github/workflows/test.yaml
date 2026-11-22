@@ -32,3 +32,26 @@ jobs:
         uses: home-operations/flate/action@v0.7.3
       - name: Test manifests
         run: flate test --path cluster
+
+  terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.2
+          terraform_wrapper: false
+      - name: Check formatting
+        run: terraform fmt -check -recursive -diff terraform
+      - name: Validate projects
+        run: |
+          # Providers and modules only; the S3 backend and secrets are not needed.
+          for dir in terraform/*/; do
+            echo "::group::$dir"
+            terraform -chdir="$dir" init -backend=false -input=false
+            terraform -chdir="$dir" validate
+            echo "::endgroup::"
+          done

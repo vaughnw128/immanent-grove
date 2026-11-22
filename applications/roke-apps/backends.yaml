@@ -1,0 +1,54 @@
+# Jellyfin runs as a TrueNAS app on roke (10.0.0.3:30013), outside the cluster.
+# A selector-less Service plus an EndpointSlice lets HTTPRoutes target it.
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 30013
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: jellyfin
+  labels:
+    kubernetes.io/service-name: jellyfin
+addressType: IPv4
+ports:
+- name: http
+  protocol: TCP
+  port: 30013
+endpoints:
+- addresses:
+  - 10.0.0.3
+---
+# Jellyseerr-style request app on roke (10.0.0.3:30042)
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin-request
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 30042
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: jellyfin-request
+  labels:
+    kubernetes.io/service-name: jellyfin-request
+addressType: IPv4
+ports:
+- name: http
+  protocol: TCP
+  port: 30042
+endpoints:
+- addresses:
+  - 10.0.0.3

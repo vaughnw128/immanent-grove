@@ -56,3 +56,8 @@ override.tf.json
 terraform.rc
 # Local agent/tooling state
 .omx/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*

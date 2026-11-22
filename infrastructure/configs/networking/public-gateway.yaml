@@ -1,0 +1,73 @@
+# Public-facing gateway that replaces the Nginx Proxy Manager VM (10.0.0.4).
+# The router's 80/443 port-forward points at this gateway's LB IP.
+# Hosts are added one listener at a time as they migrate off NPM.
+# Certificates are explicit (public-certificates.yaml) because each domain has its
+# own issuer, and a Gateway annotation can only name one.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: public-gateway
+  namespace: default
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      # Pinned so the UniFi port-forward (terraform/unifi) always targets this address.
+      lbipam.cilium.io/ips: 10.0.10.7
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-jelly
+    protocol: HTTPS
+    port: 443
+    hostname: jelly.vaughn.sh
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: jelly-vaughn-sh-tls
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-jelly-request
+    protocol: HTTPS
+    port: 443
+    hostname: request.jelly.vaughn.sh
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: request-jelly-vaughn-sh-tls
+    allowedRoutes:
+      namespaces:
+        from: All
+  # The two zinkithink.com listeners share one secret and one certificate
+  # (*.zinkithink.com and zinkithink.com), defined in public-certificates.yaml.
+  - name: https-zinkithink-wildcard
+    protocol: HTTPS
+    port: 443
+    hostname: "*.zinkithink.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: zinkithink-com-tls
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: https-zinkithink-bare
+    protocol: HTTPS
+    port: 443
+    hostname: zinkithink.com
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: zinkithink-com-tls
+    allowedRoutes:
+      namespaces:
+        from: All

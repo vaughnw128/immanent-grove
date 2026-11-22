@@ -93,3 +93,11 @@ talosctl --endpoints 10.0.0.53 etcd status
 ```bash
 k get nodes
 ```
+
+## Grabbing kubeconfig
+
+```bash
+export AWS_ACCESS_KEY_ID=<key-id>
+export AWS_SECRET_ACCESS_KEY=<secret-key>
+terraform init && terraform output -json kubeconfig | jq -r '.kubeconfig_raw' > ~/.kube/config
+```

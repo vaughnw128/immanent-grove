@@ -1,0 +1,78 @@
+# Apps on the zink VM (10.0.0.16)
+apiVersion: v1
+kind: Service
+metadata:
+  name: zink-site
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8601
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: zink-site
+  labels:
+    kubernetes.io/service-name: zink-site
+addressType: IPv4
+ports:
+- name: http
+  protocol: TCP
+  port: 8601
+endpoints:
+- addresses:
+  - 10.0.0.16
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zink-youtube
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8889
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: zink-youtube
+  labels:
+    kubernetes.io/service-name: zink-youtube
+addressType: IPv4
+ports:
+- name: http
+  protocol: TCP
+  port: 8889
+endpoints:
+- addresses:
+  - 10.0.0.16
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zink-plant-kaiba
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8887
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: zink-plant-kaiba
+  labels:
+    kubernetes.io/service-name: zink-plant-kaiba
+addressType: IPv4
+ports:
+- name: http
+  protocol: TCP
+  port: 8887
+endpoints:
+- addresses:
+  - 10.0.0.16
