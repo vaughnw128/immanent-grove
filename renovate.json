@@ -4,7 +4,6 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    ":automergeBranch",
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
@@ -45,6 +44,24 @@
     }
   ],
   "packageRules": [
+    {
+      "description": "Automerge patch updates for Helm, GitHub Actions and Docker after a 7 day soak",
+      "matchManagers": [
+        "flux",
+        "kubernetes",
+        "github-actions",
+        "dockerfile",
+        "docker-compose",
+        "helm-values",
+        "helmv3"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "minimumReleaseAge": "7 days",
+      "automerge": true,
+      "automergeType": "pr"
+    },
     {
       "description": "Flux itself is the control plane: review its upgrades, do not automerge",
       "matchDepNames": [
