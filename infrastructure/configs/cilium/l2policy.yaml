@@ -1,13 +1,12 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
-    name: external
-    namespace: kube-system
+  name: external
+  namespace: kube-system
 spec:
-    interfaces :
+  # Every node can announce, so LoadBalancer IPs fail over when a node reboots.
+  # Control planes run workloads (allowSchedulingOnControlPlanes), and with only one worker,
+  # excluding them took every LB IP down whenever that worker restarted.
+  interfaces:
     - "^eth[0-9]+"
-    loadBalancerIPs: true
-    nodeSelector:
-        matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
+  loadBalancerIPs: true
