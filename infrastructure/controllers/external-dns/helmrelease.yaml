@@ -50,6 +50,9 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
+      # external-dns v0.24 reads only external-dns.kubernetes.io/ annotations by default. Keep the
+      # old alpha prefix working until every annotation is migrated.
+      - --enable-legacy-annotation-prefix
     policy: sync
     sources: [ "ingress", "service" ]
     txtOwnerId: default
