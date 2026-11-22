@@ -117,8 +117,6 @@ data "talos_machine_configuration" "machineconfig" {
   ])
 }
 
-# The cluster was created with talos_machine_configuration_apply and talos_machine_bootstrap.
-# Forget them without touching the nodes; talos_machine and talos_cluster take over.
 removed {
   from = talos_machine_configuration_apply.config_apply
 
