@@ -5,7 +5,7 @@ terraform {
     region = "us-east"
 
     endpoints = {
-      s3 = "https://s3.vaughn.sh"
+      s3 = "https://garage.internal.vw-ops.net"
     }
 
     skip_credentials_validation = true
