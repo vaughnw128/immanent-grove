@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "tfstate"
     key    = "talos-bootstrap.tfstate"
-    region = "us-east"
+    region = "garage"
 
     endpoints = {
       s3 = "https://garage.internal.vw-ops.net"
