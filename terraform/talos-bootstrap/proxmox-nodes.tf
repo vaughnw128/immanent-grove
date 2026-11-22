@@ -41,7 +41,7 @@ locals {
       controlplane = true
       ip           = "10.0.0.52"
       cpu          = 4
-      cpu_type     = "x86-64-v2-AES"
+      cpu_type     = "x86-64-v3"
       memory       = 16
       disk         = 100
       arch         = "amd64"
