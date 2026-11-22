@@ -9,7 +9,7 @@ spec:
     spec:
       reconcileStrategy: Revision
       chart: kubescape-operator
-      version: "1.29.12"
+      version: "1.42.0"
       sourceRef:
         kind: HelmRepository
         name: kubescape
