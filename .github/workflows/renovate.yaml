@@ -1,23 +1,13 @@
 name: Renovate
 
 "on":
-  push:
-    branches: ["main"]
-    paths:
-      - renovate.json
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 8 * * *"
   workflow_dispatch:
-  issue_comment:
-    types: [created]
 
 jobs:
   renovate:
     name: Renovate
-    # Also allow triggering on demand, e.g. a comment containing `@renovate retry`.
-    if: |
-      github.event_name != 'issue_comment' ||
-      contains(github.event.comment.body, '@renovate')
     runs-on: ubuntu-latest
     permissions:
       contents: read

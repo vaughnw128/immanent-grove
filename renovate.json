@@ -29,5 +29,28 @@
     "managerFilePatterns": [
       "/applications/.+\\.ya?ml$/"
     ]
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Flux distribution version in the FluxInstance",
+      "managerFilePatterns": [
+        "/^cluster/flux\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "distribution:\\s*\\n\\s*version:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "fluxcd/flux2",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Flux itself is the control plane: review its upgrades, do not automerge",
+      "matchDepNames": [
+        "fluxcd/flux2"
+      ],
+      "automerge": false
+    }
+  ]
 }
