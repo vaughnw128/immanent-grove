@@ -10,7 +10,7 @@ spec:
     spec:
       reconcileStrategy: ChartVersion
       chart: discsync-embeddings
-      version: "*"
+      version: "1.2.14"
       sourceRef:
         kind: HelmRepository
         name: discsync-embeddings
