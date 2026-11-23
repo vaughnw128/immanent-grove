@@ -3,7 +3,7 @@
 locals {
   # talos_os_version:  Installed Talos version. Changing it upgrades the nodes one at a time through chained nodes
   # with a proper drain prior to reboot
-  talos_os_version = "v1.13.12"
+  talos_os_version = "v1.14.6"
 
   # kubernetes_version Changing it runs Talos's upgrade-k8s through talos_cluster. Each Talos minor
   # supports Kubernetes up to: 1.12 -> 1.35, 1.13 -> 1.36, 1.14 -> 1.37. Cilium must also support the k8s version.
