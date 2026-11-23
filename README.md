@@ -55,6 +55,12 @@ Tests can be run by applying manifests in `/examples` and verifying their output
 
 ## Talos Upgrades
 
+Before upgrades, it may be smart to take an etcd snapshot:
+
+```bash
+talosctl -n 10.0.0.50 etcd snapshot etcd-backup.db
+```
+
 Upgrades run through Terraform (Digger) by editing `terraform/talos-bootstrap/talos-versions.tf`. Nodes upgrade one at a time (controlplane-1, 2, 3, then worker-1), each drained before reboot.
 
 1. Bump `talos_os_version` one minor at a time (e.g. `v1.12.7` -> `v1.13.12`). Leave `talos_config_version` alone.
