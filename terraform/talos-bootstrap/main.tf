@@ -107,7 +107,7 @@ data "talos_machine_configuration" "machineconfig" {
   machine_secrets    = talos_machine_secrets.machine_secrets.machine_secrets
   talos_version      = local.talos_config_version
   kubernetes_version = local.kubernetes_version
-  config_patches = concat(local.shared_machine_config, [
+  config_patches = concat(local.shared_machine_config, each.value.controlplane == true ? local.controlplane_machine_config : [], [
     yamlencode({
       machine = {
         install = {

@@ -18,21 +18,6 @@ locals {
           disabled = true
         }
         allowSchedulingOnControlPlanes = true
-        controllerManager = {
-          extraArgs = {
-            bind-address = "0.0.0.0"
-          }
-        }
-        scheduler = {
-          extraArgs = {
-            bind-address = "0.0.0.0"
-          }
-        }
-        etcd = {
-          extraArgs = {
-            listen-metrics-urls = "http://0.0.0.0:2381"
-          }
-        }
       }
       machine = {
         logging = {
@@ -50,6 +35,28 @@ locals {
       kind       = "KmsgLogConfig"
       name       = "log-intake"
       url        = local.log_intake
+    }),
+  ]
+
+  controlplane_machine_config = [
+    yamlencode({
+      cluster = {
+        controllerManager = {
+          extraArgs = {
+            bind-address = "0.0.0.0"
+          }
+        }
+        scheduler = {
+          extraArgs = {
+            bind-address = "0.0.0.0"
+          }
+        }
+        etcd = {
+          extraArgs = {
+            listen-metrics-urls = "http://0.0.0.0:2381"
+          }
+        }
+      }
     }),
   ]
 }
