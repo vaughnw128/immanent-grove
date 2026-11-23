@@ -15,3 +15,34 @@ spec:
         name: 1password-connect
         namespace: operators
       interval: 12h
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: onepassword-connect
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: onepassword-connect
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: connect-api
+                        env:
+                          - name: OP_SESSION
+                            value: null
+                            valueFrom:
+                              secretKeyRef:
+                                name: op-credentials
+                                key: 1password-credentials.json
+                      - name: connect-sync
+                        env:
+                          - name: OP_SESSION
+                            value: null
+                            valueFrom:
+                              secretKeyRef:
+                                name: op-credentials
+                                key: 1password-credentials.json

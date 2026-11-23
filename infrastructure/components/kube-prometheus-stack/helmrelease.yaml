@@ -21,6 +21,8 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
     grafana:
+      deploymentStrategy:
+        type: Recreate
       persistence:
         type: pvc
         enabled: true
