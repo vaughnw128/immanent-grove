@@ -5,3 +5,4 @@ resources:
   - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/experimental-install.yaml
   - l2policy.yaml
   - ippool.yaml
+  - hubble-routes.yaml

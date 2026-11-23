@@ -16,6 +16,10 @@ spec:
         namespace: monitoring
       interval: 12h
   values:
+    prometheus:
+      prometheusSpec:
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
     grafana:
       persistence:
         type: pvc

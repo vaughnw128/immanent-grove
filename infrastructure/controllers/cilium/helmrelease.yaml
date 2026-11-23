@@ -60,11 +60,31 @@ spec:
         enforceHttps: false
     envoy:
         enabled: true
+        prometheus:
+            serviceMonitor:
+                enabled: true
+    prometheus:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+    dashboards:
+        enabled: true
+    operator:
+        prometheus:
+            enabled: true
+            serviceMonitor:
+                enabled: true
+        dashboards:
+            enabled: true
     hubble:
         peerService:
             clusterDomain: cluster.local
         relay:
             enabled: true
+            prometheus:
+                enabled: true
+                serviceMonitor:
+                    enabled: true
         ui:
             enabled: true
         tls:
@@ -74,6 +94,10 @@ spec:
               certValidityDuration: 2000
         metrics:
             enableOpenMetrics: true
+            serviceMonitor:
+                enabled: true
+            dashboards:
+                enabled: true
             enabled:
               - dns
               - drop
