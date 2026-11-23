@@ -118,22 +118,6 @@ data "talos_machine_configuration" "machineconfig" {
   ])
 }
 
-removed {
-  from = talos_machine_configuration_apply.config_apply
-
-  lifecycle {
-    destroy = false
-  }
-}
-
-removed {
-  from = talos_machine_bootstrap.bootstrap
-
-  lifecycle {
-    destroy = false
-  }
-}
-
 locals {
   talos_nodes = { for node in local.nodes : node.name => node }
 }
