@@ -1,15 +1,9 @@
-### TALOS IMAGES ###
-# Super super important, these have:
-#   - qemu-guest agent
-#   - iscsi-tools
-#   - nfsd
-# Select:
-# 1. cloud server
-# 2. nocloud
-# No CLI options. This image here just needs to be used for the first install, images later will
-# need to be updated with the talosctl command after generating a new image from factory.talos.dev
+# Proxmox VMs for the Talos nodes. Talos and Kubernetes versions live in talos-versions.tf.
 
 locals {
+  # Disk image a new VM boots from. Only used when a VM is created, and does not need to be updated.
+  talos_boot_image = "https://factory.talos.dev/image/${local.talos_schematic}/v1.12.7/nocloud-amd64.raw.zst"
+
   nodes = [
     {
       name         = "controlplane-1"
@@ -17,11 +11,8 @@ locals {
       controlplane = true
       ip           = "10.0.0.50"
       cpu          = 4
-      cpu_type     = "x86-64-v3"
       memory       = 16
       disk         = 100
-      arch         = "amd64"
-      image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.12.7/nocloud-amd64.raw.zst"
     },
     {
       name         = "controlplane-2"
@@ -29,11 +20,8 @@ locals {
       controlplane = true
       ip           = "10.0.0.51"
       cpu          = 4
-      cpu_type     = "x86-64-v3"
       memory       = 16
       disk         = 100
-      arch         = "amd64"
-      image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.12.7/nocloud-amd64.raw.zst"
     },
     {
       name         = "controlplane-3"
@@ -41,11 +29,8 @@ locals {
       controlplane = true
       ip           = "10.0.0.52"
       cpu          = 4
-      cpu_type     = "x86-64-v3"
       memory       = 16
       disk         = 100
-      arch         = "amd64"
-      image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.12.7/nocloud-amd64.raw.zst"
     },
     {
       name         = "worker-1"
@@ -53,11 +38,8 @@ locals {
       controlplane = false
       ip           = "10.0.0.53"
       cpu          = 12
-      cpu_type     = "x86-64-v3"
       memory       = 32
       disk         = 100
-      arch         = "amd64"
-      image        = "https://factory.talos.dev/image/84f66f3fa52900a0234636ae1da07d5b356cce774673951af35866142158fce6/v1.12.7/nocloud-amd64.raw.zst"
     }
   ]
 }
