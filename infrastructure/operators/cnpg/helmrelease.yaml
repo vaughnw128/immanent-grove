@@ -15,3 +15,8 @@ spec:
         name: cnpg
         namespace: cnpg-system
       interval: 12h
+  values:
+    monitoring:
+      podMonitorEnabled: true
+      grafanaDashboard:
+        create: true

@@ -70,6 +70,52 @@ spec:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: security
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: flux-system
+    - toEntities:
+        - host
+        - remote-node
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-operators
+  namespace: monitoring
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: operators
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-log-intake
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: otel-edge
+  ingress:
+    - fromEntities:
+        - world
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "5514"
+              protocol: UDP
+            - port: "5601"
+              protocol: TCP
+            - port: "2055"
+              protocol: UDP
+            - port: "6051"
+              protocol: TCP
 ---
 # Allow Cilium Gateway API / Envoy to reach Grafana.
 # Cilium's envoy runs on the host network, so traffic appears as 'host' entity.

@@ -11,6 +11,9 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: applications
             app.kubernetes.io/name: clickhouse-server
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: clickhouse-server
       toPorts:
         - ports:
             # Operator-native management port, distinct from client port 9000.
@@ -19,6 +22,9 @@ spec:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: applications
+            app.kubernetes.io/name: clickhouse-keeper
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
             app.kubernetes.io/name: clickhouse-keeper
       toPorts:
         - ports:

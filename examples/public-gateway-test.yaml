@@ -40,7 +40,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: fake.public.domain
+      external-dns.kubernetes.io/hostname: fake.public.domain
   listeners:
   - protocol: HTTP
     hostname: fake.public.domain

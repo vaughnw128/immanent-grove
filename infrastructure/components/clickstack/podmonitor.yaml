@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: clickhouse
+spec:
+  namespaceSelector:
+    matchNames:
+      - applications
+      - monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: clickhouse-server
+  podMetricsEndpoints:
+    - port: prometheus

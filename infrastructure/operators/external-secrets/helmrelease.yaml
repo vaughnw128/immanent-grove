@@ -15,3 +15,9 @@ spec:
         name: external-secrets
         namespace: operators
       interval: 12h
+  values:
+    serviceMonitor:
+      enabled: true
+      renderMode: alwaysRender
+    grafanaDashboard:
+      enabled: true

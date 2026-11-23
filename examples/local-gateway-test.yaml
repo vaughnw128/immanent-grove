@@ -53,7 +53,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: whoami.apicius.local
+      external-dns.kubernetes.io/hostname: whoami.apicius.local
   listeners:
   - protocol: HTTP
     hostname: whoami.apicius.local

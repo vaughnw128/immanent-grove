@@ -1,0 +1,16 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: mongodb-operator-management
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: mongodb-kubernetes-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "27017"
+              protocol: TCP

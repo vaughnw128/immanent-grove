@@ -60,13 +60,40 @@ spec:
         enforceHttps: false
     envoy:
         enabled: true
+        prometheus:
+            serviceMonitor:
+                enabled: true
+    prometheus:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            trustCRDsExist: true
+    dashboards:
+        enabled: true
+    operator:
+        prometheus:
+            enabled: true
+            serviceMonitor:
+                enabled: true
+        dashboards:
+            enabled: true
     hubble:
         peerService:
             clusterDomain: cluster.local
         relay:
             enabled: true
+            prometheus:
+                enabled: true
+                serviceMonitor:
+                    enabled: true
         ui:
             enabled: true
+        export:
+            static:
+                enabled: true
+                filePath: /var/run/cilium/hubble/events.log
+                fileMaxSizeMb: 50
+                fileMaxBackups: 3
         tls:
             auto:
               enabled: true
@@ -74,6 +101,10 @@ spec:
               certValidityDuration: 2000
         metrics:
             enableOpenMetrics: true
+            serviceMonitor:
+                enabled: true
+            dashboards:
+                enabled: true
             enabled:
               - dns
               - drop

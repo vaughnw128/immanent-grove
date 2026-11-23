@@ -9,7 +9,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: qdrant.internal.vw-ops.net,grpc.qdrant.internal.vw-ops.net
+      external-dns.kubernetes.io/hostname: qdrant.internal.vw-ops.net,grpc.qdrant.internal.vw-ops.net
   listeners:
   - protocol: HTTP
     hostname: qdrant.internal.vw-ops.net

@@ -4,6 +4,7 @@ locals {
   public_gateway_ip = "10.0.10.7"
   minecraft_ip      = "10.0.10.3"
   factorio_ip       = "10.0.10.6"
+  log_intake_ip     = "10.0.10.20"
 }
 
 

@@ -23,6 +23,39 @@ spec:
         name: langfuse
         namespace: applications
       interval: 12h
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: clickhouse.com
+              kind: ClickHouseCluster
+            patch: |
+              - op: add
+                path: /spec/podTemplate
+                value:
+                  securityContext:
+                    fsGroup: 101
+                    fsGroupChangePolicy: OnRootMismatch
+                    runAsGroup: 101
+                    runAsNonRoot: true
+                    runAsUser: 101
+                    seccompProfile:
+                      type: RuntimeDefault
+          - target:
+              group: clickhouse.com
+              kind: KeeperCluster
+            patch: |
+              - op: add
+                path: /spec/podTemplate
+                value:
+                  securityContext:
+                    fsGroup: 101
+                    fsGroupChangePolicy: OnRootMismatch
+                    runAsGroup: 101
+                    runAsNonRoot: true
+                    runAsUser: 101
+                    seccompProfile:
+                      type: RuntimeDefault
   valuesFrom:
     - kind: Secret
       name: langfuse-pg-app
