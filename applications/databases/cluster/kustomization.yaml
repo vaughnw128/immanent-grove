@@ -5,3 +5,4 @@ resources:
   - grove-cluster.yaml
   - pooler.yaml
   - service-lb.yaml
+  - podmonitor.yaml

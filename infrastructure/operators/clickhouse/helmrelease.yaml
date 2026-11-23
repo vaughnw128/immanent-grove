@@ -21,6 +21,9 @@ spec:
     controller:
       watchNamespaces:
         - applications
+        - monitoring
+    prometheus:
+      enabled: true
     crd:
       enabled: true
       keep: true

@@ -87,6 +87,12 @@ spec:
                     enabled: true
         ui:
             enabled: true
+        export:
+            static:
+                enabled: true
+                filePath: /var/run/cilium/hubble/events.log
+                fileMaxSizeMb: 50
+                fileMaxBackups: 3
         tls:
             auto:
               enabled: true

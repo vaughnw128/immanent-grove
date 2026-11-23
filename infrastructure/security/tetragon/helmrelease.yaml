@@ -15,3 +15,12 @@ spec:
         name: cilium
         namespace: kube-system
       interval: 12h
+  values:
+    tetragon:
+      prometheus:
+        serviceMonitor:
+          enabled: true
+    tetragonOperator:
+      prometheus:
+        serviceMonitor:
+          enabled: true

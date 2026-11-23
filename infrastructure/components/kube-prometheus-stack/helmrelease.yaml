@@ -28,3 +28,41 @@ spec:
         existingSecret: grafana-secrets
         userKey: admin-user
         passwordKey: admin-password
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: grafana-com
+              orgId: 1
+              folder: Operators
+              type: file
+              disableDeletion: true
+              editable: false
+              options:
+                path: /var/lib/grafana/dashboards/grafana-com
+      dashboards:
+        grafana-com:
+          cert-manager:
+            gnetId: 20842
+            revision: 3
+            datasource: Prometheus
+          external-dns:
+            gnetId: 15038
+            revision: 3
+            datasource: Prometheus
+          tetragon:
+            gnetId: 25789
+            revision: 1
+            datasource: Prometheus
+          clickhouse:
+            gnetId: 14192
+            revision: 4
+            datasource: Prometheus
+          mongodb:
+            gnetId: 2583
+            revision: 2
+            datasource: Prometheus
+          opentelemetry-collector:
+            gnetId: 15983
+            revision: 31
+            datasource: Prometheus

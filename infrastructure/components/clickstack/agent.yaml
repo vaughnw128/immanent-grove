@@ -1,0 +1,158 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: otel-agent
+  namespace: monitoring
+spec:
+  interval: 30m
+  dependsOn:
+    - name: clickstack
+      namespace: monitoring
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: opentelemetry-collector
+      version: "0.182.0"
+      sourceRef:
+        kind: HelmRepository
+        name: open-telemetry
+        namespace: monitoring
+      interval: 12h
+  values:
+    mode: daemonset
+    image:
+      repository: otel/opentelemetry-collector-contrib
+    presets:
+      logsCollection:
+        enabled: true
+        storeCheckpoints: true
+      kubernetesAttributes:
+        enabled: true
+    extraEnvs:
+      - name: HYPERDX_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: clickstack-ingestion
+            key: HYPERDX_API_KEY
+            optional: true
+    extraVolumes:
+      - name: hubble-flows
+        hostPath:
+          path: /var/run/cilium/hubble
+          type: DirectoryOrCreate
+      - name: tetragon-events
+        hostPath:
+          path: /var/log/tetragon
+          type: DirectoryOrCreate
+      - name: kube-audit
+        hostPath:
+          path: /var/log/audit/kube
+          type: DirectoryOrCreate
+    extraVolumeMounts:
+      - name: hubble-flows
+        mountPath: /var/run/cilium/hubble
+        readOnly: true
+      - name: tetragon-events
+        mountPath: /var/log/tetragon
+        readOnly: true
+      - name: kube-audit
+        mountPath: /var/log/audit/kube
+        readOnly: true
+    ports:
+      otlp:
+        enabled: false
+      otlp-http:
+        enabled: false
+      jaeger-compact:
+        enabled: false
+      jaeger-thrift:
+        enabled: false
+      jaeger-grpc:
+        enabled: false
+      zipkin:
+        enabled: false
+      metrics:
+        enabled: true
+    podMonitor:
+      enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    config:
+      receivers:
+        jaeger: null
+        zipkin: null
+        otlp: null
+        prometheus: null
+        filelog/hubble:
+          include:
+            - /var/run/cilium/hubble/events.log
+          start_at: end
+          storage: file_storage
+          operators:
+            - type: json_parser
+              timestamp:
+                parse_from: attributes.time
+                layout_type: gotime
+                layout: "2006-01-02T15:04:05.999999999Z07:00"
+            - type: add
+              field: resource["service.name"]
+              value: hubble
+        filelog/tetragon:
+          include:
+            - /var/log/tetragon/tetragon.log
+          start_at: end
+          storage: file_storage
+          operators:
+            - type: json_parser
+              timestamp:
+                parse_from: attributes.time
+                layout_type: gotime
+                layout: "2006-01-02T15:04:05.999999999Z07:00"
+            - type: add
+              field: resource["service.name"]
+              value: tetragon
+        filelog/audit:
+          include:
+            - /var/log/audit/kube/*.log
+          start_at: end
+          storage: file_storage
+          operators:
+            - type: json_parser
+              timestamp:
+                parse_from: attributes.stageTimestamp
+                layout_type: gotime
+                layout: "2006-01-02T15:04:05.999999999Z07:00"
+            - type: add
+              field: resource["service.name"]
+              value: kube-apiserver-audit
+      processors:
+        resource/node:
+          attributes:
+            - key: k8s.node.name
+              value: ${env:K8S_NODE_NAME}
+              action: upsert
+      exporters:
+        otlphttp/clickstack:
+          endpoint: http://clickstack-otel-collector.monitoring.svc.cluster.local:4318
+          headers:
+            authorization: ${env:HYPERDX_API_KEY}
+          compression: gzip
+      service:
+        pipelines:
+          traces: null
+          metrics: null
+          logs:
+            receivers:
+              - filelog/hubble
+              - filelog/tetragon
+              - filelog/audit
+            processors:
+              - memory_limiter
+              - resource/node
+              - batch
+            exporters:
+              - otlphttp/clickstack

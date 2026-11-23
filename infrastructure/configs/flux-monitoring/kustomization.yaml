@@ -1,0 +1,5 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: flux-system
+resources:
+  - https://github.com/controlplaneio-fluxcd/flux-operator//config/monitoring?ref=v0.63.1
