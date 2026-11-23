@@ -14,7 +14,7 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   node_name    = each.key
 
   file_name               = "talos-nocloud-amd64.img"
-  url                     = each.value.image
+  url                     = local.talos_boot_image
   decompression_algorithm = "zst"
   overwrite               = false
 }
@@ -31,7 +31,7 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
 
   cpu {
     cores = each.value.cpu
-    type  = each.value.cpu_type
+    type  = "x86-64-v3" # all hosts (N100, N150, i9-12900HK) support it; images now require it
   }
 
   memory {
@@ -71,7 +71,8 @@ resource "proxmox_virtual_environment_vm" "talos_vm" {
   lifecycle {
     prevent_destroy = true
     ignore_changes = [
-      network_device
+      network_device,
+      disk[0].file_id,
     ]
   }
 }
@@ -137,13 +138,21 @@ locals {
   talos_nodes = { for node in local.nodes : node.name => node }
 }
 
+# Kubeconfig for draining nodes during OS upgrades
+ephemeral "talos_cluster_kubeconfig" "drain" {
+  cluster_name    = local.name
+  endpoint        = "https://${local.cluster_endpoint_ip}:6443"
+  machine_secrets = talos_machine_secrets.machine_secrets.machine_secrets
+  crt_ttl         = "24h"
+}
+
 # Chained talos machines such that upgrades reboot one at a time, with the controlplanes first and then the workers.
 resource "talos_machine" "controlplane_1" {
   depends_on                      = [proxmox_virtual_environment_vm.talos_vm]
   node                            = local.talos_nodes["controlplane-1"].ip
   client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-1"].machine_configuration
-  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  kubeconfig_wo                   = ephemeral.talos_cluster_kubeconfig.drain.kubeconfig_raw
   image                           = local.talos_installer
   drain_on_upgrade                = true
   ignore_kubernetes_upgrade_drift = true
@@ -159,7 +168,7 @@ resource "talos_machine" "controlplane_2" {
   node                            = local.talos_nodes["controlplane-2"].ip
   client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-2"].machine_configuration
-  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  kubeconfig_wo                   = ephemeral.talos_cluster_kubeconfig.drain.kubeconfig_raw
   image                           = local.talos_installer
   drain_on_upgrade                = true
   ignore_kubernetes_upgrade_drift = true
@@ -175,7 +184,7 @@ resource "talos_machine" "controlplane_3" {
   node                            = local.talos_nodes["controlplane-3"].ip
   client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration           = data.talos_machine_configuration.machineconfig["controlplane-3"].machine_configuration
-  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  kubeconfig_wo                   = ephemeral.talos_cluster_kubeconfig.drain.kubeconfig_raw
   image                           = local.talos_installer
   drain_on_upgrade                = true
   ignore_kubernetes_upgrade_drift = true
@@ -191,7 +200,7 @@ resource "talos_machine" "worker_1" {
   node                            = local.talos_nodes["worker-1"].ip
   client_configuration            = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration           = data.talos_machine_configuration.machineconfig["worker-1"].machine_configuration
-  kubeconfig                      = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  kubeconfig_wo                   = ephemeral.talos_cluster_kubeconfig.drain.kubeconfig_raw
   image                           = local.talos_installer
   drain_on_upgrade                = true
   ignore_kubernetes_upgrade_drift = true
@@ -222,8 +231,9 @@ resource "talos_cluster" "cluster" {
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
+  depends_on           = [talos_cluster.cluster]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node = local.cluster_controlplane_ips[0]
+  node                 = local.cluster_controlplane_ips[0]
 }
 
 output "kubeconfig" {
