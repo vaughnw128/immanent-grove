@@ -24,7 +24,7 @@ spec:
     - matchActions:
       - action: Post
         rateLimit: "1m"
-  - call: "__x64_sys_umount2"
+  - call: "sys_umount"
     message: "Process attempted to unmount a filesystem"
     syscall: true
     args:

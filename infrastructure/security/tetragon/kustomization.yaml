@@ -16,3 +16,4 @@ resources:
   - policies/filesystem-mounts.yaml
   - policies/suspicious-binaries.yaml
   - policies/kernel-tampering.yaml
+  - policies/enforce.yaml

@@ -5,3 +5,6 @@ resources:
   - operators.yaml
   - monitoring.yaml
   - cnpg-system.yaml
+  - controllers.yaml
+  - security.yaml
+  - kube-system.yaml

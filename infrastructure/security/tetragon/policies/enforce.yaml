@@ -1,0 +1,245 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: enforce-kernel-modules
+  annotations:
+    description: Kill container processes that load kernel modules
+spec:
+  options:
+  - name: policy-mode
+    value: monitor
+  podSelector:
+    matchExpressions:
+    - key: k8s:io.kubernetes.pod.namespace
+      operator: In
+      values:
+      - applications
+      - monitoring
+      - operators
+      - cnpg-system
+      - controllers
+      - flux-system
+  kprobes:
+  - call: sys_init_module
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: &id001
+        - host_ns
+      matchActions:
+      - action: Sigkill
+  - call: sys_finit_module
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: enforce-namespace-escape
+  annotations:
+    description: Kill container processes that switch namespaces, mount filesystems
+      or load BPF programs
+spec:
+  options:
+  - name: policy-mode
+    value: monitor
+  podSelector:
+    matchExpressions:
+    - key: k8s:io.kubernetes.pod.namespace
+      operator: In
+      values:
+      - applications
+      - monitoring
+      - operators
+      - cnpg-system
+      - controllers
+      - flux-system
+  kprobes:
+  - call: sys_setns
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: &id001
+        - host_ns
+      matchActions:
+      - action: Sigkill
+  - call: sys_unshare
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+  - call: sys_mount
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+  - call: sys_bpf
+    syscall: true
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: enforce-kernel-tampering
+  annotations:
+    description: Kill container processes that write kernel parameters or ptrace other
+      processes
+spec:
+  options:
+  - name: policy-mode
+    value: monitor
+  podSelector:
+    matchExpressions:
+    - key: k8s:io.kubernetes.pod.namespace
+      operator: In
+      values:
+      - applications
+      - monitoring
+      - operators
+      - cnpg-system
+      - controllers
+      - flux-system
+  kprobes:
+  - call: security_file_permission
+    syscall: false
+    args:
+    - index: 0
+      type: file
+    - index: 1
+      type: int
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: &id001
+        - host_ns
+      matchActions:
+      - action: Sigkill
+      matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /proc/sys/
+        - /sys/kernel/
+        - /proc/sysrq-trigger
+        - /sys/fs/cgroup/
+        - /etc/shadow
+        - /etc/gshadow
+        - /etc/sudoers
+      - index: 1
+        operator: Mask
+        values:
+        - '2'
+  - call: sys_ptrace
+    syscall: true
+    args:
+    - index: 0
+      type: int
+      label: request
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+      matchArgs:
+      - index: 0
+        operator: Equal
+        values:
+        - '16'
+        - '17'
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: enforce-attack-tools
+  annotations:
+    description: Kill container execution of attack tools and binaries from writable
+      temp directories
+spec:
+  options:
+  - name: policy-mode
+    value: monitor
+  podSelector:
+    matchExpressions:
+    - key: k8s:io.kubernetes.pod.namespace
+      operator: In
+      values:
+      - applications
+      - monitoring
+      - operators
+      - cnpg-system
+      - controllers
+      - flux-system
+  kprobes:
+  - call: security_bprm_check
+    syscall: false
+    args:
+    - index: 0
+      type: linux_binprm
+    selectors:
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: &id001
+        - host_ns
+      matchActions:
+      - action: Sigkill
+      matchArgs:
+      - index: 0
+        operator: Postfix
+        values:
+        - /nc
+        - /ncat
+        - /netcat
+        - /socat
+        - /nmap
+        - /masscan
+        - /tcpdump
+        - /kubectl
+        - /crictl
+        - /ctr
+        - /gdb
+        - /strace
+        - /ltrace
+        - /nsenter
+        - /chroot
+    - matchNamespaces:
+      - namespace: Pid
+        operator: NotIn
+        values: *id001
+      matchActions:
+      - action: Sigkill
+      matchArgs:
+      - index: 0
+        operator: Prefix
+        values:
+        - /tmp/
+        - /dev/shm/
+        - /var/tmp/
+        - /run/user/

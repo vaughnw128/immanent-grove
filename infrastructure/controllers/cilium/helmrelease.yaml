@@ -19,6 +19,23 @@ spec:
     ipam:
         mode: kubernetes
     kubeProxyReplacement: true
+    encryption:
+        enabled: true
+        type: wireguard
+    authentication:
+        enabled: true
+        mutual:
+            spire:
+                enabled: true
+                install:
+                    enabled: true
+                    namespace: cilium-spire
+                    existingNamespace: true
+                    server:
+                        dataStorage:
+                            enabled: true
+                            size: 1Gi
+                            storageClass: truenas-iscsi
     securityContext:
         capabilities:
             ciliumAgent:
@@ -54,10 +71,7 @@ spec:
     l2announcements:
         enabled: true
     ingressController:
-        enabled: true
-        default: true
-        loadbalancerMode: shared
-        enforceHttps: false
+        enabled: false
     envoy:
         enabled: true
         prometheus:

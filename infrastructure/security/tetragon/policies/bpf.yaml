@@ -14,7 +14,7 @@ spec:
     args:
     - index: 0
       type: "perf_event"
-  - call: "security_bpf_map_alloc"
+  - call: "security_bpf_map_create"
     syscall: false
     args:
     - index: 0

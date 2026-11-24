@@ -68,24 +68,97 @@ spec:
         - matchLabels:
             io.kubernetes.pod.namespace: cnpg-system
 ---
-# Allow external traffic to reach LoadBalancer services (e.g. Minecraft, Postgres).
-# L2 LB traffic from LAN clients can be classified differently depending on
-# the packet path through Cilium's eBPF datapath:
-#   - world: standard external client
-#   - cluster: traffic NATed through a node
-#   - host: traffic arriving via the node's host network stack (L2 announcement)
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: allow-loadbalancer-ingress
   namespace: applications
 spec:
-  endpointSelector: {}
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - factorio
   ingress:
     - fromEntities:
         - world
-        - cluster
+        - remote-node
         - host
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-loadbalancer-ingress-minecraft
+  namespace: applications
+spec:
+  endpointSelector:
+    matchLabels:
+      app: minecraft-sexybabeycraft
+  ingress:
+    - fromEntities:
+        - world
+        - remote-node
+        - host
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-loadbalancer-ingress-postgres
+  namespace: applications
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: cnpg.io/poolerName
+        operator: In
+        values:
+          - grove-cluster-pooler-ro
+          - grove-cluster-pooler-rw
+  ingress:
+    - fromEntities:
+        - world
+        - remote-node
+        - host
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-loadbalancer-ingress-postgres-primary
+  namespace: applications
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: grove-cluster
+  ingress:
+    - fromEntities:
+        - world
+        - remote-node
+        - host
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-clickhouse-operator
+  namespace: applications
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - clickhouse-server
+          - clickhouse-keeper
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: operators
+            app.kubernetes.io/name: clickhouse-operator
+      toPorts:
+        - ports:
+            - port: "9001"
+              protocol: TCP
+            - port: "2181"
+              protocol: TCP
 ---
 # Allow the Cloudflare Tunnel controller to reach
 # application backends (e.g. BlueMap via maps.vaughn.sh)
