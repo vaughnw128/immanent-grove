@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: qui-https
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+  hostnames:
+    - qui.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: qui
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: qui-redirect
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: http
+  hostnames:
+    - qui.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

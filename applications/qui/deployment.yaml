@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qui
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: qui
+  template:
+    metadata:
+      labels:
+        app: qui
+    spec:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: qui
+          image: ghcr.io/autobrr/qui:v1.36.1@sha256:83399374ea680d2c2790b4552c2a2c732837611710bcb5e4f7b63d79cfcae416
+          env:
+            - name: QUI__HOST
+              value: 0.0.0.0
+            - name: QUI__PORT
+              value: "7476"
+            - name: QUI__LOG_LEVEL
+              value: INFO
+            - name: QUI__SESSION_COOKIE_SECURE
+              value: "true"
+            - name: QUI__ALLOWED_HOSTS
+              value: qui.internal.vw-ops.net
+            - name: QUI__CHECK_FOR_UPDATES
+              value: "false"
+            - name: QUI__DISABLE_SELF_UPDATE
+              value: "true"
+            - name: GOMEMLIMIT
+              value: 448MiB
+          ports:
+            - name: http
+              containerPort: 7476
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /healthz/readiness
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: qui.internal.vw-ops.net
+            periodSeconds: 5
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /healthz/liveness
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: qui.internal.vw-ops.net
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz/readiness
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: qui.internal.vw-ops.net
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: qui-config
+        - name: tmp
+          emptyDir: {}
