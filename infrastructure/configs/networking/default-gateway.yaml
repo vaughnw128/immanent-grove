@@ -17,7 +17,10 @@ spec:
         connect.internal.vw-ops.net,
         discsync.internal.vw-ops.net,
         hubble.internal.vw-ops.net,
-        clickstack.internal.vw-ops.net
+        clickstack.internal.vw-ops.net,
+        jellytwo.internal.vw-ops.net,
+        qui.internal.vw-ops.net,
+        dashbrr.internal.vw-ops.net
   listeners:
   - name: http
     protocol: HTTP

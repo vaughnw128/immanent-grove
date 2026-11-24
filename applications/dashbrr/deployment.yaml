@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashbrr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dashbrr
+  template:
+    metadata:
+      labels:
+        app: dashbrr
+    spec:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: dashbrr
+          image: ghcr.io/autobrr/dashbrr:v0.8.0@sha256:ce36626f51e4f7b2d7017c025c99faf2c41540209f21bb665a601d60c11ffffd
+          env:
+            - name: DASHBRR__LISTEN_ADDR
+              value: 0.0.0.0:8080
+            - name: DASHBRR__CONFIG_PATH
+              value: /config/config.toml
+            - name: DASHBRR__DB_TYPE
+              value: sqlite
+            - name: DASHBRR__DB_PATH
+              value: /config/data/dashbrr.db
+            - name: DASHBRR__LOG_LEVEL
+              value: info
+          ports:
+            - name: http
+              containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: dashbrr-config
+        - name: tmp
+          emptyDir: {}
