@@ -36,6 +36,9 @@ spec:
                             enabled: true
                             size: 1Gi
                             storageClass: truenas-iscsi
+                        securityContext:
+                            runAsUser: 0
+                            runAsGroup: 0
     securityContext:
         capabilities:
             ciliumAgent:
