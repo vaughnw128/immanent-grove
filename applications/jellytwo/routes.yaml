@@ -1,0 +1,36 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellytwo-https
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+  hostnames:
+    - jellytwo.internal.vw-ops.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: jellytwo
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellytwo-redirect
+spec:
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+      sectionName: http
+  hostnames:
+    - jellytwo.internal.vw-ops.net
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

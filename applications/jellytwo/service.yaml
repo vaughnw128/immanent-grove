@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellytwo
+spec:
+  selector:
+    app: jellytwo
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
