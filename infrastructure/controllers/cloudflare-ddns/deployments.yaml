@@ -1,0 +1,136 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-ddns-vaughn-sh
+  labels:
+    app.kubernetes.io/name: cloudflare-ddns
+    app.kubernetes.io/instance: vaughn-sh
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflare-ddns
+      app.kubernetes.io/instance: vaughn-sh
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cloudflare-ddns
+        app.kubernetes.io/instance: vaughn-sh
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: cloudflare-ddns
+          image: favonia/cloudflare-ddns:1.18.0@sha256:345b41895a8846d74c62d30bd27e61101a754f8ab8da10c68115823883803afb
+          env:
+            - name: CLOUDFLARE_API_TOKEN_FILE
+              value: /run/secrets/cloudflare/cloudflare-api-token
+            - name: DOMAINS
+              value: jelly.vaughn.sh,request.jelly.vaughn.sh
+            - name: PROXIED
+              value: "false"
+            - name: IP6_PROVIDER
+              value: none
+            - name: UPDATE_CRON
+              value: "@every 5m"
+            - name: TZ
+              value: America/New_York
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: cloudflare-token
+              mountPath: /run/secrets/cloudflare
+              readOnly: true
+      volumes:
+        - name: cloudflare-token
+          secret:
+            secretName: cloudflare-token-vaughn-sh
+            items:
+              - key: cloudflare-api-token
+                path: cloudflare-api-token
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-ddns-zinkithink
+  labels:
+    app.kubernetes.io/name: cloudflare-ddns
+    app.kubernetes.io/instance: zinkithink
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflare-ddns
+      app.kubernetes.io/instance: zinkithink
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cloudflare-ddns
+        app.kubernetes.io/instance: zinkithink
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: cloudflare-ddns
+          image: favonia/cloudflare-ddns:1.18.0@sha256:345b41895a8846d74c62d30bd27e61101a754f8ab8da10c68115823883803afb
+          env:
+            - name: CLOUDFLARE_API_TOKEN_FILE
+              value: /run/secrets/cloudflare/cloudflare-api-token
+            - name: DOMAINS
+              value: zinkithink.com,youtube.zinkithink.com,plant-kaiba.zinkithink.com
+            - name: PROXIED
+              value: "false"
+            - name: IP6_PROVIDER
+              value: none
+            - name: UPDATE_CRON
+              value: "@every 5m"
+            - name: TZ
+              value: America/New_York
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: cloudflare-token
+              mountPath: /run/secrets/cloudflare
+              readOnly: true
+      volumes:
+        - name: cloudflare-token
+          secret:
+            secretName: cloudflare-token-zinkithink
+            items:
+              - key: cloudflare-api-token
+                path: cloudflare-api-token

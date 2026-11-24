@@ -22,5 +22,48 @@
     "managerFilePatterns": [
       "/applications/.+\\.ya?ml$/"
     ]
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Talos OS version installed by Terraform",
+      "managerFilePatterns": [
+        "/(^|/)terraform/talos-bootstrap/talos-versions\\.tf$/"
+      ],
+      "matchStrings": [
+        "talos_os_version\\s*=\\s*\"(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\""
+      ],
+      "depNameTemplate": "siderolabs/talos",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "description": "Kubernetes version upgraded by Talos through Terraform",
+      "managerFilePatterns": [
+        "/(^|/)terraform/talos-bootstrap/talos-versions\\.tf$/"
+      ],
+      "matchStrings": [
+        "kubernetes_version\\s*=\\s*\"(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)\""
+      ],
+      "depNameTemplate": "kubernetes/kubernetes",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Talos and Kubernetes upgrade the nodes through Digger. Each gets its own PR, minors apart from patches, and is never automerged: a Talos minor caps the Kubernetes minor (1.13 -> 1.36, 1.14 -> 1.37) and Cilium must support the Kubernetes version.",
+      "matchDepNames": [
+        "siderolabs/talos",
+        "kubernetes/kubernetes"
+      ],
+      "separateMinorPatch": true,
+      "automerge": false,
+      "groupName": null,
+      "semanticCommitType": "chore",
+      "labels": [
+        "dependencies",
+        "talos"
+      ]
+    }
+  ]
 }
